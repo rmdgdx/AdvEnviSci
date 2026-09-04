@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 · Overview of Environmental Science — ENVS 601</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA; --card:#fff;
+  --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 90px;}
+header.hero{overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;padding:44px 34px 50px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.5) 0,transparent 48%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:860px;margin:0 auto;padding:0 12px;}
+.back{display:inline-block;color:#B9C8DA;text-decoration:none;font-size:.85rem;font-weight:700;margin-bottom:12px;}
+.back:hover{color:var(--gold-bright);}
+.tag{display:inline-flex;background:rgba(247,237,201,.92);color:var(--gold-ink);font-weight:800;font-size:.72rem;
+  letter-spacing:1.3px;text-transform:uppercase;padding:5px 14px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style",serif;font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.12;
+  margin:10px 0 8px;letter-spacing:-.5px;color:#fff;font-weight:700;}
+.hero p{max-width:70ch;color:#CFDBE8;margin:0;}
+nav.toc{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--gold);
+  border-radius:14px;padding:16px 20px;margin:26px 0 10px;box-shadow:var(--shadow);}
+nav.toc b{display:block;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--gold-ink);margin-bottom:8px;}
+nav.toc ol{margin:0;padding-left:20px;font-size:.93rem;} nav.toc li{margin-bottom:4px;}
+h2.session{font-family:Georgia,serif;font-size:1.4rem;font-weight:700;margin:46px 0 4px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+h2.session::before{content:"";width:8px;height:24px;border-radius:3px;background:var(--gold-grad);}
+.wkbadge{font-size:.68rem;font-weight:850;letter-spacing:.6px;background:var(--navy-soft);color:var(--navy);
+  border-radius:999px;padding:3px 10px;text-transform:uppercase;}
+h3{font-size:1.08rem;font-weight:800;color:var(--navy);margin:28px 0 6px;}
+h4{font-size:.96rem;font-weight:800;color:var(--navy-mid);margin:18px 0 4px;}
+p{margin:0 0 14px;} ul,ol{margin:0 0 14px;padding-left:22px;} li{margin-bottom:5px;}
+code{background:#EDF2F8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.88em;}
+.def,.example,.caution{border-radius:0 12px 12px 0;padding:14px 18px;margin:18px 0;font-size:.95rem;}
+.def{border-left:4px solid var(--navy);background:var(--navy-soft);color:#16324F;}
+.example{border-left:4px solid var(--gold);background:var(--gold-pale);color:#5C4A0F;}
+.caution{border-left:4px solid #A83246;background:#FBE6EA;color:#75202F;}
+.def b.lbl,.example b.lbl,.caution b.lbl{display:block;font-size:.74rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.def p:last-child,.example p:last-child,.caution p:last-child{margin-bottom:0;}
+.eq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0;
+  text-align:center;font-family:Georgia,serif;font-size:1.08rem;box-shadow:var(--shadow);}
+.eq small{display:block;font-size:.8rem;color:var(--ink-soft);margin-top:9px;line-height:1.5;}
+figure{margin:24px 0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+figure svg{display:block;width:100%;height:auto;background:#FBFDFF;}
+figcaption{padding:11px 18px;font-size:.85rem;color:var(--ink-soft);border-top:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:.89rem;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;margin:18px 0;box-shadow:var(--shadow);}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px 14px;font-size:.72rem;letter-spacing:.8px;
+  text-transform:uppercase;font-weight:800;}
+td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top;}
+tbody tr:nth-child(even){background:#FAFCFE;}
+.terms{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:14px 0;}
+.terms div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 15px;font-size:.88rem;}
+.terms b{display:block;color:var(--navy);}
+.terms span{color:var(--ink-soft);}
+.summary{background:var(--navy);color:#DCE5F0;border-radius:16px;padding:22px 26px;margin:36px 0 0;}
+.summary h3{color:#fff;margin:0 0 10px;font-family:Georgia,serif;font-weight:700;}
+.summary ul{padding-left:20px;margin:0;color:#C6D4E3;font-size:.93rem;}
+.pager{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+.pager a{text-decoration:none;font-weight:800;font-size:.88rem;padding:10px 17px;border-radius:11px;}
+.pager a.gold{background:var(--gold-grad);color:#33280A;}
+.pager a.blue{background:var(--navy-soft);color:var(--navy);}
+footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.85rem;}
+@media print{header.hero{border-radius:0;} body{background:#fff;font-size:11pt;} .pager{display:none;} figure,table{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <a class="back" href="../index.html">← Course hub</a><br>
+  <span class="tag">Chapter 1 · Weeks 1–2</span>
+  <h1>Overview of Environmental Science</h1>
+  <p>What the field studies, how it reasons about systems it cannot control, and the ethical and legal architecture inside which environmental decisions actually get made.</p>
+</div></header>
+
+<div class="wrap">
+
+<nav class="toc"><b>On this page</b>
+  <ol>
+    <li><a href="#s1">Week 1 — Foundations and systems thinking</a>
+      <ul style="padding-left:18px;margin:4px 0;">
+        <li><a href="#a1">The field and its method</a></li>
+        <li><a href="#a2">Historical paradigms</a></li>
+        <li><a href="#a3">Systems thinking, stocks and flows</a></li>
+        <li><a href="#a4">Ethics, justice and knowledge systems</a></li>
+      </ul></li>
+    <li><a href="#s2">Week 2 — Drivers, data and the policy frame</a>
+      <ul style="padding-left:18px;margin:4px 0;">
+        <li><a href="#b1">Drivers of environmental change</a></li>
+        <li><a href="#b2">The triple planetary crisis</a></li>
+        <li><a href="#b3">Environmental data and uncertainty</a></li>
+        <li><a href="#b4">Governance architecture</a></li>
+      </ul></li>
+    <li><a href="#terms">Key terms</a> · <a href="#summary">Summary</a></li>
+  </ol>
+</nav>
+
+<h2 class="session" id="s1"><span class="wkbadge">Week 1</span> Foundations and systems thinking</h2>
+
+<h3 id="a1">1.1 What environmental science is, and what its method can deliver</h3>
+<p>Environmental science studies how the physical, chemical and biological components of the earth interact, how human activity perturbs those interactions, and what follows from the perturbation. It borrows the methods of chemistry, physics, ecology, geology and hydrology, and it borrows the questions of economics, law, politics and ethics. That breadth is not a weakness to be apologised for. It is a consequence of the object of study: an environmental problem that could be resolved inside a single discipline <figure>
+<svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Disciplines converging on an environmental problem">
+<line x1="120" y1="62" x2="350" y2="163" stroke="#B9C8DA" stroke-width="2"/><line x1="352" y1="34" x2="350" y2="163" stroke="#B9C8DA" stroke-width="2"/><line x1="580" y1="62" x2="350" y2="163" stroke="#B9C8DA" stroke-width="2"/><line x1="120" y1="264" x2="350" y2="163" stroke="#B9C8DA" stroke-width="2"/><line x1="352" y1="292" x2="350" y2="163" stroke="#B9C8DA" stroke-width="2"/><line x1="580" y1="264" x2="350" y2="163" stroke="#B9C8DA" stroke-width="2"/><circle cx="350" cy="163" r="78" fill="#0E2A47"/>
+<text x="350" y="152" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#E3BE45">an actual</text>
+<text x="350" y="174" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#E3BE45">environmental</text>
+<text x="350" y="196" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#E3BE45">problem</text>
+<rect x="40" y="42" width="160" height="40" rx="20" fill="#fff" stroke="#164272" stroke-width="1.6"/><text x="120" y="67" text-anchor="middle" font-size="13" font-weight="700" fill="#164272">Chemistry &amp; physics</text><rect x="272" y="14" width="160" height="40" rx="20" fill="#fff" stroke="#164272" stroke-width="1.6"/><text x="352" y="39" text-anchor="middle" font-size="13" font-weight="700" fill="#164272">Ecology &amp; biology</text><rect x="500" y="42" width="160" height="40" rx="20" fill="#fff" stroke="#164272" stroke-width="1.6"/><text x="580" y="67" text-anchor="middle" font-size="13" font-weight="700" fill="#164272">Geology &amp; hydrology</text><rect x="40" y="244" width="160" height="40" rx="20" fill="#fff" stroke="#164272" stroke-width="1.6"/><text x="120" y="269" text-anchor="middle" font-size="13" font-weight="700" fill="#164272">Economics</text><rect x="272" y="272" width="160" height="40" rx="20" fill="#fff" stroke="#164272" stroke-width="1.6"/><text x="352" y="297" text-anchor="middle" font-size="13" font-weight="700" fill="#164272">Law &amp; governance</text><rect x="500" y="244" width="160" height="40" rx="20" fill="#fff" stroke="#164272" stroke-width="1.6"/><text x="580" y="269" text-anchor="middle" font-size="13" font-weight="700" fill="#164272">Ethics &amp; justice</text></svg>
+<figcaption><b>Figure 1.1.</b> Why the field is interdisciplinary by necessity rather than by fashion. A problem that could be closed inside one of these boxes would already have been closed, and would no longer be called an environmental problem.</figcaption>
+</figure>
+
+would already have been.</p>
+
+<p>The harder point concerns method. Classical experimental science isolates a variable, holds everything else constant, replicates, and randomises. Environmental systems refuse almost all of that. They are <b>open</b> — energy and matter cross their boundaries continuously. They are <b>large</b>, so manipulation is expensive and often unethical. They are frequently <b>unique</b>, so there is no replicate Laguna de Bay to serve as a control. And they operate on timescales that outrun a funded project.</p>
+
+<p>The field therefore substitutes a portfolio of weaker inferential tools and compensates by triangulating among them:</p>
+<ul>
+  <li><b>Natural experiments</b> — a volcanic eruption, a policy that applies on one side of a border, an accidental release.</li>
+  <li><b>Space-for-time substitution</b> — comparing sites along a gradient of the variable of interest, accepting that the sites differ in other ways too.</li>
+  <li><b>Long-term monitoring</b> — the only way to detect slow trends, and the first thing cut when budgets contract.</li>
+  <li><b>Process models</b> — encoding mechanism explicitly so that assumptions become inspectable rather than implicit.</li>
+  <li><b>Mesocosm and microcosm experiments</b> — genuine control, purchased at the cost of realism.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trade-off between experimental control and realism">
+<line x1="80" y1="300" x2="670" y2="300" stroke="#0E2A47" stroke-width="2"/>
+<line x1="80" y1="300" x2="80" y2="40" stroke="#0E2A47" stroke-width="2"/>
+<polygon points="670,300 656,294 656,306" fill="#0E2A47"/><polygon points="80,40 74,54 86,54" fill="#0E2A47"/>
+<text x="375" y="328" text-anchor="middle" font-size="13" font-weight="800" fill="#0E2A47">realism  →</text>
+<text x="-170" y="26" transform="rotate(-90)" text-anchor="middle" font-size="13" font-weight="800" fill="#0E2A47">control  →</text>
+<polyline points="150,80 245,128 355,168 455,212 520,246 612,282" fill="none" stroke="#DCE5F0" stroke-width="3" stroke-dasharray="6 5"/>
+<circle cx="150" cy="80" r="8" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/><text x="132" y="67" text-anchor="end" font-size="12.5" font-weight="700" fill="#164272">Laboratory microcosm</text><circle cx="245" cy="128" r="8" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/><text x="263" y="115" text-anchor="start" font-size="12.5" font-weight="700" fill="#164272">Mesocosm</text><circle cx="355" cy="168" r="8" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/><text x="373" y="155" text-anchor="start" font-size="12.5" font-weight="700" fill="#164272">Field manipulation</text><circle cx="455" cy="212" r="8" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/><text x="473" y="199" text-anchor="start" font-size="12.5" font-weight="700" fill="#164272">Gradient / space-for-time</text><circle cx="520" cy="246" r="8" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/><text x="502" y="233" text-anchor="end" font-size="12.5" font-weight="700" fill="#164272">Natural experiment</text><circle cx="612" cy="282" r="8" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/><text x="594" y="269" text-anchor="end" font-size="12.5" font-weight="700" fill="#164272">Long-term monitoring</text>
+<text x="655" y="70" text-anchor="end" font-size="12" fill="#556373">no design occupies the top-right corner;</text>
+<text x="655" y="88" text-anchor="end" font-size="12" fill="#556373">credibility comes from agreement across several</text>
+</svg>
+<figcaption><b>Figure 1.2.</b> Every available design trades control against realism. Because none delivers both, a finding earns confidence by surviving in more than one place along this line — the practical meaning of triangulation.</figcaption>
+</figure>
+
+<div class="caution"><b class="lbl">The characteristic failure</b>
+<p>Because environmental data are usually observational, <b>confounding</b> — not sample size, not instrument precision — is the dominant threat to a causal claim. Nitrate in a river correlates with fertiliser sales; it also correlates with urbanisation, rainfall, land conversion and septic density, all of which moved together over the same decades. The remedy is not a larger dataset. It is a design or a model that can separate the candidate causes.</p></div>
+
+<h3 id="a2">1.2 How the field got its assumptions: four paradigms</h3>
+<p>Current environmental practice carries the fossils of four successive framings. Recognising which one a proposal is speaking from usually explains an otherwise baffling disagreement.</p>
+
+<figure>
+<svg viewBox="0 0 700 235" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline of four environmental paradigms">
+<rect x="50" y="58" width="180" height="34" rx="8" fill="#0E2A47"/>
+<text x="140" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">Utilitarian conservation</text>
+<rect x="50" y="100" width="600" height="34" rx="8" fill="#3D6B99"/>
+<text x="150" y="122" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">Preservation</text>
+<text x="470" y="122" text-anchor="middle" font-size="11.5" fill="#DCE5F0">— continues alongside every later framing —</text>
+<rect x="300" y="16" width="185" height="34" rx="8" fill="#164272"/>
+<text x="392" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">Modern environmentalism</text>
+<rect x="455" y="58" width="195" height="34" rx="8" fill="#C9A227"/>
+<text x="552" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#33280A">Sustainability science</text>
+<line x1="50" y1="160" x2="655" y2="160" stroke="#0E2A47" stroke-width="2"/>
+<g font-size="12" fill="#556373" text-anchor="middle">
+<line x1="50" y1="155" x2="50" y2="166" stroke="#8FA6BF" stroke-width="1.5"/><text x="50" y="184">1890</text>
+<line x1="200" y1="155" x2="200" y2="166" stroke="#8FA6BF" stroke-width="1.5"/><text x="200" y="184">1930</text>
+<line x1="350" y1="155" x2="350" y2="166" stroke="#8FA6BF" stroke-width="1.5"/><text x="350" y="184">1960</text>
+<line x1="455" y1="155" x2="455" y2="166" stroke="#8FA6BF" stroke-width="1.5"/><text x="455" y="184">1987</text>
+<line x1="655" y1="155" x2="655" y2="166" stroke="#8FA6BF" stroke-width="1.5"/><text x="655" y="184">today</text>
+</g>
+<text x="350" y="215" text-anchor="middle" font-size="12.5" fill="#556373">each paradigm persists after the next arrives — they accumulate rather than replace</text>
+</svg>
+<figcaption><b>Figure 1.3.</b> The four framings and their approximate eras. Because none was ever retired, a contemporary dispute is often two paradigms talking past each other rather than a disagreement about evidence.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th style="width:22%">Paradigm</th><th style="width:16%">Roughly</th><th>Central claim, and what it licenses</th></tr></thead>
+  <tbody>
+    <tr><td><b>Utilitarian conservation</b></td><td>1890s–1940s</td><td>Nature is a stock of resources to be managed for the greatest good of the greatest number over the longest time. Licenses scientific forestry, sustained yield, multiple use — and extraction, provided it is regulated.</td></tr>
+    <tr><td><b>Preservation</b></td><td>1890s–</td><td>Some places have value that use would destroy, so they should be kept from use altogether. Licenses strict reserves and wilderness designation.</td></tr>
+    <tr><td><b>Modern environmentalism</b></td><td>1960s–1980s</td><td>Pollution and technology impose diffuse, invisible, involuntary risks on the public. Licenses regulation, standards, environmental impact assessment, the right to know.</td></tr>
+    <tr><td><b>Sustainability science</b></td><td>1987–</td><td>Environment, economy and equity are one coupled system operating across generations. Licenses integrated assessment, the SDGs, and the language of trade-offs rather than prohibition.</td></tr>
+  </tbody>
+</table>
+
+<div class="def"><b class="lbl">Definition — sustainable development</b>
+<p>Development that meets the needs of the present without compromising the ability of future generations to meet their own needs (Brundtland Commission, 1987). Note what the definition does not do: it does not say who defines a need, how competing present needs are ranked against future ones, or how a trade-off is adjudicated when it is genuinely a trade-off. Its usefulness and its emptiness have the same source.</p></div>
+
+<h4>Weak and strong sustainability</h4>
+<p>The distinction matters more than any other in this chapter, because it decides whether a mitigation offer is acceptable. <b>Weak sustainability</b> holds that natural capital and manufactured capital are substitutable: destroying a mangrove is acceptable if the value it produced is replaced by an engineered structure and a compensation fund, so long as total capital does not decline. <b>Strong sustainability</b> holds that some natural capital is <i>critical</i> — non-substitutable, and often irreversible once lost — so it must be maintained in physical terms regardless of compensating value elsewhere.</p>
+
+<figure>
+<svg viewBox="0 0 700 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Weak versus strong sustainability">
+<text x="175" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Weak sustainability</text>
+<text x="525" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Strong sustainability</text>
+<g>
+<rect x="70" y="110" width="70" height="130" fill="#1B6E4A"/><rect x="70" y="60" width="70" height="50" fill="#8FA6BF"/>
+<rect x="210" y="200" width="70" height="40" fill="#1B6E4A"/><rect x="210" y="60" width="70" height="140" fill="#8FA6BF"/>
+<line x1="60" y1="240" x2="300" y2="240" stroke="#0E2A47" stroke-width="2"/>
+<text x="105" y="262" text-anchor="middle" font-size="12" fill="#556373">before</text>
+<text x="245" y="262" text-anchor="middle" font-size="12" fill="#556373">after</text>
+<line x1="140" y1="60" x2="210" y2="60" stroke="#556373" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="175" y="50" text-anchor="middle" font-size="11.5" fill="#556373">total capital unchanged</text>
+<text x="175" y="288" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1B6E4A">substitution accepted → project passes</text>
+</g>
+<g>
+<rect x="420" y="110" width="70" height="130" fill="#1B6E4A"/><rect x="420" y="60" width="70" height="50" fill="#8FA6BF"/>
+<rect x="560" y="200" width="70" height="40" fill="#1B6E4A"/><rect x="560" y="60" width="70" height="140" fill="#8FA6BF"/>
+<line x1="410" y1="240" x2="650" y2="240" stroke="#0E2A47" stroke-width="2"/>
+<line x1="405" y1="165" x2="655" y2="165" stroke="#A83246" stroke-width="2.5" stroke-dasharray="7 5"/>
+<text x="530" y="158" text-anchor="middle" font-size="11.5" font-weight="700" fill="#A83246">critical natural capital floor</text>
+<text x="455" y="262" text-anchor="middle" font-size="12" fill="#556373">before</text>
+<text x="595" y="262" text-anchor="middle" font-size="12" fill="#556373">after</text>
+<text x="530" y="288" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A83246">floor breached → project fails</text>
+</g>
+<g font-size="11.5">
+<rect x="285" y="292" width="14" height="14" fill="#1B6E4A"/><text x="305" y="304" fill="#556373">natural capital</text>
+<rect x="392" y="292" width="14" height="14" fill="#8FA6BF"/><text x="412" y="304" fill="#556373">manufactured + financial capital</text>
+</g>
+</svg>
+<figcaption><b>Figure 1.4.</b> The same project, judged twice. Identical capital accounting produces opposite verdicts depending on whether natural capital is treated as substitutable — which is why the mitigation offer in a permit hearing is rarely a technical dispute.</figcaption>
+</figure>
+
+<h4>Planetary boundaries</h4>
+<p>The planetary boundaries framework (Rockström and colleagues, 2009; updated since) proposes a set of biophysical processes with quantitative limits inside which humanity has a safe operating space resembling Holocene conditions. The boundaries include climate change, biosphere integrity, land-system change, freshwater change, biogeochemical flows of nitrogen and phosphorus, ocean acidification, stratospheric ozone depletion, atmospheric aerosol loading, and novel entities.</p>
+<p>Two properties are constantly misread. First, a boundary is placed deliberately <b>below</b> the estimated threshold, in the lower part of the uncertainty range — crossing it signals entry into a zone of increasing risk, not the arrival of catastrophe. Second, several boundaries are <b>global aggregates of regional processes</b>. The nitrogen boundary is transgressed globally while large regions remain nitrogen-deficient, because fertiliser use is spatially concentrated. A global index can be exceeded and locally irrelevant at the same time.</p>
+
+<figure>
+<svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planetary boundaries schematic">
+<circle cx="350" cy="175" r="92" fill="#E3F2EA"/>
+<g transform="rotate(0 350 175)"><rect x="337" y="57" width="26" height="118" rx="4" fill="#A83246" opacity=".85"/></g><g transform="rotate(40 350 175)"><rect x="337" y="43" width="26" height="132" rx="4" fill="#A83246" opacity=".85"/></g><g transform="rotate(80 350 175)"><rect x="337" y="69" width="26" height="106" rx="4" fill="#A83246" opacity=".85"/></g><g transform="rotate(120 350 175)"><rect x="337" y="75" width="26" height="100" rx="4" fill="#A83246" opacity=".85"/></g><g transform="rotate(160 350 175)"><rect x="337" y="39" width="26" height="136" rx="4" fill="#A83246" opacity=".85"/></g><g transform="rotate(200 350 175)"><rect x="337" y="49" width="26" height="126" rx="4" fill="#A83246" opacity=".85"/></g><g transform="rotate(240 350 175)"><rect x="337" y="89" width="26" height="86" rx="4" fill="#C9A227" opacity=".85"/></g><g transform="rotate(280 350 175)"><rect x="337" y="97" width="26" height="78" rx="4" fill="#C9A227" opacity=".85"/></g><g transform="rotate(320 350 175)"><rect x="337" y="119" width="26" height="56" rx="4" fill="#1B6E4A" opacity=".85"/></g>
+<circle cx="350" cy="175" r="92" fill="none" stroke="#1B6E4A" stroke-width="2.5" stroke-dasharray="8 6"/>
+<circle cx="350" cy="175" r="34" fill="#fff" stroke="#8FA6BF" stroke-width="1.2"/>
+<text x="350" y="172" text-anchor="middle" font-size="11" font-weight="800" fill="#1B6E4A">SAFE</text>
+<text x="350" y="186" text-anchor="middle" font-size="11" font-weight="800" fill="#1B6E4A">SPACE</text>
+<text x="350" y="27" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Climate change</text><text x="448" y="63" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Biosphere integrity</text><text x="500" y="153" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Land-system change</text><text x="482" y="255" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Freshwater change</text><text x="402" y="322" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Biogeochemical flows</text><text x="298" y="322" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Novel entities</text><text x="218" y="255" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Ocean acidification</text><text x="200" y="153" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Aerosol loading</text><text x="252" y="63" text-anchor="middle" font-size="11.5" font-weight="700" fill="#164272">Stratospheric ozone</text>
+<g font-size="11.5">
+<rect x="150" y="348" width="13" height="13" fill="#1B6E4A" opacity=".85"/><text x="170" y="359" fill="#556373">within</text>
+<rect x="240" y="348" width="13" height="13" fill="#C9A227" opacity=".85"/><text x="260" y="359" fill="#556373">zone of uncertainty</text>
+<rect x="410" y="348" width="13" height="13" fill="#A83246" opacity=".85"/><text x="430" y="359" fill="#556373">beyond the boundary</text>
+</g>
+</svg>
+<figcaption><b>Figure 1.5.</b> Schematic only — consult the current assessment for status. The dashed ring is the boundary, deliberately set below the estimated threshold, so a bar crossing it marks entry into rising risk rather than an event.</figcaption>
+</figure>
+
+<h3 id="a3">1.3 Systems thinking: stocks, flows, feedback and residence time</h3>
+<p>Almost every quantitative argument in this course reduces to bookkeeping on a defined system. Draw a boundary, count what is inside it, count what crosses it, and account for the difference.</p>
+
+<figure>
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stock and flow diagram showing inflow, stock and outflow">
+  <rect x="255" y="80" width="190" height="90" rx="12" fill="#DCE5F0" stroke="#0E2A47" stroke-width="2.5"/>
+  <text x="350" y="115" text-anchor="middle" font-family="Georgia,serif" font-size="19" fill="#0E2A47">STOCK</text>
+  <text x="350" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#164272">M (mass or volume)</text>
+  <line x1="70" y1="125" x2="245" y2="125" stroke="#C9A227" stroke-width="4"/>
+  <polygon points="245,125 231,118 231,132" fill="#C9A227"/>
+  <text x="155" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#7A5F0C">inflow  F</text>
+  <text x="155" y="150" text-anchor="middle" font-size="12" fill="#556373">mass per time</text>
+  <line x1="455" y1="125" x2="630" y2="125" stroke="#C9A227" stroke-width="4"/>
+  <polygon points="630,125 616,118 616,132" fill="#C9A227"/>
+  <text x="543" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#7A5F0C">outflow  F</text>
+  <text x="543" y="150" text-anchor="middle" font-size="12" fill="#556373">mass per time</text>
+  <line x1="255" y1="205" x2="445" y2="205" stroke="#164272" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="350" y="228" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#164272">at steady state:  τ = M / F</text>
+  <text x="350" y="45" text-anchor="middle" font-size="13" fill="#556373">system boundary defines what counts as "in"</text>
+  <rect x="205" y="55" width="290" height="140" rx="16" fill="none" stroke="#8FA6BF" stroke-width="1.2" stroke-dasharray="7 5"/>
+</svg>
+<figcaption><b>Figure 1.6.</b> The elementary unit of environmental bookkeeping. Note that the residence time τ is only defined this simply when inflow and outflow balance; the boundary, drawn by the analyst, decides what is a flux and what is internal recycling.</figcaption>
+</figure>
+
+<div class="eq">
+  dM/dt = ΣF<sub>in</sub> − ΣF<sub>out</sub>
+  <small>The mass balance equation. At steady state dM/dt = 0, the stock is constant and inflow equals outflow. Steady state says nothing about whether the stock is large, small, healthy or degraded — only that it is not changing.</small>
+</div>
+
+<div class="eq">
+  τ = M / F
+  <small>Residence time: the average time a unit of material spends in the reservoir. Equivalently, the time constant of the reservoir's response to a change in loading.</small>
+</div>
+
+<div class="example"><b class="lbl">Worked example 1 — residence time and recovery</b>
+<p>A lake holds 2.0 × 10<sup>7</sup> m³ and has inflow equal to outflow at 5.0 × 10<sup>4</sup> m³ d<sup>−1</sup>.</p>
+<p><b>Step 1.</b> τ = M/F = (2.0 × 10<sup>7</sup>) / (5.0 × 10<sup>4</sup>) = <b>400 days</b>.</p>
+<p><b>Step 2.</b> Suppose a conservative contaminant has been entering at a constant rate and the source is abruptly eliminated. If the lake is well mixed and the only loss is flushing, the concentration decays exponentially, C(t) = C₀e<sup>−t/τ</sup>. One residence time removes about 63%, two about 86%, three about 95%.</p>
+<p><b>Step 3.</b> So roughly 3τ ≈ <b>1,200 days</b>, a little over three years, before the lake is 95% cleaned — provided nothing has partitioned into the sediment, in which case sediment becomes a secondary source and the recovery time is set by that slower reservoir instead.</p>
+<p><b>Interpretation.</b> The residence time is a policy quantity, not just a physical one. It tells a regulator how long after a successful intervention the public should be told to expect visible improvement.</p></div>
+
+<figure>
+<svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Exponential flushing curve">
+<line x1="80" y1="270" x2="670" y2="270" stroke="#0E2A47" stroke-width="2"/>
+<line x1="80" y1="270" x2="80" y2="50" stroke="#0E2A47" stroke-width="2"/>
+<g stroke="#E7EDF4" stroke-width="1">
+<line x1="220" y1="50" x2="220" y2="270"/><line x1="360" y1="50" x2="360" y2="270"/><line x1="500" y1="50" x2="500" y2="270"/>
+</g>
+<polyline points="80,70 115,114 150,149 185,176 220,196 255,213 290,225 325,235 360,243 430,254 500,260 570,264 640,266" fill="none" stroke="#164272" stroke-width="3.5"/>
+<g stroke="#C9A227" stroke-width="2" stroke-dasharray="5 4">
+<line x1="220" y1="186" x2="220" y2="270"/><line x1="360" y1="243" x2="360" y2="270"/><line x1="500" y1="260" x2="500" y2="270"/>
+</g>
+<g fill="#7A5F0C" font-size="12.5" font-weight="700" text-anchor="middle">
+<text x="220" y="176">63% gone</text><text x="360" y="233">86% gone</text><text x="500" y="250">95% gone</text>
+</g>
+<g fill="#556373" font-size="12.5" text-anchor="middle">
+<text x="80" y="292">0</text><text x="220" y="292">1τ</text><text x="360" y="292">2τ</text><text x="500" y="292">3τ</text><text x="640" y="292">4τ</text>
+<text x="375" y="316" font-weight="800" fill="#0E2A47">time since the source was eliminated</text>
+</g>
+<text x="-160" y="30" transform="rotate(-90)" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">C / C₀</text>
+<text x="640" y="70" text-anchor="end" font-size="12" fill="#556373">C(t) = C₀ e<tspan baseline-shift="super" font-size="9">−t/τ</tspan></text>
+</svg>
+<figcaption><b>Figure 1.7.</b> The shape behind every "why is it not clean yet" question. Removal is exponential, so the last increment of recovery takes as long as the first large one — and the curve above assumes flushing is the only loss.</figcaption>
+</figure>
+
+<h4>Feedback</h4>
+<p>A feedback exists when a change in a stock alters a flux that in turn alters the same stock. <b>Reinforcing</b> (positive) feedbacks amplify a perturbation and destabilise; <b>balancing</b> (negative) feedbacks oppose it and stabilise. The signs are not value judgements — a reinforcing feedback can amplify a recovery just as readily as a collapse.</p>
+
+<figure>
+<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Reinforcing and balancing feedback loops">
+  <circle cx="175" cy="115" r="78" fill="none" stroke="#A83246" stroke-width="3"/>
+  <polygon points="175,37 163,52 187,52" fill="#A83246"/>
+  <text x="175" y="105" text-anchor="middle" font-family="Georgia,serif" font-size="30" fill="#A83246">R</text>
+  <text x="175" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#A83246">reinforcing</text>
+  <text x="175" y="218" text-anchor="middle" font-size="13" fill="#556373">ice melts → albedo falls → more heat absorbed → ice melts</text>
+  <circle cx="525" cy="115" r="78" fill="none" stroke="#1B6E4A" stroke-width="3"/>
+  <polygon points="525,37 513,52 537,52" fill="#1B6E4A"/>
+  <text x="525" y="105" text-anchor="middle" font-family="Georgia,serif" font-size="30" fill="#1B6E4A">B</text>
+  <text x="525" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#1B6E4A">balancing</text>
+  <text x="525" y="218" text-anchor="middle" font-size="13" fill="#556373">CO₂ rises → plant growth rises → more CO₂ taken up</text>
+</svg>
+<figcaption><b>Figure 1.8.</b> The two loop types. Identifying which loop dominates at a given moment is usually more informative than knowing the individual rate constants, because the dominant loop determines whether a perturbation fades or runs away.</figcaption>
+</figure>
+
+<div class="caution"><b class="lbl">Common error</b>
+<p>Students routinely label a feedback "positive" because its outcome is desirable, or "negative" because it is harmful. The sign refers only to whether the loop amplifies or damps the original change. Ice–albedo is a positive feedback that produces a bad outcome; CO₂ fertilisation is a negative feedback that partially protects us. Neither sign carries moral content.</p></div>
+
+<h4>Budget closure and where to spend measurement effort</h4>
+<p>A budget "closes" when measured inputs equal measured outputs plus the measured change in storage. Real budgets rarely close. A 30% residual does not mean mass was destroyed; it means a flux is unmeasured, or one of the measured fluxes carries a systematic bias. The residual is diagnostic information, and the standard next step is to ask which term, given its magnitude and its relative uncertainty, could plausibly account for it. That same reasoning tells you where to spend the next research peso: not on the largest flux, and not on the easiest to measure, but on whichever term has the largest product of magnitude and relative uncertainty.</p>
+
+<h3 id="a4">1.4 Ethics, justice and knowledge systems</h3>
+<p>Every environmental decision contains a valuation that no measurement can supply. Three positions recur:</p>
+<ul>
+  <li><b>Anthropocentric</b> — nature has instrumental value; it matters because and insofar as it matters to humans. This is the operating assumption of nearly all environmental economics and most environmental law.</li>
+  <li><b>Biocentric</b> — individual living organisms have intrinsic value and moral standing, independent of human use.</li>
+  <li><b>Ecocentric</b> — the locus of value is the whole system: populations, species, communities and the abiotic processes that sustain them. Granting a river legal personhood is an ecocentric move, because it treats an entity that is not an organism as a rights-bearer.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 700 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Widening circles of moral standing">
+<circle cx="235" cy="155" r="132" fill="#DCE5F0" stroke="#0E2A47" stroke-width="2"/>
+<circle cx="235" cy="155" r="92" fill="#C7D8EA" stroke="#164272" stroke-width="2"/>
+<circle cx="235" cy="155" r="48" fill="#F7EDC9" stroke="#C9A227" stroke-width="2.5"/>
+<text x="235" y="160" text-anchor="middle" font-size="13" font-weight="800" fill="#7A5F0C">humans</text>
+<text x="235" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#164272">living organisms</text>
+<text x="235" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#0E2A47">systems and processes</text>
+<g font-size="13">
+<rect x="420" y="60" width="16" height="16" rx="4" fill="#F7EDC9" stroke="#C9A227" stroke-width="2"/>
+<text x="448" y="73" font-weight="800" fill="#0E2A47">Anthropocentric</text>
+<text x="448" y="93" font-size="12" fill="#556373">nature matters instrumentally; the</text>
+<text x="448" y="110" font-size="12" fill="#556373">default of law and economics</text>
+<rect x="420" y="140" width="16" height="16" rx="4" fill="#C7D8EA" stroke="#164272" stroke-width="2"/>
+<text x="448" y="153" font-weight="800" fill="#0E2A47">Biocentric</text>
+<text x="448" y="173" font-size="12" fill="#556373">individual living things hold</text>
+<text x="448" y="190" font-size="12" fill="#556373">standing of their own</text>
+<rect x="420" y="220" width="16" height="16" rx="4" fill="#DCE5F0" stroke="#0E2A47" stroke-width="2"/>
+<text x="448" y="233" font-weight="800" fill="#0E2A47">Ecocentric</text>
+<text x="448" y="253" font-size="12" fill="#556373">the whole system, including its</text>
+<text x="448" y="270" font-size="12" fill="#556373">non-living parts — e.g. a river</text>
+<text x="448" y="287" font-size="12" fill="#556373">granted legal personhood</text>
+</g>
+</svg>
+<figcaption><b>Figure 1.9.</b> Each position widens the circle of what counts morally. The move outward is not a scientific finding and cannot be settled by measurement, which is why it survives every improvement in the data.</figcaption>
+</figure>
+
+<div class="def"><b class="lbl">Definition — environmental justice, in three dimensions</b>
+<p><b>Distributive</b>: who receives the benefits, and who bears the burdens and risks. <b>Procedural</b>: who gets to participate in the decision, with what information, and with what actual power to change the outcome. <b>Recognition</b>: whose identity, culture and knowledge are acknowledged as legitimate in the first place. A project can satisfy one dimension and fail another — a consultation that is held, minuted and legally sufficient but that could never have altered the design is a procedural failure regardless of how the benefits are ultimately distributed.</p></div>
+
+<figure>
+<svg viewBox="0 0 700 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three dimensions of environmental justice">
+<g>
+<rect x="18" y="20" width="208" height="175" rx="14" fill="#fff" stroke="#164272" stroke-width="2"/>
+<rect x="18" y="20" width="208" height="8" rx="4" fill="#C9A227"/>
+<text x="122" y="56" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Distributive</text>
+<g>
+<rect x="52" y="76" width="26" height="46" fill="#8FA6BF"/><rect x="88" y="92" width="26" height="30" fill="#8FA6BF"/>
+<rect x="124" y="68" width="26" height="54" fill="#A83246"/><rect x="160" y="104" width="26" height="18" fill="#8FA6BF"/>
+<line x1="46" y1="122" x2="196" y2="122" stroke="#0E2A47" stroke-width="1.5"/>
+</g>
+<text x="122" y="150" text-anchor="middle" font-size="12" fill="#556373">who bears the burden,</text>
+<text x="122" y="168" text-anchor="middle" font-size="12" fill="#556373">who receives the benefit</text>
+</g>
+<g>
+<rect x="246" y="20" width="208" height="175" rx="14" fill="#fff" stroke="#164272" stroke-width="2"/>
+<rect x="246" y="20" width="208" height="8" rx="4" fill="#C9A227"/>
+<text x="350" y="56" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Procedural</text>
+<g>
+<ellipse cx="350" cy="99" rx="58" ry="26" fill="none" stroke="#0E2A47" stroke-width="2"/>
+<circle cx="308" cy="82" r="8" fill="#8FA6BF"/><circle cx="350" cy="74" r="8" fill="#8FA6BF"/>
+<circle cx="392" cy="82" r="8" fill="#8FA6BF"/><circle cx="392" cy="118" r="8" fill="#8FA6BF"/>
+<circle cx="308" cy="118" r="8" fill="#A83246"/>
+</g>
+<text x="350" y="150" text-anchor="middle" font-size="12" fill="#556373">who is at the table, and</text>
+<text x="350" y="168" text-anchor="middle" font-size="12" fill="#556373">whether they can change it</text>
+</g>
+<g>
+<rect x="474" y="20" width="208" height="175" rx="14" fill="#fff" stroke="#164272" stroke-width="2"/>
+<rect x="474" y="20" width="208" height="8" rx="4" fill="#C9A227"/>
+<text x="578" y="56" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Recognition</text>
+<g>
+<circle cx="548" cy="98" r="24" fill="#DCE5F0" stroke="#164272" stroke-width="2"/>
+<circle cx="608" cy="98" r="24" fill="#F7EDC9" stroke="#C9A227" stroke-width="2"/>
+<text x="548" y="103" text-anchor="middle" font-size="11" font-weight="800" fill="#164272">science</text>
+<text x="608" y="103" text-anchor="middle" font-size="11" font-weight="800" fill="#7A5F0C">ILK</text>
+</g>
+<text x="578" y="150" text-anchor="middle" font-size="12" fill="#556373">whose identity and</text>
+<text x="578" y="168" text-anchor="middle" font-size="12" fill="#556373">knowledge count as valid</text>
+</g>
+</svg>
+<figcaption><b>Figure 1.10.</b> The three dimensions are independent: a project can distribute benefits fairly through a process nobody affected could influence, or consult exhaustively while treating one community’s knowledge as folklore.</figcaption>
+</figure>
+
+<p>Studies in several countries have found that hazardous facilities are sited disproportionately in minority communities <i>even after</i> controlling for income and land value. That residual is why the literature uses the term environmental racism rather than treating siting purely as a market outcome: price alone does not explain the pattern, so something about political power and recognition is doing work.</p>
+
+<p><b>Indigenous and local knowledge</b> (ILK) is a knowledge system with its own methods of observation, transmission and validation, frequently containing long-term ecological information no monitoring programme possesses — historical fire regimes, species distributions before disturbance, seasonal timing. The productive stance is co-production: ILK and scientific knowledge treated as complementary systems, negotiated under free, prior and informed consent, rather than ILK being mined for data points and then re-validated against Western metrics before it is allowed to count.</p>
+
+<h2 class="session" id="s2"><span class="wkbadge">Week 2</span> Drivers, data and the policy frame</h2>
+
+<h3 id="b1">1.5 What drives environmental change</h3>
+<p>Impact is not caused by population alone, or by consumption alone. The oldest decomposition makes this explicit.</p>
+
+<div class="eq">
+  I = P × A × T
+  <small>Impact = Population × Affluence (consumption per person) × Technology (impact per unit of consumption). A multiplicative identity, so a proportional change in any term changes impact proportionally — and improvements in T can be entirely erased by growth in P and A.</small>
+</div>
+
+<div class="example"><b class="lbl">Worked example 2 — why efficiency gains disappear</b>
+<p>Over a decade a country's population grows 20%, consumption per person grows 50%, and impact per unit of consumption falls 40%.</p>
+<p>I<sub>new</sub>/I<sub>old</sub> = (1.20)(1.50)(0.60) = <b>1.08</b></p>
+<p>A 40% technological improvement — a substantial industrial achievement — yields an 8% <i>increase</i> in total impact. This is the arithmetic behind the persistent gap between efficiency headlines and emissions inventories.</p></div>
+
+<figure>
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IPAT multiplier worked visually">
+<g>
+<rect x="36" y="36" width="130" height="66" rx="12" fill="#0E2A47"/>
+<text x="101" y="62" text-anchor="middle" font-size="12" fill="#B9C8DA">population</text>
+<text x="101" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#E3BE45">× 1.20</text>
+<text x="182" y="76" text-anchor="middle" font-size="20" fill="#556373">×</text>
+<rect x="198" y="36" width="130" height="66" rx="12" fill="#164272"/>
+<text x="263" y="62" text-anchor="middle" font-size="12" fill="#B9C8DA">affluence</text>
+<text x="263" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#E3BE45">× 1.50</text>
+<text x="344" y="76" text-anchor="middle" font-size="20" fill="#556373">×</text>
+<rect x="360" y="36" width="130" height="66" rx="12" fill="#1B6E4A"/>
+<text x="425" y="62" text-anchor="middle" font-size="12" fill="#CFE7DA">technology</text>
+<text x="425" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#fff">× 0.60</text>
+<text x="506" y="76" text-anchor="middle" font-size="20" fill="#556373">=</text>
+<rect x="522" y="36" width="142" height="66" rx="12" fill="#C9A227"/>
+<text x="593" y="62" text-anchor="middle" font-size="12" fill="#33280A">total impact</text>
+<text x="593" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#33280A">1.08</text>
+</g>
+<line x1="120" y1="200" x2="660" y2="200" stroke="#0E2A47" stroke-width="2"/>
+<rect x="150" y="160" width="200" height="40" fill="#8FA6BF"/>
+<text x="250" y="187" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">before = 1.00</text>
+<rect x="400" y="160" width="216" height="40" fill="#C9A227"/>
+<text x="508" y="187" text-anchor="middle" font-size="13" font-weight="700" fill="#33280A">after = 1.08</text>
+<text x="390" y="232" text-anchor="middle" font-size="13" font-weight="700" fill="#A83246">a 40% efficiency gain still ends in an 8% increase</text>
+</svg>
+<figcaption><b>Figure 1.11.</b> The identity is multiplicative, so terms compound instead of adding. This is the arithmetic behind the recurring gap between an efficiency headline and the emissions inventory published the same year.</figcaption>
+</figure>
+
+<p>The <b>Kaya identity</b> is the same logic specialised to carbon:</p>
+<div class="eq">
+  CO₂ = Population × (GDP/Population) × (Energy/GDP) × (CO₂/Energy)
+  <small>Population, income per capita, energy intensity of the economy, and carbon intensity of energy. For emissions to fall while GDP grows at 3% per year, energy intensity and carbon intensity must together improve by more than 3% per year, sustained.</small>
+</div>
+
+<figure>
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kaya identity as a chain of ratios">
+<rect x="20" y="46" width="88" height="84" rx="12" fill="#0E2A47"/>
+<text x="64" y="94" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#E3BE45">P</text>
+<text x="64" y="152" text-anchor="middle" font-size="11.5" fill="#556373">people</text>
+<text x="120" y="94" text-anchor="middle" font-size="17" fill="#556373">×</text>
+<rect x="132" y="46" width="118" height="84" rx="12" fill="#fff" stroke="#164272" stroke-width="1.8"/><text x="191" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#0E2A47">GDP</text><line x1="154" y1="86" x2="228" y2="86" stroke="#0E2A47" stroke-width="1.6"/><text x="191" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#0E2A47">P</text><text x="191" y="152" text-anchor="middle" font-size="11.5" fill="#556373">income each</text>
+<text x="264" y="94" text-anchor="middle" font-size="17" fill="#556373">×</text>
+<rect x="276" y="46" width="118" height="84" rx="12" fill="#fff" stroke="#164272" stroke-width="1.8"/><text x="335" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#0E2A47">E</text><line x1="298" y1="86" x2="372" y2="86" stroke="#0E2A47" stroke-width="1.6"/><text x="335" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#0E2A47">GDP</text><text x="335" y="152" text-anchor="middle" font-size="11.5" fill="#556373">energy intensity</text>
+<text x="408" y="94" text-anchor="middle" font-size="17" fill="#556373">×</text>
+<rect x="420" y="46" width="118" height="84" rx="12" fill="#fff" stroke="#164272" stroke-width="1.8"/><text x="479" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#0E2A47">CO₂</text><line x1="442" y1="86" x2="516" y2="86" stroke="#0E2A47" stroke-width="1.6"/><text x="479" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#0E2A47">E</text><text x="479" y="152" text-anchor="middle" font-size="11.5" fill="#556373">carbon intensity</text>
+<text x="552" y="94" text-anchor="middle" font-size="17" fill="#556373">=</text>
+<rect x="570" y="46" width="110" height="84" rx="12" fill="#C9A227"/>
+<text x="625" y="94" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#33280A">CO₂</text>
+<text x="625" y="152" text-anchor="middle" font-size="11.5" fill="#556373">emissions</text>
+<text x="350" y="184" text-anchor="middle" font-size="12.5" fill="#556373">every denominator cancels the numerator before it — the identity is exact, and each ratio is a separate policy lever</text>
+</svg>
+<figcaption><b>Figure 1.12.</b> Written as rates of change the four terms simply add, which is why 3% annual GDP growth demands more than 3% combined annual improvement in the last two ratios before emissions turn down.</figcaption>
+</figure>
+
+<p>Two further concepts complete the picture. The <b>ecological footprint</b> converts consumption into the biologically productive area required to supply it and absorb its carbon dioxide, and compares that to available <b>biocapacity</b>. A country whose footprint exceeds its biocapacity runs an ecological deficit, which it meets by importing biocapacity, drawing down its own stocks, or using the global atmosphere as a sink. Its usefulness is communicative; its weakness is that it compresses toxicity, biodiversity loss and water scarcity into a single land-area unit dominated by the carbon component.</p>
+
+<p>The <b>rebound effect</b> explains why the T term underdelivers. When efficiency lowers the cost of an energy service, consumption of that service typically rises, recovering part of the saving; where the effect exceeds 100% — historically argued for some general-purpose technologies — it is called the Jevons paradox. Lighting is the standard illustration: efficacy has improved by orders of magnitude while total lighting energy has not fallen correspondingly, because cheap light gets used more lavishly.</p>
+
+<h3 id="b2">1.6 The triple planetary crisis and its couplings</h3>
+<p>The UN framing groups the global environmental agenda into climate change, biodiversity loss, and pollution and waste. The framing is useful only if the couplings are kept in view, because policies aimed at one can worsen another:</p>
+<ul>
+  <li>Land converted for bioenergy reduces emissions per unit energy while removing habitat and often increasing nutrient loading.</li>
+  <li>Sulfate aerosol pollution cools the surface; cleaning the air unmasks warming that was always present in the forcing.</li>
+  <li>Warming shifts species ranges into landscapes fragmented by land-use change, so climate and biodiversity losses compound rather than add.</li>
+  <li>Nitrogen fertiliser raises yields, sparing land from conversion, while degrading downstream water quality and emitting nitrous oxide.</li>
+</ul>
+<figure>
+<svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Couplings among climate change, biodiversity loss and pollution">
+<circle cx="270" cy="130" r="112" fill="#164272" opacity=".24"/>
+<circle cx="430" cy="130" r="112" fill="#1B6E4A" opacity=".24"/>
+<circle cx="350" cy="240" r="112" fill="#C9A227" opacity=".28"/>
+<text x="228" y="76" text-anchor="middle" font-size="15" font-weight="800" fill="#0E2A47">Climate change</text>
+<text x="474" y="76" text-anchor="middle" font-size="15" font-weight="800" fill="#0E2A47">Biodiversity loss</text>
+<text x="350" y="318" text-anchor="middle" font-size="15" font-weight="800" fill="#0E2A47">Pollution &amp; waste</text>
+<text x="350" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12212F">ranges shift into</text>
+<text x="350" y="142" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12212F">fragmented land</text>
+<text x="262" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12212F">aerosols mask</text>
+<text x="262" y="220" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12212F">warming</text>
+<text x="440" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12212F">nutrients drive</text>
+<text x="440" y="220" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12212F">eutrophication</text>
+<text x="350" y="180" text-anchor="middle" font-size="11.5" font-weight="800" fill="#A83246">bioenergy land use</text>
+</svg>
+<figcaption><b>Figure 1.13.</b> The overlaps are where single-issue policy goes wrong: each labelled coupling names a case in which optimising one circle degrades another, and each is a live argument in current climate and land-use policy.</figcaption>
+</figure>
+
+<p>Recognising a coupling is what distinguishes an integrated assessment from a sectoral one, and it is the reason single-issue optimisation is treated with suspicion in this course.</p>
+
+<h3 id="b3">1.7 Environmental data: what a number is worth</h3>
+<p>Environmental measurements arrive with structure that determines what may legitimately be done with them.</p>
+
+<table>
+  <thead><tr><th style="width:26%">Concept</th><th>What it means, and the mistake it prevents</th></tr></thead>
+  <tbody>
+    <tr><td><b>Accuracy vs precision</b></td><td>Accuracy is closeness to the true value; precision is repeatability. Three readings of 3.412, 3.415, 3.413 mg L<sup>−1</sup> on a 5.00 mg L<sup>−1</sup> standard are highly precise and badly inaccurate — a calibration bias, invisible to any measure of scatter.</td></tr>
+    <tr><td><b>Method detection limit</b></td><td>The lowest concentration reportable as different from zero. Values below it are censored, not zero. Substituting zero biases means low; substituting the detection limit biases them high; the defensible options are substitution at MDL/2 with the choice disclosed, or a statistical method for censored data.</td></tr>
+    <tr><td><b>Scale and support</b></td><td>A relationship observed at one spatial or temporal scale need not hold at another. Inferring individual exposure from area-level averages is the ecological fallacy.</td></tr>
+    <tr><td><b>Uncertainty vs variability</b></td><td>Variability is real heterogeneity in the system and cannot be reduced by more measurement. Uncertainty is our ignorance and can. Conflating them produces either false precision or paralysis.</td></tr>
+    <tr><td><b>Indicators and indices</b></td><td>A composite index requires choosing variables, normalising them, and weighting them. The weights are value judgements wearing arithmetic clothing: two countries can score identically with opposite profiles, and re-weighting can reverse a ranking without any data changing.</td></tr>
+  </tbody>
+</table>
+
+<figure>
+<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Accuracy and precision compared on four targets">
+<circle cx="100" cy="72" r="52" fill="#F3F7FB" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="100" cy="72" r="34" fill="#fff" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="100" cy="72" r="16" fill="#DCE5F0" stroke="#164272" stroke-width="1.5"/><circle cx="100" cy="72" r="3" fill="#164272"/><circle cx="96" cy="75" r="4.5" fill="#1B6E4A"/><circle cx="102" cy="67" r="4.5" fill="#1B6E4A"/><circle cx="105" cy="76" r="4.5" fill="#1B6E4A"/><circle cx="98" cy="70" r="4.5" fill="#1B6E4A"/><text x="100" y="146" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">Accurate + precise</text><text x="100" y="163" text-anchor="middle" font-size="11.5" fill="#556373">report it</text><circle cx="290" cy="72" r="52" fill="#F3F7FB" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="290" cy="72" r="34" fill="#fff" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="290" cy="72" r="16" fill="#DCE5F0" stroke="#164272" stroke-width="1.5"/><circle cx="290" cy="72" r="3" fill="#164272"/><circle cx="324" cy="42" r="4.5" fill="#A83246"/><circle cx="329" cy="47" r="4.5" fill="#A83246"/><circle cx="323" cy="48" r="4.5" fill="#A83246"/><circle cx="328" cy="41" r="4.5" fill="#A83246"/><text x="290" y="146" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">Precise, not accurate</text><text x="290" y="163" text-anchor="middle" font-size="11.5" fill="#556373">recalibrate</text><circle cx="480" cy="72" r="52" fill="#F3F7FB" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="480" cy="72" r="34" fill="#fff" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="480" cy="72" r="16" fill="#DCE5F0" stroke="#164272" stroke-width="1.5"/><circle cx="480" cy="72" r="3" fill="#164272"/><circle cx="450" cy="98" r="4.5" fill="#C9A227"/><circle cx="504" cy="44" r="4.5" fill="#C9A227"/><circle cx="454" cy="50" r="4.5" fill="#C9A227"/><circle cx="510" cy="92" r="4.5" fill="#C9A227"/><text x="480" y="146" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">Accurate, not precise</text><text x="480" y="163" text-anchor="middle" font-size="11.5" fill="#556373">replicate</text><circle cx="640" cy="72" r="52" fill="#F3F7FB" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="640" cy="72" r="34" fill="#fff" stroke="#C3D2E4" stroke-width="1.5"/><circle cx="640" cy="72" r="16" fill="#DCE5F0" stroke="#164272" stroke-width="1.5"/><circle cx="640" cy="72" r="3" fill="#164272"/><circle cx="670" cy="100" r="4.5" fill="#A83246"/><circle cx="676" cy="94" r="4.5" fill="#A83246"/><circle cx="668" cy="92" r="4.5" fill="#A83246"/><circle cx="678" cy="102" r="4.5" fill="#A83246"/><text x="640" y="146" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">Neither</text><text x="640" y="163" text-anchor="middle" font-size="11.5" fill="#556373">start over</text>
+</svg>
+<figcaption><b>Figure 1.14.</b> Only scatter is visible without a standard, so the second target is the dangerous one: averaging more readings tightens the confidence interval around a value that is simply wrong.</figcaption>
+</figure>
+
+<figure>
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DPSIR framework chain">
+  <g font-size="13" font-weight="700" text-anchor="middle">
+    <rect x="15" y="60" width="112" height="52" rx="10" fill="#0E2A47"/><text x="71" y="92" fill="#fff">DRIVERS</text>
+    <rect x="153" y="60" width="112" height="52" rx="10" fill="#164272"/><text x="209" y="92" fill="#fff">PRESSURES</text>
+    <rect x="291" y="60" width="112" height="52" rx="10" fill="#3D6B99"/><text x="347" y="92" fill="#fff">STATE</text>
+    <rect x="429" y="60" width="112" height="52" rx="10" fill="#164272"/><text x="485" y="92" fill="#fff">IMPACTS</text>
+    <rect x="567" y="60" width="112" height="52" rx="10" fill="#C9A227"/><text x="623" y="92" fill="#33280A">RESPONSES</text>
+  </g>
+  <g stroke="#8FA6BF" stroke-width="2.5" fill="none">
+    <path d="M127 86 L148 86"/><path d="M265 86 L286 86"/><path d="M403 86 L424 86"/><path d="M541 86 L562 86"/>
+  </g>
+  <g fill="#8FA6BF">
+    <polygon points="153,86 141,80 141,92"/><polygon points="291,86 279,80 279,92"/>
+    <polygon points="429,86 417,80 417,92"/><polygon points="567,86 555,80 555,92"/>
+  </g>
+  <path d="M623 118 L623 155 L71 155 L71 118" stroke="#C9A227" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+  <polygon points="71,112 63,126 79,126" fill="#C9A227"/>
+  <text x="347" y="175" text-anchor="middle" font-size="12.5" fill="#7A5F0C">responses act back on drivers, pressures, state and impacts</text>
+</svg>
+<figcaption><b>Figure 1.15.</b> The DPSIR framework, the reporting skeleton used by most environmental agencies. Its value is that it forces an indicator to declare which link in the chain it measures — confusing a pressure indicator (fertiliser sold) with a state indicator (river nitrate) is a routine source of false claims about policy success.</figcaption>
+</figure>
+
+<h3 id="b4">1.8 The governance architecture</h3>
+<p>Environmental law operates at three nested levels, and a project is normally subject to all three at once.</p>
+
+<figure>
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nested levels of environmental governance">
+<rect x="30" y="20" width="450" height="220" rx="18" fill="#DCE5F0" stroke="#0E2A47" stroke-width="2"/>
+<text x="52" y="46" font-size="13" font-weight="800" fill="#0E2A47">International — MEAs, SDGs</text>
+<rect x="60" y="62" width="390" height="158" rx="15" fill="#C7D8EA" stroke="#164272" stroke-width="2"/>
+<text x="82" y="88" font-size="13" font-weight="800" fill="#0E2A47">National — statutes, standards, permits</text>
+<rect x="92" y="104" width="326" height="96" rx="13" fill="#F7EDC9" stroke="#C9A227" stroke-width="2"/>
+<text x="114" y="130" font-size="13" font-weight="800" fill="#7A5F0C">Local — ordinances, PAMB, ancestral domain</text>
+<text x="114" y="154" font-size="12" fill="#5C4A0F">the level where a project actually meets a community,</text>
+<text x="114" y="172" font-size="12" fill="#5C4A0F">and where consent under IPRA is granted or withheld</text>
+<g>
+<rect x="500" y="70" width="176" height="122" rx="14" fill="#fff" stroke="#A83246" stroke-width="2"/>
+<text x="588" y="98" text-anchor="middle" font-size="13" font-weight="800" fill="#A83246">Concurrent,</text>
+<text x="588" y="118" text-anchor="middle" font-size="13" font-weight="800" fill="#A83246">not sequential</text>
+<text x="588" y="144" text-anchor="middle" font-size="11.5" fill="#556373">an ECC does not</text>
+<text x="588" y="160" text-anchor="middle" font-size="11.5" fill="#556373">discharge obligations</text>
+<text x="588" y="176" text-anchor="middle" font-size="11.5" fill="#556373">under any other level</text>
+</g>
+</svg>
+<figcaption><b>Figure 1.16.</b> The three levels bind simultaneously. Reading them as a queue of clearances to be obtained in order is the most common compliance failure, and a frequent examination trap.</figcaption>
+</figure>
+
+<h4>International</h4>
+<p>Multilateral environmental agreements differ enormously in effectiveness, and the differences are structural rather than moral. The Montreal Protocol on ozone-depleting substances is the standard success: a small number of producing firms, technically feasible substitutes that were already being developed, a clear and measurable set of controlled chemicals, differentiated timetables with a financial mechanism for developing countries, and trade restrictions against non-parties that made defection costly. Climate agreements confront the opposite of nearly every one of those conditions — fossil energy is diffuse through every sector, substitutes touch entire capital stocks, and there is no equivalent point of leverage. Comparing the two teaches design, not virtue.</p>
+<p>Other instruments worth knowing by function: the CBD and its Kunming–Montreal framework for biodiversity, UNFCCC and the Paris Agreement for climate, Basel, Rotterdam and Stockholm for wastes and chemicals, Ramsar for wetlands, and the Sustainable Development Goals as a non-binding but agenda-setting frame, of which SDGs 6, 11, 12, 13, 14 and 15 are directly environmental.</p>
+
+<h4>National — the Philippine frame</h4>
+<table>
+  <thead><tr><th style="width:30%">Instrument</th><th>Function</th></tr></thead>
+  <tbody>
+    <tr><td>PD 1151 &amp; PD 1152</td><td>Philippine Environment Policy and Environment Code — the enabling statement of environmental rights and duties.</td></tr>
+    <tr><td>PD 1586</td><td>Establishes the Environmental Impact Statement System; the Environmental Compliance Certificate is the permitting gate for covered projects. Developed in Chapter 5.</td></tr>
+    <tr><td>RA 8749</td><td>Clean Air Act — ambient standards, emission limits, airshed governance.</td></tr>
+    <tr><td>RA 9275</td><td>Clean Water Act — water quality management areas, effluent standards, discharge permits.</td></tr>
+    <tr><td>RA 9003</td><td>Ecological Solid Waste Management Act — diversion targets, closure of open dumps, LGU responsibility.</td></tr>
+    <tr><td>RA 6969</td><td>Toxic Substances and Hazardous and Nuclear Wastes Control Act.</td></tr>
+    <tr><td>RA 7586 / RA 11038</td><td>NIPAS and the Expanded NIPAS Act — the protected area system and its management boards.</td></tr>
+    <tr><td>RA 8371 (IPRA)</td><td>Indigenous Peoples' Rights Act — ancestral domain, and the free and prior informed consent requirement that binds projects overlapping those domains.</td></tr>
+    <tr><td>RA 9729</td><td>Climate Change Act, with RA 10121 on disaster risk reduction and management.</td></tr>
+  </tbody>
+</table>
+
+<div class="caution"><b class="lbl">The concurrency point</b>
+<p>Statutes apply simultaneously, not in sequence. Securing an ECC under PD 1586 does not extinguish an obligation arising from a protected area's own designation, from IPRA's consent requirement, or from a water quality management area's discharge rules. A common examination trap — and a common real-world failure — is to treat one clearance as if it settled the others.</p></div>
+
+<h2 class="session" id="terms">Key terms</h2>
+<div class="terms">
+  <div><b>Open system</b><span>A system exchanging matter and energy across its boundary; the normal case in environmental science and the reason controls are scarce.</span></div>
+  <div><b>Stock and flux</b><span>Quantity held in a reservoir, and the rate at which material crosses its boundary.</span></div>
+  <div><b>Residence time (τ)</b><span>M/F at steady state; also the time constant of the reservoir's response to changed loading.</span></div>
+  <div><b>Steady state</b><span>Inputs equal outputs so the stock is constant. Not a statement about the stock's condition.</span></div>
+  <div><b>Reinforcing feedback</b><span>Loop that amplifies a perturbation. Sign describes dynamics, not desirability.</span></div>
+  <div><b>Balancing feedback</b><span>Loop that opposes a perturbation and stabilises the stock.</span></div>
+  <div><b>Weak sustainability</b><span>Natural and manufactured capital treated as substitutable; total capital must not decline.</span></div>
+  <div><b>Strong sustainability</b><span>Critical natural capital must be maintained physically; substitution is not accepted.</span></div>
+  <div><b>Planetary boundary</b><span>A quantified limit set below an estimated threshold, marking entry into a zone of increasing risk.</span></div>
+  <div><b>IPAT / Kaya identity</b><span>Multiplicative decompositions of impact and of carbon emissions into their proximate drivers.</span></div>
+  <div><b>Rebound effect</b><span>Part of an efficiency saving recovered by increased use of the cheaper service.</span></div>
+  <div><b>Procedural justice</b><span>Whether affected people had real power to shape the decision, not merely a hearing.</span></div>
+  <div><b>Method detection limit</b><span>Lowest concentration distinguishable from zero; values below it are censored, not zero.</span></div>
+  <div><b>Ecological fallacy</b><span>Inferring individual-level relationships from group-level averages.</span></div>
+  <div><b>DPSIR</b><span>Drivers–Pressures–State–Impacts–Responses; forces an indicator to declare what it measures.</span></div>
+  <div><b>Free, prior and informed consent</b><span>Consent obtained before a decision, with full disclosure, and genuinely refusable.</span></div>
+</div>
+
+<div class="summary" id="summary">
+  <h3>What to take away</h3>
+  <ul>
+    <li>Environmental science works on open, unreplicated systems, so confounding — not sample size — is the standing threat to causal claims, and triangulation across weak designs substitutes for the controlled experiment.</li>
+    <li>Four paradigms still shape practice; identifying which one an argument is speaking from usually explains the disagreement faster than debating the evidence.</li>
+    <li>Mass balance and residence time convert vague concern into a number, and τ tells a decision-maker how long after a successful intervention improvement should become visible.</li>
+    <li>Feedback signs describe amplification or damping, never desirability.</li>
+    <li>IPAT and Kaya show why large efficiency gains routinely fail to reduce total impact, and the rebound effect explains part of the shortfall.</li>
+    <li>Every number carries a method, a detection limit, a scale and an uncertainty; every composite index carries a weighting that is a value judgement.</li>
+    <li>Environmental statutes apply concurrently. One clearance never settles the others.</li>
+  </ul>
+</div>
+
+<div class="pager">
+  <a class="gold" href="Chapter01_Exercises.html">Problems &amp; cases for this chapter →</a>
+  <a class="blue" href="../syllabus.html">Syllabus</a>
+  <a class="blue" href="../index.html">All chapters</a>
+</div>
+
+<footer><p>Advanced Environmental Science · ENVS 601 — Chapter 1, Overview of Environmental Science. Weeks 1–2.</p></footer>
+</div>
+</body>
+</html>

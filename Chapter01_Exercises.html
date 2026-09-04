@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 · 30 Higher-Order Items — ENVS 601</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ok:#1B6E4A; --ok-bg:#E3F2EA; --ok-bd:#9CCFB6;
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA; --card:#fff;
+  --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 90px;}
+header.hero{overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;padding:44px 34px 50px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.5) 0,transparent 48%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:880px;margin:0 auto;padding:0 12px;}
+.back{display:inline-block;color:#B9C8DA;text-decoration:none;font-size:.85rem;font-weight:700;margin-bottom:12px;}
+.back:hover{color:var(--gold-bright);}
+.tag{display:inline-flex;background:rgba(247,237,201,.92);color:var(--gold-ink);font-weight:800;font-size:.72rem;
+  letter-spacing:1.3px;text-transform:uppercase;padding:5px 14px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style",serif;font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.12;
+  margin:10px 0 8px;letter-spacing:-.5px;color:#fff;font-weight:700;}
+.hero p{max-width:70ch;color:#CFDBE8;margin:0;}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(244,247,250,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:11px 0;margin-bottom:8px;}
+.bar .in{max-width:880px;margin:0 auto;padding:0 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;}
+.btn{border:none;border-radius:10px;padding:9px 16px;font-weight:800;font-size:.84rem;cursor:pointer;}
+.btn.gold{background:var(--gold-grad);color:#33280A;}
+.btn.ghost{background:var(--navy-soft);color:var(--navy);}
+.bar .count{margin-left:auto;font-size:.82rem;color:var(--ink-soft);font-weight:700;}
+
+h2.section{font-family:Georgia,serif;font-size:1.28rem;font-weight:700;margin:38px 0 4px;
+  display:flex;align-items:center;gap:12px;}
+h2.section::before{content:"";width:8px;height:22px;border-radius:3px;background:var(--gold-grad);}
+p.sub{color:var(--ink-soft);margin:0 0 14px;font-size:.93rem;}
+
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:13px;
+  box-shadow:var(--shadow);}
+.q>.stem{display:flex;gap:12px;align-items:flex-start;}
+.q .n{flex:none;width:32px;height:32px;border-radius:9px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:850;font-size:.88rem;}
+.q .stem p{margin:4px 0 12px;font-weight:600;}
+.q ol.opts{list-style:none;counter-reset:o;margin:0 0 0 44px;padding:0;}
+.q ol.opts li{counter-increment:o;position:relative;padding:7px 0 7px 32px;font-size:.95rem;color:#2C3A4B;}
+.q ol.opts li::before{content:counter(o,upper-alpha);position:absolute;left:0;top:7px;width:22px;height:22px;
+  border-radius:6px;background:#EDF2F8;border:1px solid var(--line);color:var(--navy-mid);
+  font-size:.74rem;font-weight:850;display:flex;align-items:center;justify-content:center;}
+details.ans{margin:12px 0 0 44px;border:1px solid var(--line);border-radius:11px;overflow:hidden;}
+details.ans>summary{cursor:pointer;list-style:none;padding:9px 14px;background:#F3F7FB;font-weight:800;
+  font-size:.84rem;color:var(--navy);display:flex;align-items:center;gap:8px;}
+details.ans>summary::-webkit-details-marker{display:none;}
+details.ans>summary::before{content:"▸";color:var(--gold);font-size:.9rem;}
+details.ans[open]>summary::before{content:"▾";}
+details.ans[open]>summary{background:var(--ok-bg);color:var(--ok);border-bottom:1px solid var(--ok-bd);}
+details.ans .body{padding:13px 15px;font-size:.92rem;color:var(--ink-soft);background:#fff;}
+details.ans .key{display:inline-block;background:var(--ok);color:#fff;font-weight:850;font-size:.78rem;
+  border-radius:6px;padding:2px 9px;margin-right:8px;}
+details.ans .body b{color:var(--ink);}
+
+.case{background:var(--navy);color:#DCE5F0;border-radius:16px;padding:22px 26px;margin-top:8px;}
+.case h3{color:#fff;margin:0 0 8px;font-family:Georgia,serif;font-weight:700;}
+.case p,.case ol{color:#C6D4E3;font-size:.95rem;}
+.case details{margin-top:12px;border-top:1px dashed rgba(220,229,240,.25);padding-top:10px;}
+.case summary{cursor:pointer;color:var(--gold-bright);font-weight:800;font-size:.88rem;}
+.case details .b{color:#B9C8DA;font-size:.92rem;margin-top:8px;}
+.pager{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+.pager a{text-decoration:none;font-weight:800;font-size:.88rem;padding:10px 17px;border-radius:11px;}
+.pager a.gold{background:var(--gold-grad);color:#33280A;}
+.pager a.blue{background:var(--navy-soft);color:var(--navy);}
+footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.85rem;}
+@media print{.bar,.pager{display:none;} body{background:#fff;font-size:10.5pt;} .q{break-inside:avoid;box-shadow:none;}
+  details.ans{display:none;} .q{margin-bottom:8px;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <a class="back" href="../index.html">← Course hub</a><br>
+  <span class="tag">Chapter 1 · Problems &amp; cases</span>
+  <h1>Thirty higher-order items</h1>
+  <p>Application, analysis and evaluation rather than recall. Commit to an answer before opening the dropdown — the explanation is only useful once you have something to compare it against.</p>
+</div></header>
+
+<div class="bar"><div class="in">
+  <button class="btn gold" id="all">Reveal all answers</button>
+  <button class="btn ghost" id="none">Hide all</button>
+  <span class="count">30 items · 6 sections</span>
+</div></div>
+
+<div class="wrap">
+
+<h2 class="section">A · The nature of environmental inquiry</h2>
+<p class="sub">Items 1–4</p>
+
+<div class="q"><div class="stem"><div class="n">1</div><div>
+<p>Nitrate concentration in a river correlates with regional fertiliser sales over 15 years (r = 0.87, p &lt; 0.001). Which consideration most seriously limits the causal claim?</p>
+<ol class="opts">
+<li>The correlation coefficient is too low to support causation.</li>
+<li>Urbanisation, land conversion and rainfall changed over the same period and could produce the same pattern.</li>
+<li>Fifteen years is too short a series for statistical significance.</li>
+<li>Nitrate cannot be measured with sufficient precision in river water.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The threat is <b>confounding</b>, not the strength of the correlation or the sample size. Several plausible causes moved together over the same decades, and a stronger r would not separate them. Note that the p-value already refutes option C.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">2</div><div>
+<p>Why can environmental science rarely rely on the classical controlled experiment?</p>
+<ol class="opts">
+<li>Environmental hypotheses are unfalsifiable in principle.</li>
+<li>Field instruments are inherently less precise than laboratory instruments.</li>
+<li>The systems are open, large and often unique, so replication and control are usually impossible or unethical.</li>
+<li>Environmental science is a social science rather than a natural science.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>There is no replicate estuary to hold constant, and deliberately contaminating one would be indefensible. The field compensates with natural experiments, gradient studies, long-term monitoring and process models — weaker individually, credible when they converge.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">3</div><div>
+<p>Two independently built models of the same estuary reproduce the historical record equally well but diverge sharply in their 30-year projections. What is the most defensible response?</p>
+<ol class="opts">
+<li>Adopt the model with more parameters, since it represents more processes.</li>
+<li>Discard both, since disagreement shows neither is validated.</li>
+<li>Report the range as structural uncertainty and identify the process assumption responsible for the divergence.</li>
+<li>Adopt the projection closer to prior expectations for the system.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Equal fit to history with divergent futures is the signature of <b>structural</b> uncertainty: the disagreement is informative, and it localises the assumption that matters. More parameters means more flexibility, not more truth (A), and D substitutes the analyst's prior for evidence.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">4</div><div>
+<p>A report states: "No significant effect of the outfall on benthic diversity was detected (p = 0.21, n = 6)." Which reading is most defensible?</p>
+<ol class="opts">
+<li>The outfall has been shown to have no effect on benthic diversity.</li>
+<li>The study lacked power to detect an effect of plausible size; the effect estimate and its confidence interval should be reported instead.</li>
+<li>The p-value should be recalculated with a one-tailed test to reach significance.</li>
+<li>The result proves the outfall is environmentally safe.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Absence of evidence is not evidence of absence, particularly at n = 6. The informative output is the effect size with its interval, which shows what magnitudes remain compatible with the data. Switching tails after seeing the result (C) is the definition of a questionable research practice.
+</div></details></div>
+
+<h2 class="section">B · Systems, mass balance and feedback</h2>
+<p class="sub">Items 5–12</p>
+
+<div class="q"><div class="stem"><div class="n">5</div><div>
+<p>A well-mixed lake holds 2.0 × 10<sup>7</sup> m³. Inflow equals outflow at 5.0 × 10<sup>4</sup> m³ d<sup>−1</sup>. What is the hydraulic residence time?</p>
+<ol class="opts">
+<li>40 days</li>
+<li>250 days</li>
+<li>400 days</li>
+<li>4,000 days</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>τ = M/F = 2.0 × 10<sup>7</sup> ÷ 5.0 × 10<sup>4</sup> = 400 days. Check the exponents before the arithmetic — the common wrong answers here are all order-of-magnitude slips.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">6</div><div>
+<p>The same lake has been receiving a conservative, fully dissolved contaminant. The source is eliminated overnight. Assuming flushing is the only loss, roughly how long until about 95% of the contaminant is gone?</p>
+<ol class="opts">
+<li>About 400 days</li>
+<li>About 800 days</li>
+<li>About 1,200 days</li>
+<li>About 4,000 days</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Exponential decay with time constant τ: one τ removes ~63%, two ~86%, three ~95%. So 3 × 400 ≈ 1,200 days. This is why "we stopped the discharge" and "the lake is clean" are separated by years even in the best case.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">7</div><div>
+<p>Suppose that same contaminant is strongly hydrophobic and most of the historical load has partitioned into bottom sediment. How does the recovery estimate change?</p>
+<ol class="opts">
+<li>It shortens, because sediment removes contaminant from the water column.</li>
+<li>It is unchanged, because mass balance is independent of phase.</li>
+<li>It lengthens, because the sediment becomes a slow secondary source and now controls the recovery time.</li>
+<li>It becomes indeterminate, because residence time is undefined for particles.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>The system now has two coupled reservoirs, and the <b>slowest</b> one governs recovery. Sediment sequestration lowers water-column concentration in the short term (which is why A is tempting) while extending the tail by years to decades.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">8</div><div>
+<p>Two gases are emitted at identical global rates. Gas X has an atmospheric lifetime of 5 days; gas Y, 50 years. Which inference follows?</p>
+<ol class="opts">
+<li>X accumulates to a higher global burden because it is released more frequently.</li>
+<li>Y accumulates to a far higher burden and becomes well mixed globally, making it a global rather than regional problem.</li>
+<li>Both reach the same steady-state burden, since emissions are equal.</li>
+<li>X is necessarily more toxic because of its rapid turnover.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>At steady state burden = emission × lifetime, so Y's burden exceeds X's by roughly the lifetime ratio. Long lifetime also means transport outruns removal, so Y mixes globally while X stays near its sources — the structural reason ozone precursors are regulated regionally and CO₂ cannot be.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">9</div><div>
+<p>A monitoring report concludes that a degraded bay is "at steady state." What does this establish?</p>
+<ol class="opts">
+<li>The bay has recovered to its reference condition.</li>
+<li>Inputs and outputs are balanced, so the stock is not changing — which is compatible with the bay being in poor condition.</li>
+<li>All fluxes into and out of the bay are zero.</li>
+<li>The bay is resilient to further disturbance.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Steady state is a statement about the <b>derivative</b>, not the level. A chronically polluted system with constant loading and constant flushing sits at a stable, bad equilibrium. Option C confuses steady state with static equilibrium.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">10</div><div>
+<p>Sea ice melts, exposing darker ocean, which absorbs more solar radiation, which accelerates melting. Which classification is correct?</p>
+<ol class="opts">
+<li>A balancing feedback, because the system moves toward a new equilibrium.</li>
+<li>A reinforcing feedback, which amplifies the initial perturbation and destabilises the state.</li>
+<li>Not a feedback, since albedo is a physical property rather than a flux.</li>
+<li>A negative feedback, because the outcome is negative for the system.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The loop returns to amplify its own cause, so it is reinforcing. Option D is the standard trap: the sign describes amplification versus damping, never whether the consequence is desirable.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">11</div><div>
+<p>Which of the following is a <i>balancing</i> feedback in the climate system?</p>
+<ol class="opts">
+<li>Permafrost thaw releasing methane and carbon dioxide.</li>
+<li>Warming increasing atmospheric water vapour, itself a greenhouse gas.</li>
+<li>Elevated CO₂ stimulating plant growth, which takes up additional CO₂.</li>
+<li>Warming drying peatlands and increasing fire frequency.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>CO₂ fertilisation opposes the original increase, damping it. The other three all amplify warming. Note that C is balancing yet limited and saturating — a stabilising loop can still be too weak to matter.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">12</div><div>
+<p>A catchment nutrient budget finds measured inputs exceeding measured outputs plus the measured change in storage by 30%. What is the best inference?</p>
+<ol class="opts">
+<li>Conservation of mass does not hold in open catchments.</li>
+<li>An unquantified sink exists, or one of the measured fluxes carries a systematic bias.</li>
+<li>The catchment is confirmed to be at steady state.</li>
+<li>The residence time of the catchment is negative.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A residual is a measurement statement, not a physics statement. The productive response is to ask which term could plausibly account for 30% given its magnitude and uncertainty — denitrification and deep groundwater export are the usual suspects in nutrient budgets.
+</div></details></div>
+
+<h2 class="section">C · Paradigms, sustainability and planetary boundaries</h2>
+<p class="sub">Items 13–17</p>
+
+<div class="q"><div class="stem"><div class="n">13</div><div>
+<p>A management plan proposes selective logging inside a watershed reserve, with revenue funding ranger salaries and reforestation. Which tradition does the proposal most directly express?</p>
+<ol class="opts">
+<li>Preservation, because the reserve is retained.</li>
+<li>Utilitarian conservation, because regulated use is justified by the long-term aggregate benefit it secures.</li>
+<li>Ecocentrism, because the forest is treated as a system.</li>
+<li>Modern environmentalism, because the plan involves regulation.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Managed extraction for the greatest good over the longest time is Pinchot's formulation. Preservation would reject the logging outright regardless of how the revenue was used — which is exactly the axis on which the two traditions split.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">14</div><div>
+<p>A developer proposes clearing mangroves for a resort, building an engineered seawall for coastal protection and paying into a biodiversity compensation fund. Which assumption does the proposal rest on?</p>
+<ol class="opts">
+<li>Strong sustainability, because critical natural capital is being explicitly valued.</li>
+<li>Weak sustainability, because natural capital is treated as substitutable by manufactured and financial capital.</li>
+<li>The precautionary principle, because a protective structure is included.</li>
+<li>Intergenerational equity, because a fund is established for the future.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Substituting a seawall and money for a mangrove is the definition of weak sustainability. A strong-sustainability objection would hold that the nursery function, the carbon store and the biodiversity are non-substitutable and that the loss is irreversible in practice.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">15</div><div>
+<p>What does transgressing a planetary boundary indicate?</p>
+<ol class="opts">
+<li>That an ecological collapse has occurred.</li>
+<li>That a physical threshold has been crossed and the change is now irreversible.</li>
+<li>That the system has entered a zone of increasing risk, since boundaries are set conservatively below estimated thresholds.</li>
+<li>That the boundary was set incorrectly, since the system continues to function.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Boundaries are deliberately placed in the safe part of the uncertainty range, precisely so that transgression is a warning rather than an obituary. Treating them as cliff edges (A, B) produces both false alarm and, when nothing visibly happens, unwarranted dismissal (D).
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">16</div><div>
+<p>The nitrogen boundary is transgressed at the global scale, yet large agricultural regions remain nitrogen-limited. What does this reveal about such indicators?</p>
+<ol class="opts">
+<li>The boundary was miscalculated and should be raised.</li>
+<li>A global aggregate can be exceeded while the underlying process is spatially concentrated, so the global figure cannot guide local management.</li>
+<li>Nitrogen deficiency and nitrogen excess cancel out in the global budget.</li>
+<li>Regional data are unreliable compared with global syntheses.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Aggregation hides distribution. Excess in one basin does not compensate for deficiency in another because the damage is local and non-linear — so this boundary requires regional disaggregation before it can inform any actual fertiliser policy.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">17</div><div>
+<p>Which is the strongest critique of the Brundtland definition of sustainable development as an operational guide?</p>
+<ol class="opts">
+<li>It is silent on how needs are defined and how present and future claims are adjudicated when they genuinely conflict.</li>
+<li>It ignores future generations entirely.</li>
+<li>It has no standing in international policy.</li>
+<li>It applies only to developing countries.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>The definition's breadth is why nearly everyone endorses it and why it settles nothing: it names a constraint without supplying a decision rule, which is how it can be cited by both sides of the same dispute. B and D misstate it; C is plainly false.
+</div></details></div>
+
+<h2 class="section">D · Ethics, justice and knowledge systems</h2>
+<p class="sub">Items 18–21</p>
+
+<div class="q"><div class="stem"><div class="n">18</div><div>
+<p>A hydropower project holds three public consultations, minutes all filed, but the design, site and displacement plan were fixed before the first meeting and could not be altered by any input. Which justice dimension is most directly violated?</p>
+<ol class="opts">
+<li>Distributive justice, since benefits go elsewhere.</li>
+<li>Procedural justice, since participation existed in form but carried no power to change the outcome.</li>
+<li>Recognition justice, since the community's identity was not acknowledged.</li>
+<li>No violation, since the legal consultation requirement was satisfied.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Procedural justice concerns real influence over the decision, not attendance records. A distributive problem may well exist too, but the fact pattern is specifically about a consultation that could not affect anything — and legal sufficiency (D) is not the same as justice.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">19</div><div>
+<p>A jurisdiction grants a river legal personhood, allowing guardians to sue on its behalf. Which ethical position does this most closely express?</p>
+<ol class="opts">
+<li>Anthropocentrism, since human guardians bring the suit.</li>
+<li>Biocentrism, since the river supports living organisms.</li>
+<li>Ecocentrism, since moral standing is extended to a whole system including its non-living components.</li>
+<li>Utilitarianism, since it maximises aggregate welfare.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>The rights-holder is the river system itself, not any organism, so the move is holistic. Biocentrism attaches standing to individual living things; the fact that humans act as guardians is a procedural device, not the locus of value.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">20</div><div>
+<p>Hazardous facilities are found to be sited disproportionately in minority communities <i>after</i> controlling for household income and land value. What is the strongest inference?</p>
+<ol class="opts">
+<li>The pattern is fully explained by land markets seeking cheap parcels.</li>
+<li>Race is acting as a proxy for income, which the analysis failed to measure.</li>
+<li>Factors beyond price — political power, representation and recognition — are contributing to siting decisions.</li>
+<li>The communities moved to the facilities after they were built, so no injustice occurred.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>The controls are what make this inference available: if price and income are held constant and a racial disparity persists, the market explanation (A, B) is insufficient by construction. Option D names a real alternative hypothesis — post-siting demographic change — but it must be tested with longitudinal data, not assumed.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">21</div><div>
+<p>A fisheries agency wants to use indigenous knowledge of historical spawning grounds. Which approach is most defensible?</p>
+<ol class="opts">
+<li>Extract the locations, convert them to GIS layers, and validate them solely against survey data before use.</li>
+<li>Treat the knowledge as anecdotal context in the report's introduction.</li>
+<li>Co-produce the assessment with the knowledge holders under free, prior and informed consent, treating the two knowledge systems as complementary.</li>
+<li>Exclude it, since it cannot be replicated under controlled conditions.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Co-production preserves both the content and the authority of the knowledge holders. Option A is the subtle error most agencies make — it takes the data while reserving the right to decide what counts as valid, which reproduces exactly the recognition failure the consultation was meant to remedy.
+</div></details></div>
+
+<h2 class="section">E · Drivers of environmental change</h2>
+<p class="sub">Items 22–26</p>
+
+<div class="q"><div class="stem"><div class="n">22</div><div>
+<p>Over a decade, population rises 20%, consumption per person rises 50%, and impact per unit of consumption falls 40%. Using I = PAT, what happens to total impact?</p>
+<ol class="opts">
+<li>It falls by about 30%.</li>
+<li>It falls by about 8%.</li>
+<li>It rises by about 8%.</li>
+<li>It rises by about 30%.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>(1.20)(1.50)(0.60) = 1.08, an 8% increase. The identity is multiplicative, so terms compound rather than add — which is why a headline 40% efficiency gain can coexist with rising emissions.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">23</div><div>
+<p>Using the Kaya identity, an economy plans 3% annual GDP growth with stable population. What is required for absolute CO₂ emissions to decline?</p>
+<ol class="opts">
+<li>Energy intensity and carbon intensity must improve by more than 3% per year combined.</li>
+<li>Carbon intensity alone must fall by 3% per year.</li>
+<li>Energy consumption must remain constant.</li>
+<li>Emissions cannot decline while GDP grows.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>In growth-rate form the terms sum: emissions growth ≈ GDP growth + energy-intensity growth + carbon-intensity growth. Improvements must therefore exceed 3% per year <i>in combination</i>, and be sustained. Option B does half the job; D asserts an impossibility that several economies have already disproved.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">24</div><div>
+<p>A country's ecological footprint is 1.2 gha per capita and its biocapacity 0.6 gha per capita. Which conclusion is best supported?</p>
+<ol class="opts">
+<li>Its per-capita consumption is unsustainable by global standards.</li>
+<li>It runs an ecological deficit met by imported biocapacity, drawdown of its own stocks, or use of the global commons as a sink.</li>
+<li>Its population must fall by half to reach sustainability.</li>
+<li>It consumes more than the world average.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A deficit is a national accounting statement about the balance between demand and domestic supply; it says nothing on its own about the global average (D — 1.2 gha is in fact well below it) or about which lever should close the gap (C).
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">25</div><div>
+<p>What is the most substantive methodological criticism of the ecological footprint as a policy indicator?</p>
+<ol class="opts">
+<li>It relies on satellite data of uncertain accuracy.</li>
+<li>It compresses dissimilar impacts into one land-area unit, is dominated by its carbon component, and captures little about toxicity, water scarcity or biodiversity.</li>
+<li>It cannot be calculated for countries that import most of their food.</li>
+<li>It systematically underestimates the impact of wealthy countries.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The aggregation is both its communicative strength and its analytical weakness: two countries can share a footprint while differing entirely in what harms they cause. Trade flows (C) are handled explicitly in the accounts.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">26</div><div>
+<p>LED adoption raises lighting efficacy several-fold, yet a city's total lighting electricity use does not fall proportionally. What best explains this?</p>
+<ol class="opts">
+<li>Measurement error in utility billing.</li>
+<li>The rebound effect: cheaper light is used more — longer hours, more fixtures, more illuminated space.</li>
+<li>LEDs draw more standby power than the fixtures they replaced.</li>
+<li>The improvement occurred in T, which does not appear in the IPAT identity.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Efficiency lowers the effective price of the service, and demand responds. Where the response exceeds the saving entirely, it is called the Jevons paradox. Option D is false — T is precisely where the improvement enters, which is the point of the identity.
+</div></details></div>
+
+<h2 class="section">F · Data, indicators and governance</h2>
+<p class="sub">Items 27–30</p>
+
+<div class="q"><div class="stem"><div class="n">27</div><div>
+<p>An instrument reads 3.412, 3.415 and 3.413 mg L<sup>−1</sup> on a certified 5.00 mg L<sup>−1</sup> standard. What is the correct characterisation, and the correct response?</p>
+<ol class="opts">
+<li>Precise and accurate; report the mean.</li>
+<li>Imprecise and inaccurate; repeat with more replicates.</li>
+<li>Precise but inaccurate; a systematic bias exists and the instrument must be recalibrated before any field data are used.</li>
+<li>Accurate but imprecise; average more readings to reduce scatter.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>The readings agree closely with each other (precise) and are far from the known truth (inaccurate). Replication cannot fix bias — averaging more biased readings converges on the wrong number with tighter confidence intervals, which is worse than noisy honesty.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">28</div><div>
+<p>In a dataset of 40 samples, 15 pesticide results fall below the method detection limit. An analyst substitutes zero for each and reports the mean. What is the consequence?</p>
+<ol class="opts">
+<li>None; non-detects genuinely represent absence.</li>
+<li>The mean is biased low, since a non-detect means the value is somewhere between zero and the detection limit, not zero.</li>
+<li>The mean is biased high, since the detection limit is an overestimate.</li>
+<li>The dataset must be discarded, as censored data cannot be analysed.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A non-detect is a censored observation with a known upper bound. Substituting zero understates the mean; substituting the full MDL overstates it. Common practice is MDL/2 with the convention disclosed, or a maximum-likelihood or Kaplan–Meier method for censored data.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">29</div><div>
+<p>Two countries obtain nearly identical scores on a composite environmental index, but one performs strongly on air quality and poorly on biodiversity while the other shows the reverse. What does this most clearly demonstrate?</p>
+<ol class="opts">
+<li>The index is calculated incorrectly.</li>
+<li>The two countries have equivalent environmental performance.</li>
+<li>Aggregation embeds weighting choices that are value judgements, and it conceals the trade-offs that policy actually has to make.</li>
+<li>Biodiversity and air quality are statistically interchangeable.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Equal scores from opposite profiles is the expected behaviour of a weighted sum, not a fault in the arithmetic. Because rankings can reverse under a defensible alternative weighting, a composite index should always be read alongside its components.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">30</div><div>
+<p>The Montreal Protocol achieved near-universal compliance and measurable atmospheric recovery, while climate agreements have struggled. Which explanation is best supported by the design of the two regimes?</p>
+<ol class="opts">
+<li>Ozone depletion posed a greater threat to human welfare than climate change does.</li>
+<li>Montreal targeted a small set of chemicals with available substitutes and few producers, and combined differentiated timetables with a financial mechanism and trade restrictions on non-parties.</li>
+<li>Montreal was legally binding whereas climate agreements are entirely voluntary.</li>
+<li>The science of ozone depletion was settled while climate science remains contested.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The contrast is structural: concentrated industry, substitutable products, cheap monitoring, and a sanction that made staying outside costlier than joining. Fossil energy has none of those properties. Options A and D substitute a judgement about severity or scientific certainty for an analysis of institutional design, and C misstates the legal status of the UNFCCC and Paris Agreement.
+</div></details></div>
+
+<h2 class="section">Written case — submitted</h2>
+<div class="case">
+  <h3>The reservoir that was supposed to recover</h3>
+  <p>A provincial reservoir supplies drinking water to 180,000 people. Volume is 4.5 × 10<sup>7</sup> m³; inflow equals outflow at 1.5 × 10<sup>5</sup> m³ d<sup>−1</sup>. For twelve years a piggery cluster discharged upstream. The permits were revoked two years ago and discharge has ceased, but chlorophyll-a remains at pre-closure levels and residents are demanding an explanation. Sediment cores show a phosphorus-rich layer in the upper 8 cm. The provincial board wants a public statement next month.</p>
+  <ol>
+    <li>Calculate the hydraulic residence time and state what recovery timescale flushing alone would imply. Show the mass balance you assume.</li>
+    <li>Explain, using stocks, fluxes and feedback, why chlorophyll-a has not responded — and identify which reservoir now controls the recovery rate.</li>
+    <li>Draft the paragraph the board should read aloud. It must be honest about the timescale without implying that closing the piggeries was pointless, and it must state what would change your estimate.</li>
+  </ol>
+  <details><summary>Model answer and marking notes</summary>
+    <div class="b">τ = 4.5 × 10<sup>7</sup> ÷ 1.5 × 10<sup>5</sup> = <b>300 days</b>, so flushing alone would give roughly 95% removal in about 900 days — under three years, which is why the residents' expectation was reasonable. The core shows why it fails: phosphorus partitioned into sediment during the loading period and is now released internally, particularly under the anoxic conditions that summer stratification produces. The system has become two coupled reservoirs and the slow one governs. Full credit requires naming <b>internal loading</b> and the reinforcing loop through which algal blooms deepen anoxia, which increases phosphorus release, which sustains the blooms.
+    <br><br>Common shortfalls: computing τ but never connecting it to a recovery timescale; asserting that the piggery closure failed rather than that it removed the external source while leaving the internal one; and a public statement that either overclaims imminent improvement or reads as an excuse. The strongest submissions state the estimate, name the sediment as the controlling reservoir, and specify what evidence — sediment phosphorus flux measurements, hypolimnetic oxygen profiles — would revise the timeline in either direction.</div>
+  </details>
+</div>
+
+<div class="pager">
+  <a class="gold" href="Chapter01.html">← Back to the lecture</a>
+  <a class="blue" href="../syllabus.html">Syllabus</a>
+  <a class="blue" href="../index.html">All chapters</a>
+</div>
+
+<footer><p>Advanced Environmental Science · ENVS 601 — Chapter 1 problem set. Thirty higher-order items with worked explanations, plus one submitted case.</p></footer>
+</div>
+
+<script>
+(function(){
+  var d=function(){return document.querySelectorAll('details.ans');};
+  document.getElementById('all').addEventListener('click',function(){d().forEach(function(x){x.open=true;});});
+  document.getElementById('none').addEventListener('click',function(){d().forEach(function(x){x.open=false;});});
+})();
+</script>
+</body>
+</html>
