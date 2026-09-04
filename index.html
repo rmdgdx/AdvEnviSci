@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced Environmental Science · Graduate Course Hub</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-deep:#08192C; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ok:#1B6E4A; --ok-bg:#E3F2EA; --ok-bd:#9CCFB6;
+  --no:#A83246; --no-bg:#FBE6EA; --no-bd:#E4A8B3;
+  --neu:#5E6B7C; --neu-bg:#EDF1F6; --neu-bd:#D5DEE9;
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA;
+  --card:#fff; --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px 90px;}
+
+header.hero{position:relative;overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;
+  padding:54px 34px 60px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.55) 0,transparent 48%),
+             radial-gradient(circle at 3% 96%,rgba(22,66,114,.85) 0,transparent 52%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:1180px;margin:0 auto;padding:0 12px;}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(247,237,201,.92);
+  color:var(--gold-ink);font-weight:800;font-size:.74rem;letter-spacing:1.3px;text-transform:uppercase;
+  padding:6px 15px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+  font-size:clamp(2rem,5vw,3.15rem);line-height:1.08;margin:16px 0 10px;letter-spacing:-.6px;
+  color:#FFF;font-weight:700;}
+.hero h1 em{font-style:normal;color:var(--gold-bright);}
+.hero p{max-width:72ch;color:#CFDBE8;font-size:1.06rem;margin:0 0 20px;}
+.hchips{display:flex;flex-wrap:wrap;gap:9px;align-items:center;}
+.hchips span{background:rgba(255,255,255,.10);border:1px solid rgba(226,236,247,.22);
+  border-radius:999px;padding:7px 15px;font-size:.82rem;font-weight:600;color:#E6EDF5;}
+.hero .cta{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:850;
+  font-size:.92rem;padding:10px 20px;border-radius:12px;background:var(--gold-grad);color:#33280A;}
+.hero .cta:hover{filter:brightness(1.07);}
+
+h2.section{font-family:Georgia,"Iowan Old Style",serif;font-size:1.5rem;font-weight:700;
+  letter-spacing:-.3px;margin:42px 0 4px;display:flex;align-items:center;gap:12px;}
+h2.section::before{content:"";width:8px;height:26px;border-radius:3px;background:var(--gold-grad);}
+.sub{color:var(--ink-soft);margin:0 0 14px;max-width:80ch;}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 22px;font-size:.85rem;color:var(--ink-soft);align-items:center;}
+.legend b{display:inline-flex;align-items:center;gap:7px;font-weight:600;}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;}
+.dot.g{background:var(--ok);} .dot.r{background:var(--no);}
+
+.phases{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:0 0 8px;}
+.phase{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);
+  border-radius:14px;padding:16px 18px;}
+.phase b{display:block;font-size:1rem;margin-bottom:3px;}
+.phase span{font-size:.78rem;font-weight:800;letter-spacing:.6px;color:var(--gold-ink);}
+.phase p{margin:6px 0 0;font-size:.9rem;color:var(--ink-soft);}
+
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));}
+.chapter{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 23px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;transition:.15s;
+  border-left-width:6px;border-left-color:var(--neu-bd);}
+.chapter:hover{transform:translateY(-2px);box-shadow:0 3px 6px rgba(14,42,71,.09),0 16px 36px rgba(14,42,71,.13);}
+.chapter.ready{border-left-color:var(--ok);}
+.chapter.todo{border-left-color:var(--no);background:linear-gradient(180deg,#FFFCFC,#fff);}
+.cnum{font-size:1.3rem;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.cnum span.ch{font-size:.72rem;font-weight:850;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-ink);}
+.cnum span.wks{font-size:.68rem;font-weight:800;letter-spacing:.4px;background:var(--navy-soft);
+  color:var(--navy);border-radius:999px;padding:3px 9px;}
+.status{margin-left:auto;font-size:.64rem;font-weight:850;letter-spacing:.5px;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px;}
+.status.g{background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-bd);}
+.status.r{background:var(--no-bg);color:var(--no);border:1px solid var(--no-bd);}
+.status.checking,.status.neutral{background:var(--neu-bg);color:var(--neu);border:1px solid var(--neu-bd);}
+.chapter h3{margin:0;font-size:1.16rem;font-weight:800;letter-spacing:-.2px;}
+.chapter p.desc{margin:0;color:#465364;font-size:.93rem;}
+.sess{border-top:1px dashed var(--line);padding-top:10px;}
+.sess:first-of-type{border-top:1px solid var(--line);}
+.sess b{display:block;font-size:.82rem;color:var(--navy);margin-bottom:4px;}
+.sess b i{font-style:normal;color:var(--gold-ink);font-weight:850;margin-right:6px;}
+.sess ul{margin:0;padding-left:17px;color:var(--ink-soft);font-size:.845rem;line-height:1.5;}
+.sess ul li{margin-bottom:3px;}
+.filler{flex:1;}
+.clinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.cl{text-decoration:none;font-weight:800;font-size:.85rem;padding:9px 15px;border-radius:11px;transition:.15s;}
+.cl.gold{background:var(--gold-grad);color:#33280A;}
+.cl.blue{background:var(--navy-soft);color:var(--navy);}
+.cl:hover{filter:brightness(.97);}
+.cl.disabled{background:#EEF1F5;color:#9AA6B4;cursor:not-allowed;border:1px dashed #D2DAE4;pointer-events:none;}
+
+footer{margin-top:48px;padding-top:26px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.86rem;}
+.pal{display:flex;gap:5px;margin:10px 0 0;}
+.pal i{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.07);display:block;}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <span class="eyebrow">Graduate Program · ENVS 601</span>
+  <h1>Advanced Environmental <em>Science</em></h1>
+  <p>Six chapters across twelve weeks, each chapter running two full sessions — from the scope and systems logic of the field, through earth systems and spatial analysis, biogeochemistry, and atmospheric chemistry, to impact assessment, risk, and the dynamics that decide whether an ecosystem recovers or flips. Every chapter is a standalone HTML page with figures, worked calculations, a problem set, a self-assessment, and a graded case with model answers.</p>
+  <div class="hchips">
+    <a class="cta" href="syllabus.html">Read the syllabus</a>
+    <span>6 chapters · 12 weeks</span><span>2 sessions per chapter</span><span>Problem sets &amp; case work</span><span>Capstone research paper</span>
+  </div>
+</div></header>
+
+<div class="wrap">
+
+  <h2 class="section">How the term is built</h2>
+  <p class="sub">Each chapter occupies two weeks: the first session establishes the framework, the second puts it to work on data, a model, or a real site. The sequence moves from describing the system, to measuring it, to deciding what to do about it.</p>
+  <div class="phases">
+    <div class="phase"><span>Chapters 1–2 · Weeks 1–4</span><b>Framing and spatial literacy</b>
+      <p>What the field claims to know and how it knows it, the coupled earth system, and the GIS and remote-sensing skills every later chapter assumes.</p></div>
+    <div class="phase"><span>Chapters 3–4 · Weeks 5–8</span><b>Process and chemistry</b>
+      <p>How matter and energy actually move — element cycles, ecosystem metabolism, and the reactive chemistry of the atmosphere.</p></div>
+    <div class="phase"><span>Chapters 5–6 · Weeks 9–12</span><b>Assessment and response</b>
+      <p>Predicting impact, quantifying risk, and reading the thresholds and resilience that govern whether a system absorbs a disturbance.</p></div>
+  </div>
+
+  <h2 class="section">Chapters</h2>
+  <p class="sub">Each chapter has a <b>Lecture &amp; Notes</b> page and a <b>Problems &amp; Cases</b> page. Every card checks for its files when this page loads — <b>green</b> once both pages are present, <b>red</b> if one is still missing.</p>
+  <div class="legend">
+    <b><span class="dot g"></span> Ready — lecture &amp; problems present (<span id="nready">…</span>)</b>
+    <b><span class="dot r"></span> Not yet uploaded — one or both pages missing (<span id="ntodo">…</span>)</b>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <p><b>Advanced Environmental Science</b> — graduate seminar, 3 units, 6 chapters over 12 weeks. Built as dependency-free, offline-capable HTML; open any file directly in a browser or serve the folder with GitHub Pages.</p>
+    <p>Colour system — navy-dominant with gold:</p>
+    <div class="pal"><i style="background:#0E2A47"></i><i style="background:#164272"></i><i style="background:#DCE5F0"></i><i style="background:#C9A227"></i><i style="background:#F7EDC9"></i></div>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   CHAPTER LIST — edit this array to revise the course.
+   num      two-digit chapter number, used to build filenames
+   icon     any emoji or single character
+   title    chapter title
+   weeks    the week span this chapter occupies
+   desc     one-line summary
+   s1 / s2  the two sessions: {t: session title, l: [subtopics]}
+   lec/exo  optional: force a specific filename
+   ============================================================ */
+var CHAPTERS = [
+{num:"01",icon:"🌱",title:"Overview of Environmental Science",weeks:"Weeks 1–2",
+ desc:"What the field claims, how it reasons, and the frameworks the rest of the course runs on.",
+ s1:{t:"Foundations and systems thinking",l:[
+   "Environmental science as an interdisciplinary field; scope and limits of the scientific method here",
+   "Historical paradigms: conservation, preservation, sustainability science, planetary boundaries",
+   "Systems thinking: stocks, flows, feedback loops, mass balance, residence time",
+   "Environmental ethics, environmental justice, and indigenous and local knowledge systems"]},
+ s2:{t:"Drivers, data and the policy frame",l:[
+   "Population, affluence, technology: the IPAT and Kaya identities; ecological footprint accounting",
+   "The triple planetary crisis — climate change, biodiversity loss, pollution — and their couplings",
+   "Environmental data: units, scales, uncertainty, indicators and composite indices",
+   "Governance architecture: multilateral agreements, the SDGs, and the Philippine environmental legal framework"]}},
+
+{num:"02",icon:"🗺️",title:"Earth Systems and GIS",weeks:"Weeks 3–4",
+ desc:"The coupled physical earth, and the spatial tools used to measure and map it.",
+ s1:{t:"The coupled earth system",l:[
+   "Atmosphere, hydrosphere, lithosphere, biosphere and cryosphere as interacting subsystems",
+   "Energy balance, radiation budget, atmospheric general circulation and ocean circulation",
+   "Plate tectonics, the rock cycle, weathering, geomorphic processes and soil formation",
+   "The hydrologic cycle and the watershed as the working unit of analysis"]},
+ s2:{t:"GIS, remote sensing and spatial analysis",l:[
+   "Spatial data models: vector and raster; coordinate systems, projections, datums, PRS92",
+   "Data acquisition: GNSS, LiDAR, UAVs, and satellite platforms including Landsat and Sentinel",
+   "Analysis: overlay, buffering, interpolation, DEM and terrain analysis, multi-criteria suitability modelling",
+   "Remote sensing workflows: spectral indices, image classification, change detection, map design and metadata"]}},
+
+{num:"03",icon:"🔄",title:"Biogeochemistry and Ecosystem Ecology",weeks:"Weeks 5–6",
+ desc:"How elements and energy move through living systems, and how that movement is measured.",
+ s1:{t:"Biogeochemical cycles",l:[
+   "Reservoirs, fluxes, residence times; stable isotopes as tracers of cycle pathways",
+   "The carbon cycle: terrestrial and oceanic pools, GPP, NPP, NEP, soil carbon, blue carbon",
+   "Nitrogen and phosphorus: fixation, the Haber–Bosch perturbation, the nitrogen cascade, eutrophication",
+   "Sulfur, water and trace metal cycles; redox control of element mobility in soils and sediments"]},
+ s2:{t:"Ecosystem structure and function",l:[
+   "Energy flow, trophic structure, ecological efficiency and food web architecture",
+   "Controls on primary production; decomposition, mineralisation and nutrient limitation",
+   "Ecological stoichiometry; ecosystem services and natural capital valuation",
+   "Measurement: eddy covariance and flux towers, long-term ecological research, ecosystem models"]}},
+
+{num:"04",icon:"🌫️",title:"Atmospheric Chemistry",weeks:"Weeks 7–8",
+ desc:"The compartment with the shortest reaction timescales and the clearest policy stakes.",
+ s1:{t:"Composition, structure and tropospheric photochemistry",l:[
+   "Vertical structure, lapse rate, stability, boundary layer and mixing height",
+   "Trace gas budgets, mixing ratios, lifetimes; the atmospheric oxidising capacity",
+   "Photolysis rates, the hydroxyl radical budget, peroxy radicals and PAN as a reservoir",
+   "NOx–VOC–ozone chemistry, ozone isopleth diagrams, urban smog regimes and control strategy"]},
+ s2:{t:"Aerosols, deposition, stratosphere and climate",l:[
+   "Aerosol formation and growth, size modes, secondary organic aerosol, PM2.5 exposure and standards",
+   "Dry and wet deposition, acid deposition, critical loads, long-range transboundary transport",
+   "Stratospheric ozone: the Chapman cycle, halogen catalytic destruction, polar ozone loss, the Montreal Protocol",
+   "Greenhouse gases, radiative forcing, GWP, short-lived climate pollutants and air-quality–climate interactions"]}},
+
+{num:"05",icon:"📋",title:"Environmental Impact Assessment and Risk Analysis",weeks:"Weeks 9–10",
+ desc:"The formal machinery for predicting harm before a decision is made, and quantifying it after.",
+ s1:{t:"The EIA process",l:[
+   "Origins and rationale; the Philippine EIS System, ECC and CNC requirements, and comparable regimes",
+   "Screening, scoping, baseline characterisation and the treatment of project alternatives",
+   "Impact prediction methods: matrices, networks, checklists, GIS overlays and predictive modelling",
+   "Significance criteria, the mitigation hierarchy, management and monitoring plans, public participation, SEA and cumulative impacts"]},
+ s2:{t:"Risk assessment and risk-based decisions",l:[
+   "Human health risk assessment: hazard identification, dose–response, exposure assessment, risk characterisation",
+   "Ecological risk assessment: assessment endpoints, conceptual models, hazard quotients, species sensitivity distributions",
+   "Uncertainty and variability: sensitivity analysis, Monte Carlo simulation, confidence in outputs",
+   "Disaster risk as hazard, exposure and vulnerability; risk communication and the precautionary principle"]}},
+
+{num:"06",icon:"⚖️",title:"Advanced Ecosystem Dynamics and Resilience",weeks:"Weeks 11–12",
+ desc:"Why some systems absorb a disturbance and others cross a threshold and stay there.",
+ s1:{t:"Dynamics, thresholds and regime shifts",l:[
+   "Succession, disturbance regimes, patch dynamics and non-equilibrium ecology",
+   "Population and community models: logistic growth, predator–prey, competition, metapopulations",
+   "Stability concepts, alternative stable states, hysteresis and tipping points",
+   "Documented regime shifts: shallow lakes, coral reefs, drylands, forest–savanna transitions"]},
+ s2:{t:"Resilience and adaptive governance",l:[
+   "Engineering versus ecological resilience; the adaptive cycle and panarchy",
+   "Early warning signals: critical slowing down, rising variance and autocorrelation",
+   "Social–ecological systems, commons governance and adaptive co-management",
+   "Restoration, rewilding, climate adaptation and resilience planning at landscape scale"]}}
+];
+
+(function(){
+  var grid=document.getElementById('grid');
+  function sess(n,s){
+    return '<div class="sess"><b><i>Week '+n+'</i>'+s.t+'</b><ul><li>'+s.l.join('</li><li>')+'</li></ul></div>';
+  }
+  grid.innerHTML = CHAPTERS.map(function(m,idx){
+    var lec=m.lec||('Chapter'+m.num+'.html'), exo=m.exo||('Chapter'+m.num+'_Exercises.html');
+    var w1=idx*2+1, w2=idx*2+2;
+    return '<article class="chapter" data-lec="'+lec+'" data-exo="'+exo+'">'
+      +'<div class="cnum">'+m.icon+' <span class="ch">Chapter '+parseInt(m.num,10)+'</span>'
+      +'<span class="wks">'+m.weeks+'</span><span class="status checking">Checking…</span></div>'
+      +'<h3>'+m.title+'</h3><p class="desc">'+m.desc+'</p>'
+      +sess(w1,m.s1)+sess(w2,m.s2)+'<div class="filler"></div>'
+      +'<div class="clinks"><a class="cl gold lec" href="'+lec+'">Lecture &amp; notes</a>'
+      +'<a class="cl blue exo" href="'+exo+'">Problems &amp; cases</a></div></article>';
+  }).join('');
+
+  /* Live file detection. Root first, then chapters/ and modules/.
+     Over file:// fetch is blocked, so cards fall back to a neutral state. */
+  async function exists(url){
+    try{ var r=await fetch(url,{method:'HEAD',cache:'no-store'}); return r.ok; }
+    catch(e){ return null; }
+  }
+  async function firstThatExists(c){
+    var blocked=false;
+    for(var i=0;i<c.length;i++){ var ok=await exists(c[i]); if(ok===true) return c[i]; if(ok===null) blocked=true; }
+    return blocked?undefined:null;
+  }
+  async function run(){
+    var cards=[].slice.call(document.querySelectorAll('.chapter')), ready=0, todo=0, blockedMode=false;
+    for(var c=0;c<cards.length;c++){
+      var card=cards[c], st=card.querySelector('.status');
+      var ln=card.dataset.lec, en=card.dataset.exo;
+      var lecA=card.querySelector('a.lec'), exoA=card.querySelector('a.exo');
+      var lecU=await firstThatExists([ln,'chapters/'+ln,'modules/'+ln]);
+      var exoU=await firstThatExists([en,'chapters/'+en,'modules/'+en]);
+      if(lecU===undefined||exoU===undefined){ blockedMode=true; st.className='status neutral'; st.textContent='Open'; continue; }
+      if(lecU){ lecA.href=lecU; } else { lecA.classList.add('disabled'); lecA.textContent='Lecture · not uploaded'; }
+      if(exoU){ exoA.href=exoU; } else { exoA.classList.add('disabled'); exoA.textContent='Problems · not uploaded'; }
+      var ok=!!(lecU&&exoU);
+      card.classList.add(ok?'ready':'todo');
+      st.className='status '+(ok?'g':'r');
+      st.textContent=ok?'Ready':'Not yet uploaded';
+      ok?ready++:todo++;
+    }
+    if(blockedMode){ document.getElementById('nready').textContent='—'; document.getElementById('ntodo').textContent='—'; }
+    else { document.getElementById('nready').textContent=ready; document.getElementById('ntodo').textContent=todo; }
+  }
+  run();
+})();
+</script>
+</body>
+</html>

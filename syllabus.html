@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Syllabus · Advanced Environmental Science (ENVS 601)</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-deep:#08192C; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA; --card:#fff;
+  --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px 90px;}
+
+header.hero{position:relative;overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;
+  padding:48px 34px 54px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.5) 0,transparent 48%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:1020px;margin:0 auto;padding:0 12px;}
+.back{display:inline-block;color:#B9C8DA;text-decoration:none;font-size:.85rem;font-weight:700;margin-bottom:14px;}
+.back:hover{color:var(--gold-bright);}
+.tag{display:inline-flex;background:rgba(247,237,201,.92);color:var(--gold-ink);font-weight:800;
+  font-size:.72rem;letter-spacing:1.3px;text-transform:uppercase;padding:5px 14px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+  font-size:clamp(1.9rem,4.6vw,2.9rem);line-height:1.1;margin:10px 0 8px;letter-spacing:-.6px;color:#fff;font-weight:700;}
+.hero p.lede{max-width:72ch;color:#CFDBE8;margin:0 0 18px;}
+.meta{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));max-width:860px;}
+.meta div{background:rgba(255,255,255,.08);border:1px solid rgba(226,236,247,.2);border-radius:12px;padding:10px 14px;}
+.meta b{display:block;font-size:.68rem;letter-spacing:1.1px;text-transform:uppercase;color:var(--gold-bright);font-weight:800;}
+.meta span{font-size:.92rem;color:#E6EDF5;}
+
+h2.section{font-family:Georgia,"Iowan Old Style",serif;font-size:1.45rem;font-weight:700;letter-spacing:-.3px;
+  margin:44px 0 6px;display:flex;align-items:center;gap:12px;}
+h2.section::before{content:"";width:8px;height:24px;border-radius:3px;background:var(--gold-grad);}
+h3.sub-h{font-size:1.02rem;font-weight:800;margin:22px 0 6px;color:var(--navy);}
+p.sub{color:var(--ink-soft);margin:0 0 16px;max-width:80ch;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:16px;}
+.card p:last-child{margin-bottom:0;}
+ol.clo{margin:0;padding-left:22px;} ol.clo li{margin-bottom:9px;}
+ol.clo b{color:var(--navy);}
+
+/* chapter blocks */
+.chap{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+  margin-bottom:18px;overflow:hidden;}
+.chap>header{background:var(--navy);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.chap>header .n{font-family:Georgia,serif;font-size:1.35rem;font-weight:700;color:var(--gold-bright);}
+.chap>header h3{margin:0;font-size:1.12rem;font-weight:700;letter-spacing:-.2px;}
+.chap>header .wk{margin-left:auto;background:rgba(247,237,201,.16);border:1px solid rgba(227,190,69,.4);
+  color:var(--gold-bright);font-size:.72rem;font-weight:800;letter-spacing:.5px;padding:4px 11px;border-radius:999px;}
+.chap .body{padding:18px 22px 20px;}
+.chap .aim{margin:0 0 14px;color:var(--ink-soft);font-size:.93rem;}
+.weeks2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));}
+.wkblock b.h{display:block;font-size:.94rem;color:var(--navy);margin-bottom:6px;}
+.wkblock b.h i{font-style:normal;background:var(--gold-pale);border:1px solid #E9D699;color:var(--gold-ink);
+  font-size:.68rem;font-weight:850;letter-spacing:.5px;padding:2px 8px;border-radius:999px;margin-right:8px;}
+.wkblock ul{margin:0;padding-left:18px;font-size:.88rem;color:var(--ink-soft);}
+.wkblock ul li{margin-bottom:4px;}
+.due{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:.86rem;color:var(--ink-soft);}
+.due b{color:var(--navy);}
+
+.split{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+.wbar{height:8px;border-radius:99px;background:var(--navy-soft);overflow:hidden;margin-top:6px;}
+.wbar i{display:block;height:100%;background:var(--gold-grad);}
+.gr{display:flex;justify-content:space-between;align-items:baseline;font-size:.93rem;font-weight:700;gap:10px;}
+.gr span{color:var(--gold-ink);}
+.gitem{margin-bottom:14px;} .gitem:last-child{margin-bottom:0;}
+.gitem p{margin:3px 0 0;font-size:.84rem;color:var(--ink-soft);}
+ul.refs{margin:0;padding-left:20px;font-size:.92rem;color:var(--ink-soft);}
+ul.refs li{margin-bottom:8px;} ul.refs b{color:var(--ink);font-weight:700;}
+.note{border-left:4px solid var(--gold);background:var(--gold-pale);border-radius:0 12px 12px 0;
+  padding:14px 18px;font-size:.92rem;color:#5C4A0F;margin:16px 0;}
+table.cal{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+table.cal th{background:var(--navy);color:#fff;text-align:left;padding:10px 14px;font-size:.72rem;
+  letter-spacing:.8px;text-transform:uppercase;font-weight:800;}
+table.cal td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top;}
+table.cal tbody tr:nth-child(even){background:#FAFCFE;}
+table.cal td.w{font-weight:850;color:var(--gold-ink);white-space:nowrap;}
+footer{margin-top:48px;padding-top:26px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.86rem;}
+@media print{header.hero{border-radius:0;} .card,.chap,table.cal{box-shadow:none;} body{background:#fff;font-size:11pt;} .chap{break-inside:avoid;}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <a class="back" href="index.html">← Course hub</a><br>
+  <span class="tag">Course syllabus · ENVS 601</span>
+  <h1>Advanced Environmental Science</h1>
+  <p class="lede">Six chapters over twelve weeks, two sessions each. The course moves from how environmental science frames a problem, to how the earth system and its element cycles actually behave, to the formal tools — impact assessment, risk analysis, resilience theory — used to decide what should be done.</p>
+  <div class="meta">
+    <div><b>Credit</b><span>3 units · 3 hrs/week</span></div>
+    <div><b>Level</b><span>Graduate (MS / PhD)</span></div>
+    <div><b>Structure</b><span>6 chapters × 2 weeks</span></div>
+    <div><b>Format</b><span>Seminar + computing lab</span></div>
+    <div><b>Prerequisites</b><span>General chemistry, statistics, intro ecology</span></div>
+  </div>
+</div></header>
+
+<div class="wrap">
+
+<h2 class="section">Course description</h2>
+<div class="card">
+  <p>This course treats environmental science as a quantitative, spatially explicit discipline that has to produce defensible answers under uncertainty. Students first establish the framing: what the field studies, how systems thinking structures the questions, and how the earth's physical subsystems interact. They then learn to represent that system spatially through GIS and remote sensing, to follow matter and energy through it via biogeochemical and ecosystem analysis, and to model the reactive chemistry of the atmosphere.</p>
+  <p>The final third turns from description to decision. Environmental impact assessment and risk analysis supply the formal procedures for anticipating harm; ecosystem dynamics and resilience theory supply the reason those procedures often fail — thresholds, hysteresis and regime shifts do not respect linear impact predictions.</p>
+  <p>Sessions are seminar-style. Roughly half of each meeting is worked calculation, spatial analysis or data interpretation; the rest is critical reading of primary literature. Students are expected to argue with the readings rather than summarise them.</p>
+</div>
+
+<h2 class="section">Learning outcomes</h2>
+<p class="sub">By the end of the term, a student who has done the work should be able to do the following.</p>
+<div class="card">
+<ol class="clo">
+  <li><b>Frame a problem systemically.</b> Describe an environmental issue in terms of stocks, flows, feedbacks and boundaries, and state explicitly what the chosen system boundary leaves out.</li>
+  <li><b>Work spatially.</b> Build a georeferenced dataset, run a suitability or change-detection analysis in a GIS, and produce a map that survives technical scrutiny.</li>
+  <li><b>Quantify a cycle.</b> Construct a carbon, nitrogen or water budget for a defined system, check it for closure, and identify which flux the conclusion is most sensitive to.</li>
+  <li><b>Reason chemically about the atmosphere.</b> Derive lifetimes from rate data, distinguish NOx-limited from VOC-limited ozone regimes, and evaluate whether a proposed emission control would work.</li>
+  <li><b>Conduct an assessment.</b> Carry out screening, scoping and impact prediction for a real project, and produce a health or ecological risk characterisation with its uncertainty stated.</li>
+  <li><b>Diagnose resilience.</b> Identify thresholds and alternative stable states in a system, interpret early warning indicators, and design a management or restoration response.</li>
+  <li><b>Write for two audiences.</b> Produce a technically rigorous paper and a short policy brief on the same problem, each pitched correctly for its reader.</li>
+</ol>
+</div>
+
+<h2 class="section">Chapters and weekly coverage</h2>
+<p class="sub">Each chapter runs two sessions. The first establishes the framework; the second applies it to data, a model or a real site. Subtopics below are the benchmark coverage — they are what the corresponding lecture page should contain.</p>
+
+<article class="chap">
+  <header><span class="n">1</span><h3>Overview of Environmental Science</h3><span class="wk">Weeks 1–2</span></header>
+  <div class="body">
+    <p class="aim">Establishes the intellectual frame: what the field claims to know, how it reasons about coupled systems, and the ethical and legal architecture within which environmental decisions get made.</p>
+    <div class="weeks2">
+      <div class="wkblock"><b class="h"><i>Week 1</i>Foundations and systems thinking</b>
+        <ul>
+          <li>Environmental science as an interdisciplinary field; scope and limits of the scientific method applied to open systems</li>
+          <li>Historical paradigms: conservation and preservation, environmentalism, sustainability science, the planetary boundaries framework</li>
+          <li>Systems thinking: stocks and flows, positive and negative feedback, mass balance, residence time, steady state</li>
+          <li>Environmental ethics — anthropocentric, biocentric, ecocentric positions; environmental justice; indigenous and local knowledge systems</li>
+        </ul></div>
+      <div class="wkblock"><b class="h"><i>Week 2</i>Drivers, data and the policy frame</b>
+        <ul>
+          <li>Drivers of environmental change: population, affluence, technology; the IPAT and Kaya identities; ecological footprint accounting</li>
+          <li>The triple planetary crisis — climate change, biodiversity loss, pollution — and the couplings between them</li>
+          <li>Environmental data: measurement scales, units, precision and accuracy, uncertainty, indicators and composite indices</li>
+          <li>Governance: multilateral environmental agreements, the SDGs, and the national legal framework for air, water, waste and EIA</li>
+        </ul></div>
+    </div>
+    <p class="due"><b>Due:</b> diagnostic problem set (ungraded, Week 2) · position paper on a contested environmental claim, 1,500 words, end of Week 2</p>
+  </div>
+</article>
+
+<article class="chap">
+  <header><span class="n">2</span><h3>Earth Systems and GIS</h3><span class="wk">Weeks 3–4</span></header>
+  <div class="body">
+    <p class="aim">Couples the physical earth system to the spatial analysis skills every later chapter assumes. By the end, students can locate a process, not just describe it.</p>
+    <div class="weeks2">
+      <div class="wkblock"><b class="h"><i>Week 3</i>The coupled earth system</b>
+        <ul>
+          <li>Atmosphere, hydrosphere, lithosphere, biosphere and cryosphere as interacting subsystems; timescales of coupling</li>
+          <li>Solar radiation and the energy balance; atmospheric general circulation; ocean circulation and the thermohaline conveyor</li>
+          <li>Plate tectonics, the rock cycle, physical and chemical weathering, geomorphic process, soil formation and classification</li>
+          <li>The hydrologic cycle; watersheds as the working unit of analysis; groundwater–surface water interaction</li>
+        </ul></div>
+      <div class="wkblock"><b class="h"><i>Week 4</i>GIS, remote sensing and spatial analysis</b>
+        <ul>
+          <li>Spatial data models: vector and raster; coordinate systems, projections, datums and transformations; resolution and scale</li>
+          <li>Data acquisition: GNSS field survey, LiDAR, UAV imagery, and satellite platforms including Landsat and Sentinel</li>
+          <li>Core analysis: overlay, buffering, proximity, spatial interpolation, DEM and terrain derivatives, multi-criteria suitability modelling</li>
+          <li>Remote sensing workflows: spectral indices, supervised and unsupervised classification, accuracy assessment, change detection</li>
+          <li>Cartographic communication, metadata standards, and the honest representation of spatial uncertainty</li>
+        </ul></div>
+    </div>
+    <p class="due"><b>Due:</b> GIS laboratory — a suitability or change-detection analysis with map output and written method, end of Week 4</p>
+  </div>
+</article>
+
+<article class="chap">
+  <header><span class="n">3</span><h3>Biogeochemistry and Ecosystem Ecology</h3><span class="wk">Weeks 5–6</span></header>
+  <div class="body">
+    <p class="aim">Follows matter and energy through living systems, and establishes how ecosystem fluxes are actually measured rather than assumed.</p>
+    <div class="weeks2">
+      <div class="wkblock"><b class="h"><i>Week 5</i>Biogeochemical cycles</b>
+        <ul>
+          <li>The cycle framework: reservoirs, fluxes, turnover and residence time; stable isotopes as tracers of pathway and source</li>
+          <li>Carbon: terrestrial and oceanic pools, GPP, NPP and NEP, soil organic carbon, blue carbon, the anthropogenic perturbation</li>
+          <li>Nitrogen and phosphorus: fixation and denitrification, the Haber–Bosch perturbation, the nitrogen cascade, eutrophication and hypoxia</li>
+          <li>Sulfur, water and trace metal cycles; redox conditions as the master control on element mobility in soils and sediments</li>
+        </ul></div>
+      <div class="wkblock"><b class="h"><i>Week 6</i>Ecosystem structure and function</b>
+        <ul>
+          <li>Energy flow and trophic structure; ecological efficiency, food web architecture, top-down and bottom-up control</li>
+          <li>Controls on primary production; decomposition, mineralisation, and nutrient limitation across biomes</li>
+          <li>Ecological stoichiometry; ecosystem services, natural capital, and the limits of monetary valuation</li>
+          <li>Measurement and modelling: eddy covariance flux towers, long-term ecological research networks, ecosystem simulation models</li>
+        </ul></div>
+    </div>
+    <p class="due"><b>Due:</b> problem set 1 — construct and audit a biogeochemical budget · <b>midterm examination</b> covering Chapters 1–3, end of Week 6</p>
+  </div>
+</article>
+
+<article class="chap">
+  <header><span class="n">4</span><h3>Atmospheric Chemistry</h3><span class="wk">Weeks 7–8</span></header>
+  <div class="body">
+    <p class="aim">The compartment with the shortest reaction timescales and the most direct link between chemistry and regulation.</p>
+    <div class="weeks2">
+      <div class="wkblock"><b class="h"><i>Week 7</i>Composition, structure and tropospheric photochemistry</b>
+        <ul>
+          <li>Vertical structure, lapse rate and stability; the boundary layer, mixing height and ventilation</li>
+          <li>Trace gas budgets, mixing ratios, chemical lifetime and spatial variability; the atmospheric oxidising capacity</li>
+          <li>Actinic flux and photolysis rates; the hydroxyl radical budget; peroxy radicals and PAN as a reservoir species</li>
+          <li>NOx–VOC–ozone chemistry, ozone isopleth diagrams, urban and regional smog regimes, and the design of a control strategy</li>
+        </ul></div>
+      <div class="wkblock"><b class="h"><i>Week 8</i>Aerosols, deposition, stratosphere and climate</b>
+        <ul>
+          <li>Aerosol nucleation, condensation and coagulation; size modes; secondary organic aerosol; aerosol–cloud interaction</li>
+          <li>PM2.5 composition and exposure, monitoring network design, ambient standards and the air quality index</li>
+          <li>Dry and wet deposition, acid deposition and critical loads, long-range transboundary transport</li>
+          <li>Stratospheric ozone: the Chapman cycle, catalytic halogen destruction, polar stratospheric clouds, the Montreal Protocol</li>
+          <li>Greenhouse gases, radiative forcing, GWP, short-lived climate pollutants, and air-quality–climate co-benefits</li>
+        </ul></div>
+    </div>
+    <p class="due"><b>Due:</b> problem set 2 — lifetimes, photochemistry and an ozone regime diagnosis · air quality data laboratory using a real monitoring dataset, end of Week 8</p>
+  </div>
+</article>
+
+<article class="chap">
+  <header><span class="n">5</span><h3>Environmental Impact Assessment and Risk Analysis</h3><span class="wk">Weeks 9–10</span></header>
+  <div class="body">
+    <p class="aim">The formal machinery for predicting harm before a decision is made, and for quantifying it with its uncertainty declared.</p>
+    <div class="weeks2">
+      <div class="wkblock"><b class="h"><i>Week 9</i>The EIA process</b>
+        <ul>
+          <li>Origins and rationale of EIA; the Philippine EIS System, ECC and CNC requirements, and comparable international regimes</li>
+          <li>Screening and scoping; baseline characterisation; definition and honest treatment of project alternatives</li>
+          <li>Impact prediction and evaluation: Leopold matrices, network and checklist methods, GIS overlay, and predictive modelling</li>
+          <li>Significance criteria, the mitigation hierarchy, environmental management and monitoring plans</li>
+          <li>Public participation and consultation; strategic environmental assessment; cumulative and transboundary impacts</li>
+        </ul></div>
+      <div class="wkblock"><b class="h"><i>Week 10</i>Risk assessment and risk-based decisions</b>
+        <ul>
+          <li>Human health risk assessment: hazard identification, dose–response, exposure assessment, risk characterisation</li>
+          <li>Ecological risk assessment: assessment endpoints, conceptual models, hazard quotients, species sensitivity distributions</li>
+          <li>Uncertainty and variability: sensitivity analysis, Monte Carlo simulation, and communicating confidence in an output</li>
+          <li>Disaster risk as the interaction of hazard, exposure and vulnerability; climate risk screening</li>
+          <li>Risk communication, risk perception, the precautionary principle, and how risk actually enters a decision</li>
+        </ul></div>
+    </div>
+    <p class="due"><b>Due:</b> EIA and risk portfolio — screening and scoping report plus a quantitative risk characterisation for one real project, end of Week 10 · capstone proposal due Week 10</p>
+  </div>
+</article>
+
+<article class="chap">
+  <header><span class="n">6</span><h3>Advanced Ecosystem Dynamics and Resilience</h3><span class="wk">Weeks 11–12</span></header>
+  <div class="body">
+    <p class="aim">Why some systems absorb a disturbance and others cross a threshold and stay there — and what that implies for everything assessed in Chapter 5.</p>
+    <div class="weeks2">
+      <div class="wkblock"><b class="h"><i>Week 11</i>Dynamics, thresholds and regime shifts</b>
+        <ul>
+          <li>Succession, disturbance regimes, patch dynamics, and the shift away from equilibrium ecology</li>
+          <li>Population and community models: logistic growth, predator–prey, competition, metapopulation and source–sink dynamics</li>
+          <li>Stability, resistance and recovery; alternative stable states, hysteresis, thresholds and tipping points</li>
+          <li>Documented regime shifts: shallow lakes, coral reefs, drylands, forest–savanna transitions, fisheries collapse</li>
+        </ul></div>
+      <div class="wkblock"><b class="h"><i>Week 12</i>Resilience and adaptive governance</b>
+        <ul>
+          <li>Engineering versus ecological resilience; the adaptive cycle and panarchy across scales</li>
+          <li>Early warning signals of critical transitions: critical slowing down, rising variance and autocorrelation, flickering</li>
+          <li>Social–ecological systems; commons governance; adaptive management and adaptive co-management</li>
+          <li>Restoration ecology, rewilding, assisted migration, and climate adaptation planning</li>
+          <li>Designing for resilience at landscape scale, including protected area and corridor networks</li>
+        </ul></div>
+    </div>
+    <p class="due"><b>Due:</b> <b>capstone paper and policy brief</b>, presented in seminar, end of Week 12</p>
+  </div>
+</article>
+
+<div class="note">Chapters 3 and 5 carry the heaviest load by design: the midterm closes the descriptive half of the course while it is still fresh, and the assessment portfolio in Week 10 is deliberately placed before the resilience material, so that Chapter 6 can be taught as a critique of what the students have just produced.</div>
+
+<h2 class="section">Term calendar at a glance</h2>
+<table class="cal">
+<thead><tr><th style="width:110px;">Week</th><th>Chapter and session</th><th style="width:250px;">Assessment</th></tr></thead>
+<tbody>
+<tr><td class="w">1</td><td>Ch 1 · Foundations and systems thinking</td><td>Diagnostic set issued</td></tr>
+<tr><td class="w">2</td><td>Ch 1 · Drivers, data and the policy frame</td><td>Position paper</td></tr>
+<tr><td class="w">3</td><td>Ch 2 · The coupled earth system</td><td>—</td></tr>
+<tr><td class="w">4</td><td>Ch 2 · GIS, remote sensing and spatial analysis</td><td>GIS laboratory</td></tr>
+<tr><td class="w">5</td><td>Ch 3 · Biogeochemical cycles</td><td>—</td></tr>
+<tr><td class="w">6</td><td>Ch 3 · Ecosystem structure and function</td><td>Problem set 1 · <b>Midterm exam</b></td></tr>
+<tr><td class="w">7</td><td>Ch 4 · Composition and tropospheric photochemistry</td><td>—</td></tr>
+<tr><td class="w">8</td><td>Ch 4 · Aerosols, deposition, stratosphere and climate</td><td>Problem set 2 · Air quality data lab</td></tr>
+<tr><td class="w">9</td><td>Ch 5 · The EIA process</td><td>—</td></tr>
+<tr><td class="w">10</td><td>Ch 5 · Risk assessment and risk-based decisions</td><td>EIA &amp; risk portfolio · Capstone proposal</td></tr>
+<tr><td class="w">11</td><td>Ch 6 · Dynamics, thresholds and regime shifts</td><td>Problem set 3</td></tr>
+<tr><td class="w">12</td><td>Ch 6 · Resilience and adaptive governance</td><td><b>Capstone paper</b> · policy brief · presentation</td></tr>
+</tbody>
+</table>
+
+<h2 class="section">Assessment</h2>
+<div class="split">
+  <div class="card">
+    <div class="gitem"><div class="gr"><b>Capstone paper and policy brief</b><span>25%</span></div>
+      <div class="wbar"><i style="width:25%"></i></div>
+      <p>6,000–8,000 words plus a two-page brief on the same problem, presented in the final seminar. Proposal due Week 10.</p></div>
+    <div class="gitem"><div class="gr"><b>GIS laboratory and map portfolio</b><span>15%</span></div>
+      <div class="wbar"><i style="width:15%"></i></div>
+      <p>Week 4. Graded on method and cartographic honesty as much as on the result.</p></div>
+    <div class="gitem"><div class="gr"><b>EIA and risk portfolio</b><span>15%</span></div>
+      <div class="wbar"><i style="width:15%"></i></div>
+      <p>Week 10. A real project, screened and scoped, with a quantitative risk characterisation.</p></div>
+  </div>
+  <div class="card">
+    <div class="gitem"><div class="gr"><b>Problem sets and data laboratory</b><span>15%</span></div>
+      <div class="wbar"><i style="width:15%"></i></div>
+      <p>Three quantitative sets plus the Week 8 air quality data lab. Collaboration allowed; written solutions must be your own.</p></div>
+    <div class="gitem"><div class="gr"><b>Midterm examination</b><span>15%</span></div>
+      <div class="wbar"><i style="width:15%"></i></div>
+      <p>Week 6, covering Chapters 1–3. Formula sheet provided; no memorisation of constants.</p></div>
+    <div class="gitem"><div class="gr"><b>Seminar participation and literature leads</b><span>15%</span></div>
+      <div class="wbar"><i style="width:15%"></i></div>
+      <p>Each student leads discussion on two primary papers and submits the Week 2 position paper.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Course policies</h2>
+<div class="card">
+  <h3 class="sub-h" style="margin-top:0;">Late work</h3>
+  <p class="sub" style="margin-bottom:14px;">Problem sets lose 10% per day up to three days; after that they are graded for feedback only. Extensions are granted for documented reasons, requested before the deadline rather than after it.</p>
+  <h3 class="sub-h">Computation and software</h3>
+  <p class="sub" style="margin-bottom:14px;">All quantitative and spatial work must be reproducible. Any tool is acceptable — QGIS, R, Python, Google Earth Engine, or a spreadsheet — provided the submission includes inputs, method, and enough annotation that another student could rerun it.</p>
+  <h3 class="sub-h">Use of AI tools</h3>
+  <p class="sub" style="margin-bottom:14px;">Permitted for code debugging, language editing and literature discovery; disclose it in a short note at the end of the submission. Not permitted for generating analysis, interpretation or argument, which is the graded part of the work. Undisclosed use is treated as an academic integrity violation.</p>
+  <h3 class="sub-h">Academic integrity</h3>
+  <p class="sub" style="margin-bottom:14px;">Fabricated or selectively trimmed data is the most serious offence available in this field and is treated as such. Cite the source of every dataset, basemap and image used.</p>
+  <h3 class="sub-h">Fieldwork and accessibility</h3>
+  <p class="sub" style="margin-bottom:0;">Accommodations are arranged through the graduate office; contact the instructor in the first two weeks so that field and laboratory components can be planned properly.</p>
+</div>
+
+<h2 class="section">Benchmark texts and references</h2>
+<p class="sub">Chapter coverage above is benchmarked against these standard graduate treatments. No single book is required; chapters are assigned per session.</p>
+<div class="split">
+  <div class="card">
+    <h3 class="sub-h" style="margin-top:0;">Chapters 1–2</h3>
+    <ul class="refs">
+      <li><b>Chapin, Matson &amp; Vitousek</b> — <i>Principles of Terrestrial Ecosystem Ecology</i>, for the systems framing.</li>
+      <li><b>Kump, Kasting &amp; Crane</b> — <i>The Earth System</i>.</li>
+      <li><b>Steffen et al.</b> — planetary boundaries literature.</li>
+      <li><b>Longley et al.</b> — <i>Geographic Information Science and Systems</i>; <b>Jensen</b> — <i>Remote Sensing of the Environment</i>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3 class="sub-h" style="margin-top:0;">Chapters 3–4</h3>
+    <ul class="refs">
+      <li><b>Schlesinger &amp; Bernhardt</b> — <i>Biogeochemistry: An Analysis of Global Change</i>.</li>
+      <li><b>Chapin et al.</b> — ecosystem ecology, energy and nutrient chapters.</li>
+      <li><b>Jacob</b> — <i>Introduction to Atmospheric Chemistry</i>; <b>Seinfeld &amp; Pandis</b> — <i>Atmospheric Chemistry and Physics</i>.</li>
+      <li><b>Finlayson-Pitts &amp; Pitts</b> for mechanistic depth; <b>IPCC AR6 WG1</b> and the <b>WMO/UNEP Ozone Assessment</b> for current numbers.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3 class="sub-h" style="margin-top:0;">Chapters 5–6</h3>
+    <ul class="refs">
+      <li><b>Glasson, Therivel &amp; Chadwick</b> — <i>Introduction to Environmental Impact Assessment</i>.</li>
+      <li><b>Canter</b> — <i>Environmental Impact Assessment</i>; <b>PD 1586</b> and DENR EIS System procedural manuals.</li>
+      <li><b>US EPA</b> risk assessment guidelines — human health and ecological frameworks.</li>
+      <li><b>Scheffer</b> — <i>Critical Transitions in Nature and Society</i>; <b>Gunderson &amp; Holling</b> — <i>Panarchy</i>; <b>Ostrom</b> — <i>Governing the Commons</i>.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <p><b>Advanced Environmental Science · ENVS 601</b> — graduate seminar syllabus, six chapters over twelve weeks. This page is dependency-free HTML and prints cleanly to PDF from any browser. Edit the chapter blocks directly to adjust subtopics, weeks or due dates.</p>
+  <p><a href="index.html">← Back to the course hub</a></p>
+</footer>
+</div>
+</body>
+</html>
