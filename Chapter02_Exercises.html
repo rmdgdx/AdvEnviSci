@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2 · 30 Higher-Order Items — ENVS 601</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ok:#1B6E4A; --ok-bg:#E3F2EA; --ok-bd:#9CCFB6;
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA; --card:#fff;
+  --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 90px;}
+header.hero{overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;padding:44px 34px 50px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.5) 0,transparent 48%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:880px;margin:0 auto;padding:0 12px;}
+.back{display:inline-block;color:#B9C8DA;text-decoration:none;font-size:.85rem;font-weight:700;margin-bottom:12px;}
+.back:hover{color:var(--gold-bright);}
+.tag{display:inline-flex;background:rgba(247,237,201,.92);color:var(--gold-ink);font-weight:800;font-size:.72rem;
+  letter-spacing:1.3px;text-transform:uppercase;padding:5px 14px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style",serif;font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.12;
+  margin:10px 0 8px;letter-spacing:-.5px;color:#fff;font-weight:700;}
+.hero p{max-width:70ch;color:#CFDBE8;margin:0;}
+.bar{position:sticky;top:0;z-index:20;background:rgba(244,247,250,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:11px 0;margin-bottom:8px;}
+.bar .in{max-width:880px;margin:0 auto;padding:0 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;}
+.btn{border:none;border-radius:10px;padding:9px 16px;font-weight:800;font-size:.84rem;cursor:pointer;}
+.btn.gold{background:var(--gold-grad);color:#33280A;}
+.btn.ghost{background:var(--navy-soft);color:var(--navy);}
+.bar .count{margin-left:auto;font-size:.82rem;color:var(--ink-soft);font-weight:700;}
+h2.section{font-family:Georgia,serif;font-size:1.28rem;font-weight:700;margin:38px 0 4px;
+  display:flex;align-items:center;gap:12px;}
+h2.section::before{content:"";width:8px;height:22px;border-radius:3px;background:var(--gold-grad);}
+p.sub{color:var(--ink-soft);margin:0 0 14px;font-size:.93rem;}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:13px;
+  box-shadow:var(--shadow);}
+.q>.stem{display:flex;gap:12px;align-items:flex-start;}
+.q .n{flex:none;width:32px;height:32px;border-radius:9px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:850;font-size:.88rem;}
+.q .stem p{margin:4px 0 12px;font-weight:600;}
+.q ol.opts{list-style:none;counter-reset:o;margin:0 0 0 44px;padding:0;}
+.q ol.opts li{counter-increment:o;position:relative;padding:7px 0 7px 32px;font-size:.95rem;color:#2C3A4B;}
+.q ol.opts li::before{content:counter(o,upper-alpha);position:absolute;left:0;top:7px;width:22px;height:22px;
+  border-radius:6px;background:#EDF2F8;border:1px solid var(--line);color:var(--navy-mid);
+  font-size:.74rem;font-weight:850;display:flex;align-items:center;justify-content:center;}
+details.ans{margin:12px 0 0 44px;border:1px solid var(--line);border-radius:11px;overflow:hidden;}
+details.ans>summary{cursor:pointer;list-style:none;padding:9px 14px;background:#F3F7FB;font-weight:800;
+  font-size:.84rem;color:var(--navy);display:flex;align-items:center;gap:8px;}
+details.ans>summary::-webkit-details-marker{display:none;}
+details.ans>summary::before{content:"▸";color:var(--gold);font-size:.9rem;}
+details.ans[open]>summary::before{content:"▾";}
+details.ans[open]>summary{background:var(--ok-bg);color:var(--ok);border-bottom:1px solid var(--ok-bd);}
+details.ans .body{padding:13px 15px;font-size:.92rem;color:var(--ink-soft);background:#fff;}
+details.ans .key{display:inline-block;background:var(--ok);color:#fff;font-weight:850;font-size:.78rem;
+  border-radius:6px;padding:2px 9px;margin-right:8px;}
+details.ans .body b{color:var(--ink);}
+.case{background:var(--navy);color:#DCE5F0;border-radius:16px;padding:22px 26px;margin-top:8px;}
+.case h3{color:#fff;margin:0 0 8px;font-family:Georgia,serif;font-weight:700;}
+.case p,.case ol{color:#C6D4E3;font-size:.95rem;}
+.case table{width:100%;border-collapse:collapse;font-size:.88rem;margin:14px 0;color:#DCE5F0;}
+.case th{background:rgba(255,255,255,.09);text-align:left;padding:8px 12px;font-size:.7rem;letter-spacing:.6px;text-transform:uppercase;}
+.case td{padding:8px 12px;border-top:1px solid rgba(220,229,240,.18);}
+.case details{margin-top:12px;border-top:1px dashed rgba(220,229,240,.25);padding-top:10px;}
+.case summary{cursor:pointer;color:var(--gold-bright);font-weight:800;font-size:.88rem;}
+.case details .b{color:#B9C8DA;font-size:.92rem;margin-top:8px;}
+.pager{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+.pager a{text-decoration:none;font-weight:800;font-size:.88rem;padding:10px 17px;border-radius:11px;}
+.pager a.gold{background:var(--gold-grad);color:#33280A;}
+.pager a.blue{background:var(--navy-soft);color:var(--navy);}
+footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.85rem;}
+@media print{.bar,.pager{display:none;} body{background:#fff;font-size:10.5pt;} .q{break-inside:avoid;box-shadow:none;}
+  details.ans{display:none;} .q{margin-bottom:8px;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <a class="back" href="../index.html">← Course hub</a><br>
+  <span class="tag">Chapter 2 · Problems &amp; cases</span>
+  <h1>Thirty higher-order items</h1>
+  <p>Earth system reasoning and spatial analysis. Several items require a calculation; do it before opening the dropdown, because the explanations are written to correct a specific wrong route.</p>
+</div></header>
+
+<div class="bar"><div class="in">
+  <button class="btn gold" id="all">Reveal all answers</button>
+  <button class="btn ghost" id="none">Hide all</button>
+  <span class="count">30 items · 6 sections</span>
+</div></div>
+
+<div class="wrap">
+
+<h2 class="section">A · Energy, circulation and system timescales</h2>
+<p class="sub">Items 1–6</p>
+
+<div class="q"><div class="stem"><div class="n">1</div><div>
+<p>A major volcanic eruption raises planetary albedo from 0.30 to 0.32. Using T<sub>e</sub> = [S(1 − α)/4σ]<sup>1/4</sup> with T<sub>e</sub> initially 255 K, what is the approximate new equilibrium temperature?</p>
+<ol class="opts">
+<li>About 248 K — a 7 K cooling</li>
+<li>About 253 K — roughly 2 K of cooling</li>
+<li>About 255 K — unchanged, since albedo cancels</li>
+<li>About 262 K — warming, since more energy is retained</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>T<sub>e</sub> scales as (1 − α)<sup>1/4</sup>, so the ratio is (0.68/0.70)<sup>0.25</sup> ≈ 0.993, giving 255 × 0.993 ≈ 253 K. The fourth root is what keeps the response modest — forgetting it produces answer A.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">2</div><div>
+<p>Water vapour is a powerful greenhouse gas, yet it is treated as a feedback rather than a forcing. What is the physical reason?</p>
+<ol class="opts">
+<li>Its radiative absorption is weaker than that of carbon dioxide.</li>
+<li>Its atmospheric residence time is about nine days, so any excess precipitates out and its concentration is set by temperature rather than by emission.</li>
+<li>It is not emitted by human activity.</li>
+<li>It is confined to the lower troposphere and therefore cannot influence the radiation budget.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Residence time decides the category. Adding vapour directly changes nothing lasting because the atmosphere returns to its temperature-determined holding capacity within days; adding CO₂ persists for centuries. Note that humans do emit vapour (C is false) — it simply does not accumulate.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">3</div><div>
+<p>Deep ocean overturning has a timescale of roughly a millennium. What follows for climate policy?</p>
+<ol class="opts">
+<li>Ocean heat uptake can be ignored, since it operates outside policy timescales.</li>
+<li>Substantial warming and sea-level rise are already committed and will continue after emissions stop, because the deep ocean has not finished responding.</li>
+<li>Sea-level rise will stabilise within a decade of reaching net zero.</li>
+<li>The deep ocean buffers the system so completely that surface temperature is insensitive to emissions.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A slow reservoir still equilibrating means the observed response lags the forcing, so present temperatures understate the eventual response to present concentrations. This is committed change, and it is why "stop emitting and it stops" is wrong even though stopping is still the decisive action.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">4</div><div>
+<p>The world's great subtropical deserts cluster near 30° latitude in both hemispheres. What is the mechanism?</p>
+<ol class="opts">
+<li>Distance from the ocean at those latitudes.</li>
+<li>Descending air in the subsiding branch of the Hadley cell, which warms adiabatically and suppresses condensation.</li>
+<li>Higher solar insolation at 30° than at the equator.</li>
+<li>Persistent high albedo of sand, which reinforces aridity.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The air arriving at 30° aloft has already rained out its moisture at the ITCZ, and it warms as it sinks, lowering relative humidity further. Option D describes a real reinforcing feedback that maintains deserts but does not explain their latitude.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">5</div><div>
+<p>Several lines of evidence indicate a poleward expansion of the Hadley circulation. Which consequence follows most directly?</p>
+<ol class="opts">
+<li>The ITCZ becomes stationary year-round.</li>
+<li>Subtropical dry zones shift poleward, placing new regions under the subsiding branch.</li>
+<li>Global mean precipitation falls to zero in the tropics.</li>
+<li>The polar cell disappears.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Moving the cell moves its subsidence zone, which relocates aridity rather than removing it — a regional redistribution with large agricultural consequences on the poleward margins of existing dry belts.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">6</div><div>
+<p>Radiative equilibrium gives 255 K while the observed surface mean is about 288 K. What does the 33 K difference represent?</p>
+<ol class="opts">
+<li>An error in the measured solar constant.</li>
+<li>The natural greenhouse effect — downward longwave radiation from atmospheric absorbers adds to solar input at the surface.</li>
+<li>Heat released by the earth's interior.</li>
+<li>The contribution of anthropogenic emissions since 1850.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The 255 K figure is the temperature of the emitting level seen from space, not of the surface. The anthropogenic contribution (D) is roughly 1.3 K on top of this natural 33 K — confusing the two is a standard misreading.
+</div></details></div>
+
+<h2 class="section">B · Solid earth, soils and catchments</h2>
+<p class="sub">Items 7–12</p>
+
+<div class="q"><div class="stem"><div class="n">7</div><div>
+<p>Silicate weathering consumes atmospheric CO₂ and is often called the earth's long-term thermostat. Why can it not moderate present-day warming?</p>
+<ol class="opts">
+<li>It has been saturated by industrial emissions.</li>
+<li>It operates on timescales of hundreds of thousands of years, several orders of magnitude slower than the current perturbation.</li>
+<li>It only functions in cold climates.</li>
+<li>It releases as much CO₂ as it consumes.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Rate, not capacity, is the constraint. The thermostat works — just far too slowly to matter this century, which is exactly the reasoning behind enhanced weathering proposals that grind rock to accelerate the same chemistry artificially.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">8</div><div>
+<p>Why is soil conventionally treated as a non-renewable resource on policy timescales?</p>
+<ol class="opts">
+<li>Because its mineral component cannot be replaced once removed from the planet.</li>
+<li>Because formation proceeds over decades to millennia while erosion under bare cultivation can remove a profile within years, so loss rates exceed formation rates by orders of magnitude.</li>
+<li>Because soil organic carbon cannot be increased by management.</li>
+<li>Because soil is not part of any biogeochemical cycle.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The label is a statement about relative rates, which is why erosion is benchmarked against a tolerable soil-loss rate rather than against zero. Option C is false and is the basis of soil carbon sequestration programmes.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">9</div><div>
+<p>A soil profile shows a thick, pale, strongly leached E horizon above a clay-enriched B horizon. What does this indicate about the site?</p>
+<ol class="opts">
+<li>Arid conditions with upward capillary movement and salt accumulation.</li>
+<li>High rainfall and sustained downward percolation, translocating clay and oxides from the upper profile into the subsoil.</li>
+<li>Recent volcanic deposition with no profile development.</li>
+<li>Waterlogging that has prevented any vertical transport.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Eluviation above, illuviation below: the profile is a record of water moving down through it. In arid profiles the transport reverses and carbonates or salts accumulate near the surface instead, which is what option A describes.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">10</div><div>
+<p>Why is the watershed, rather than the municipality, the preferred management unit for water quality?</p>
+<ol class="opts">
+<li>Watersheds are always smaller and therefore easier to administer.</li>
+<li>The boundary is defined by the transport process itself, so every upstream input is accounted for at a single outlet where the budget can be closed.</li>
+<li>Municipal boundaries are not legally recognised in environmental law.</li>
+<li>Watersheds contain uniform land use, removing the need for stratification.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Process-defined boundaries make mass balance possible; administrative ones cut across flow paths, so pollution crosses jurisdictions and no single authority sees the whole budget. This is also precisely why catchment governance is institutionally difficult — the useful unit matches nobody's mandate.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">11</div><div>
+<p>A carefully measured catchment nutrient budget fails to close, with more entering than leaving or accumulating. Investigators confirm the gauging and chemistry are sound. Which explanation deserves attention next?</p>
+<ol class="opts">
+<li>Mass is not conserved in open catchments.</li>
+<li>The groundwater divide does not coincide with the topographic divide, so water and solutes leave the surface catchment unmeasured.</li>
+<li>The residence time of the catchment must be negative.</li>
+<li>The topographic divide was drawn from a DEM and is therefore exact.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Subsurface export across a mismatched divide is one of the classic unmeasured fluxes, alongside denitrification. Option D also contains a trap worth noting: a DEM-derived divide inherits the DEM's error and is not exact either.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">12</div><div>
+<p>A catchment's flood peak has risen 40% and its lag time has halved over twenty years. Rainfall records show no significant trend in storm intensity. What is the most defensible conclusion?</p>
+<ol class="opts">
+<li>The rainfall record must be wrong, since flooding has clearly increased.</li>
+<li>Land-cover change — impervious surfaces and engineered drainage — has altered the rainfall-to-runoff conversion, which can raise peaks with no change in rainfall.</li>
+<li>Climate change is responsible, because flood risk is a climate variable.</li>
+<li>Nothing can be concluded without a longer rainfall record.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The hydrograph shape is the evidence: a higher, earlier peak with unchanged input is the signature of faster delivery, not more water. Attribution here is a land-cover question answerable with imagery — and mislabelling it as climate (C) misdirects the policy response toward emissions rather than toward drainage and zoning.
+</div></details></div>
+
+<h2 class="section">C · Data models and georeferencing</h2>
+<p class="sub">Items 13–18</p>
+
+<div class="q"><div class="stem"><div class="n">13</div><div>
+<p>A project must store cadastral parcel boundaries with legally exact areas, and also model surface runoff across terrain. Which combination is appropriate?</p>
+<ol class="opts">
+<li>Raster for both, since one data model simplifies processing.</li>
+<li>Vector for the parcels and raster for the terrain, because the first represents discrete bounded objects and the second a continuous field.</li>
+<li>Vector for both, since vector always preserves accuracy.</li>
+<li>Raster for the parcels and vector for the terrain.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Match the model to the phenomenon. Rasterised parcels have stair-stepped boundaries and inexact areas, which is unacceptable for a legal boundary; vectorised elevation cannot support map-algebra terrain derivatives efficiently.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">14</div><div>
+<p>A land-cover map is produced at 30 m resolution for a watershed containing riparian buffer strips roughly 20 m wide. What is the consequence?</p>
+<ol class="opts">
+<li>The buffers will be mapped accurately, since 30 m is finer than the watershed scale.</li>
+<li>The buffers are narrower than one cell, so they will be absorbed into mixed pixels and largely disappear from the map — a resolution choice that becomes an ecological omission.</li>
+<li>The buffers will be over-represented, since linear features are exaggerated in raster data.</li>
+<li>Resolution is irrelevant because the classifier uses spectral rather than spatial information.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A feature narrower than the cell cannot be resolved; its signal blends with neighbours. Since riparian buffers are exactly what a nutrient or thermal analysis depends on, the analysis silently loses the variable that mattered most.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">15</div><div>
+<p>An analyst computes mangrove habitat area in Web Mercator and reports hectares to two decimal places. What is wrong?</p>
+<ol class="opts">
+<li>Nothing, provided the data are correctly georeferenced.</li>
+<li>Web Mercator is conformal, not equal-area, so computed areas are distorted; an equal-area projection is required for any area claim.</li>
+<li>Web Mercator cannot represent coastal features.</li>
+<li>The error is trivial because the distortion is symmetric about the equator.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>No projection preserves everything; this one preserves local shape and inflates area away from the equator. The false comfort in D is that symmetry does not mean absence — the distortion is real at every latitude other than the standard line.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">16</div><div>
+<p>Two layers of the same municipality each look internally correct, but roads drawn from one consistently sit about 200 m from the same roads in the other. What is the most likely cause, and the first check?</p>
+<ol class="opts">
+<li>Digitising error; re-trace the roads.</li>
+<li>A datum mismatch; inspect the coordinate reference system of each layer and apply the official transformation.</li>
+<li>Raster resampling artefacts; resample one layer.</li>
+<li>Clock drift in the GNSS receiver; re-survey the area.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A systematic offset of consistent direction and magnitude is the fingerprint of a datum difference, not of random digitising error, which would scatter. Re-tracing (A) would faithfully reproduce the offset while consuming a week.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">17</div><div>
+<p>A Philippine agency must integrate cadastral data held in the national reference frame with Sentinel-2 imagery delivered in WGS84. What is the correct procedure?</p>
+<ol class="opts">
+<li>Overlay them directly, since both are modern systems and the difference is negligible.</li>
+<li>Transform one to the other using the official parameters published by the mapping agency, document the transformation in the metadata, and verify against control points.</li>
+<li>Reproject the imagery to any equal-area projection, which resolves datum differences automatically.</li>
+<li>Convert both to decimal degrees, which removes the datum dependence.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Datum and projection are independent. Reprojecting (C) changes how the surface is flattened but not which ellipsoid it is tied to, and expressing coordinates as decimal degrees (D) changes only the units — both leave the offset intact, which is what makes them attractive wrong answers.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">18</div><div>
+<p>From 30 m imagery, a report claims that 0.18 ha of mangrove was lost at a particular site. How should a reviewer respond?</p>
+<ol class="opts">
+<li>Accept it; 0.18 ha is a precise and therefore credible figure.</li>
+<li>Reject the precision: 0.18 ha is about two pixels, well below a defensible minimum mapping unit, so the figure lies inside the noise of mixed pixels and classification error.</li>
+<li>Accept it only if the imagery was cloud-free.</li>
+<li>Request the same analysis at 1:50,000 scale, which would resolve the feature.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>One 30 m pixel is 900 m², so 0.18 ha ≈ 2 pixels. A claim at that size cannot be separated from misclassification of edge pixels. Print scale (D) cannot add information the sensor never captured.
+</div></details></div>
+
+<h2 class="section">D · Sensors, resolution and band math</h2>
+<p class="sub">Items 19–23</p>
+
+<div class="q"><div class="stem"><div class="n">19</div><div>
+<p>A flood must be mapped during a typhoon, under continuous heavy cloud. Which sensor should be tasked, and why?</p>
+<ol class="opts">
+<li>Sentinel-2, because its 10 m bands give the finest available detail.</li>
+<li>Sentinel-1 synthetic aperture radar, because microwave wavelengths penetrate cloud and it images day or night.</li>
+<li>Landsat 9, because of its thermal band.</li>
+<li>A UAV, because centimetre resolution is always preferable.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Optical sensors see cloud tops, and in the tropics that is most of the time during the events that matter. SAR is the standard operational choice for flood extent; smooth open water returns little signal to the sensor and appears characteristically dark.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">20</div><div>
+<p>A national programme needs daily monitoring of active fires across the whole archipelago. Which resolution trade-off is correct?</p>
+<ol class="opts">
+<li>Accept coarse spatial resolution in exchange for daily national coverage.</li>
+<li>Commission UAV flights nationwide each day.</li>
+<li>Use the finest available spatial resolution, since fires are small features.</li>
+<li>Use SAR, since fire is a thermal phenomenon.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>Temporal resolution is the binding requirement here, and coarse sensors buy it. A sub-pixel fire is still detectable through its thermal signature, which is why the operational fire products run at hundreds of metres rather than tens.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">21</div><div>
+<p>A pixel has red reflectance 0.06 and near-infrared reflectance 0.38. What is its NDVI, and what does the value suggest?</p>
+<ol class="opts">
+<li>0.32 — sparse vegetation</li>
+<li>0.53 — moderate vegetation</li>
+<li>0.73 — dense, vigorous vegetation</li>
+<li>−0.73 — open water</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>(0.38 − 0.06)/(0.38 + 0.06) = 0.32/0.44 ≈ 0.727. Answer A is the numerator alone — the commonest slip, and it happens to look plausible, which is why the division must be written out.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">22</div><div>
+<p>A large contiguous area returns NDVI values around −0.3. What is the most likely surface, and what should be checked first?</p>
+<ol class="opts">
+<li>Dense forest; check the atmospheric correction.</li>
+<li>Open water; check whether the area should be masked before any vegetation statistics are computed.</li>
+<li>Bare soil; check the soil-adjusted index instead.</li>
+<li>A sensor malfunction; discard the scene.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Water absorbs strongly in the near-infrared, so NIR falls below red and the index goes negative. Leaving water unmasked drags down mean NDVI for a catchment and produces a false signal of vegetation decline — cloud shadow behaves similarly and is worth masking in the same step.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">23</div><div>
+<p>A study must quantify forest loss since 1990. Sentinel-2 offers finer resolution and more frequent revisit than Landsat. Which is the appropriate choice?</p>
+<ol class="opts">
+<li>Sentinel-2, because higher resolution always yields a better estimate.</li>
+<li>Landsat, because its archive extends back decades while Sentinel-2 only began operating in 2015 — a baseline that does not exist cannot be improved by resolution.</li>
+<li>Either, since resolution can be resampled to match.</li>
+<li>Neither; change detection over decades is not feasible from satellite data.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Temporal depth is the binding constraint, and no processing creates imagery for a year that was never imaged. The considered answer often combines both — Landsat for the long baseline, Sentinel-2 for detail in recent years — with careful cross-sensor harmonisation.
+</div></details></div>
+
+<h2 class="section">E · Terrain, interpolation and overlay</h2>
+<p class="sub">Items 24–27</p>
+
+<div class="q"><div class="stem"><div class="n">24</div><div>
+<p>In a 30 m DEM, a cell at 100 m elevation has its steepest descent to an orthogonally adjacent cell at 88 m. What is the slope in degrees?</p>
+<ol class="opts">
+<li>About 12°</li>
+<li>About 16°</li>
+<li>About 22°</li>
+<li>About 40°</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Rise/run = 12/30 = 0.40, and arctan(0.40) ≈ 21.8°. Had the steepest neighbour been diagonal, the run would be 30√2 ≈ 42.4 m and the slope about 15.8° — which is answer B, and the reason the D8 algorithm must distinguish the two cases.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">25</div><div>
+<p>Two teams delineate the same catchment, one from a 30 m global DEM and one from a 1 m LiDAR bare-earth model. The boundaries differ substantially in the flat lower floodplain. What is the best interpretation?</p>
+<ol class="opts">
+<li>One team made a procedural error; the results should agree.</li>
+<li>In low-relief terrain, small elevation errors redirect flow across wide areas, so DEM quality propagates directly into the delineated boundary and everything computed from it.</li>
+<li>Catchment boundaries are arbitrary conventions with no physical basis.</li>
+<li>The 30 m result is preferable because coarser data average out noise.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Flow routing is a comparison between neighbouring cells, so where true relief is smaller than the DEM's vertical error, the algorithm is effectively routing noise. This is why LiDAR transformed flood mapping on Philippine floodplains rather than merely improving it.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">26</div><div>
+<p>Groundwater nitrate is measured at 45 wells and a concentration surface is needed for a regulatory decision. Why is kriging generally preferred over inverse distance weighting here?</p>
+<ol class="opts">
+<li>Kriging always produces higher predicted concentrations, which is precautionary.</li>
+<li>Kriging models the spatial autocorrelation explicitly through a variogram and returns an estimation variance, so the map shows where it is guessing.</li>
+<li>Inverse distance weighting cannot be used with fewer than 100 samples.</li>
+<li>Kriging does not require the data to be georeferenced.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>For a decision that will be contested, the uncertainty surface is as important as the estimate — it tells the regulator which parts of the map are supported by observations. IDW's bull's-eyes also carry an implicit assumption about spatial structure; it is simply never stated.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">27</div><div>
+<p>In a weighted overlay with weights slope 0.40, land cover 0.30, distance to river 0.20 and road access 0.10, a cell scores 0.5, 0.9, 0.4 and 0.8 respectively on the standardised criteria. What is its suitability score, and what must accompany it?</p>
+<ol class="opts">
+<li>0.63, accompanied by a sensitivity analysis showing how the result responds to perturbed weights</li>
+<li>0.63, which stands on its own as an objective result</li>
+<li>0.65, accompanied by the confusion matrix</li>
+<li>2.60, the sum of the raw scores</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>(0.40 × 0.5) + (0.30 × 0.9) + (0.20 × 0.4) + (0.10 × 0.8) = 0.20 + 0.27 + 0.08 + 0.08 = 0.63. The weights encode someone's priorities, so the score is conditional on them — which is also why an AHP consistency ratio above about 0.1 means the underlying judgements should be revisited before the map is drawn at all.
+</div></details></div>
+
+<h2 class="section">F · Classification, accuracy and map honesty</h2>
+<p class="sub">Items 28–30</p>
+
+<div class="q"><div class="stem"><div class="n">28</div><div>
+<p>In an accuracy assessment, 59 of 70 pixels classified as built-up were genuinely built-up, while 59 of 65 genuinely built-up pixels were correctly classified. A planner asks: "when the map says built-up, how often is it right?" Which figure answers the question?</p>
+<ol class="opts">
+<li>Producer's accuracy, 90.8%</li>
+<li>User's accuracy, 84.3%</li>
+<li>Overall accuracy, computed across all classes</li>
+<li>Kappa, since it corrects for chance</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>User's accuracy reads along the row — of everything labelled built-up, 59/70 = 84.3% is correct. Producer's accuracy reads down the column and answers the different question of how much real built-up land the map found. A map user cares about the row; a map producer cares about the column.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">29</div><div>
+<p>Post-classification comparison of two dates shows change concentrated in thin ribbons along every parcel boundary and road edge. What is the most likely explanation?</p>
+<ol class="opts">
+<li>Genuine edge-driven land conversion, since development follows roads.</li>
+<li>Geometric misregistration between the two dates, producing spurious change wherever a boundary exists.</li>
+<li>Seasonal phenological difference between the acquisition dates.</li>
+<li>Radiometric calibration drift in the sensor.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The spatial pattern gives it away: real conversion forms patches, while co-registration error manifests as change tracing every edge in the scene. Option C is a genuine competing artefact and is worth ruling out — but it would affect whole fields, not their outlines.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">30</div><div>
+<p>The same pollution dataset is mapped twice, once with quantile classification and once with equal-interval, producing visually opposite impressions of how widespread high values are. What is the appropriate professional response?</p>
+<ol class="opts">
+<li>Choose the version that best communicates the study's conclusion.</li>
+<li>State the classification scheme and the reason it was chosen, and ideally show the data distribution so the reader can judge the effect of the choice.</li>
+<li>Avoid classified maps and use continuous colour ramps, which are free of this problem.</li>
+<li>Report the discrepancy as a software defect.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Both maps are arithmetically correct; the choice is a rhetorical act and must therefore be disclosed. Continuous ramps (C) shift the problem rather than remove it, since the ramp's stretch and endpoints make equivalent decisions about what appears alarming.
+</div></details></div>
+
+<h2 class="section">Written case — submitted</h2>
+<div class="case">
+  <h3>Siting a sanitary landfill</h3>
+  <p>A provincial government must site a sanitary landfill for four municipalities. You are given a 30 m DEM, a 2024 Sentinel-2 land-cover classification with an accuracy assessment attached, a river network, a road network, and the declared boundary of a protected landscape. The cadastral layer arrives from the provincial assessor in the national reference frame; everything else is in WGS84. The board wants a shortlist of three sites and a defensible justification.</p>
+  <table>
+    <thead><tr><th>Criterion</th><th>Standardisation rule</th><th>Weight</th></tr></thead>
+    <tbody>
+      <tr><td>Slope</td><td>Score 1.0 below 8%, declining linearly to 0 at 18%</td><td>0.35</td></tr>
+      <tr><td>Distance to surface water</td><td>0 within 500 m; rising to 1.0 beyond 2 km</td><td>0.30</td></tr>
+      <tr><td>Land cover</td><td>Degraded/open land 1.0; cropland 0.5; forest 0</td><td>0.20</td></tr>
+      <tr><td>Road access</td><td>1.0 within 2 km of a paved road, declining to 0 at 10 km</td><td>0.15</td></tr>
+    </tbody>
+  </table>
+  <ol>
+    <li>Separate the criteria that must be handled as absolute exclusions from those that belong in the weighted sum, and justify the split.</li>
+    <li>Describe the processing chain from raw layers to shortlist, naming the georeferencing step explicitly and stating what you would verify before trusting any overlay.</li>
+    <li>Compute the suitability score for a candidate cell scoring 0.9 slope, 0.7 water distance, 0.5 land cover, 0.6 road access. Then state what a 0.10 shift of weight from slope to water distance would do to it.</li>
+    <li>Write the paragraph on uncertainty that belongs in the board paper — covering classification accuracy, DEM error, and the status of the weights.</li>
+  </ol>
+  <details><summary>Model answer and marking notes</summary>
+    <div class="b">The protected landscape boundary is a <b>boolean exclusion</b>, not a criterion: no weighting scheme may trade a legal prohibition against road access. Strong answers also exclude the 500 m watercourse buffer as a hard constraint rather than letting a high score elsewhere compensate for it — the distinction between a constraint and a preference is the core of question 1.
+    <br><br>The chain runs: transform the cadastral layer using the official parameters and verify against control points; confirm every layer shares one CRS and choose an equal-area projection before any area is computed; derive slope from the DEM; compute Euclidean distance surfaces for water and roads; standardise each criterion to 0–1 by the stated rules; apply the boolean mask; weight and sum; then rank and shortlist. Full credit requires naming the datum transformation and saying it would be verified — a 200 m offset would move a candidate site across the protected area boundary, which is the trap the case is built around.
+    <br><br>Score = (0.35 × 0.9) + (0.30 × 0.7) + (0.20 × 0.5) + (0.15 × 0.6) = 0.315 + 0.21 + 0.10 + 0.09 = <b>0.715</b>. Shifting 0.10 from slope to water distance gives (0.25 × 0.9) + (0.40 × 0.7) + 0.10 + 0.09 = 0.225 + 0.28 + 0.19 = <b>0.695</b> — a small move for this cell, but the answer must note that cells with a large gap between their slope and water scores will move much further, and that the shortlist, not the individual score, is what must be tested for stability.
+    <br><br>The uncertainty paragraph should state the land-cover accuracy by class rather than the headline figure (the cropland-versus-degraded-land distinction is doing real work here), note that a 30 m DEM gives unreliable slope in low-relief terrain and that the exclusion buffers inherit positional error from the river layer, and concede plainly that the weights are the board's value judgement rather than a scientific finding. Common shortfalls: treating the protected area as a weighted criterion, computing areas in a conformal projection, reporting a single suitability number with no sensitivity test, and presenting the final map without the accuracy assessment that came with the classification.</div>
+  </details>
+</div>
+
+<div class="pager">
+  <a class="gold" href="Chapter02.html">← Back to the lecture</a>
+  <a class="blue" href="../syllabus.html">Syllabus</a>
+  <a class="blue" href="../index.html">All chapters</a>
+</div>
+
+<footer><p>Advanced Environmental Science · ENVS 601 — Chapter 2 problem set. Thirty higher-order items with worked explanations, plus one submitted case.</p></footer>
+</div>
+
+<script>
+(function(){
+  var d=function(){return document.querySelectorAll('details.ans');};
+  document.getElementById('all').addEventListener('click',function(){d().forEach(function(x){x.open=true;});});
+  document.getElementById('none').addEventListener('click',function(){d().forEach(function(x){x.open=false;});});
+})();
+</script>
+</body>
+</html>

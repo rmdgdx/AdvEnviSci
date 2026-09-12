@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2 · Earth Systems and GIS — ENVS 601</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA; --card:#fff;
+  --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 90px;}
+header.hero{overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;padding:44px 34px 50px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.5) 0,transparent 48%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:880px;margin:0 auto;padding:0 12px;}
+.back{display:inline-block;color:#B9C8DA;text-decoration:none;font-size:.85rem;font-weight:700;margin-bottom:12px;}
+.back:hover{color:var(--gold-bright);}
+.tag{display:inline-flex;background:rgba(247,237,201,.92);color:var(--gold-ink);font-weight:800;font-size:.72rem;
+  letter-spacing:1.3px;text-transform:uppercase;padding:5px 14px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style",serif;font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.12;
+  margin:10px 0 8px;letter-spacing:-.5px;color:#fff;font-weight:700;}
+.hero p{max-width:70ch;color:#CFDBE8;margin:0;}
+nav.toc{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--gold);
+  border-radius:14px;padding:16px 20px;margin:26px 0 10px;box-shadow:var(--shadow);}
+nav.toc b{display:block;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--gold-ink);margin-bottom:8px;}
+nav.toc ol{margin:0;padding-left:20px;font-size:.93rem;} nav.toc li{margin-bottom:4px;}
+h2.session{font-family:Georgia,serif;font-size:1.4rem;font-weight:700;margin:46px 0 4px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+h2.session::before{content:"";width:8px;height:24px;border-radius:3px;background:var(--gold-grad);}
+.wkbadge{font-size:.68rem;font-weight:850;letter-spacing:.6px;background:var(--navy-soft);color:var(--navy);
+  border-radius:999px;padding:3px 10px;text-transform:uppercase;}
+h3{font-size:1.08rem;font-weight:800;color:var(--navy);margin:28px 0 6px;}
+h4{font-size:.96rem;font-weight:800;color:var(--navy-mid);margin:18px 0 4px;}
+p{margin:0 0 14px;} ul,ol{margin:0 0 14px;padding-left:22px;} li{margin-bottom:5px;}
+code{background:#EDF2F8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.88em;}
+.def,.example,.caution{border-radius:0 12px 12px 0;padding:14px 18px;margin:18px 0;font-size:.95rem;}
+.def{border-left:4px solid var(--navy);background:var(--navy-soft);color:#16324F;}
+.example{border-left:4px solid var(--gold);background:var(--gold-pale);color:#5C4A0F;}
+.caution{border-left:4px solid #A83246;background:#FBE6EA;color:#75202F;}
+.def b.lbl,.example b.lbl,.caution b.lbl{display:block;font-size:.74rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.def p:last-child,.example p:last-child,.caution p:last-child{margin-bottom:0;}
+.eq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0;
+  text-align:center;font-family:Georgia,serif;font-size:1.08rem;box-shadow:var(--shadow);}
+.eq small{display:block;font-size:.8rem;color:var(--ink-soft);margin-top:9px;line-height:1.5;font-family:inherit;}
+figure{margin:24px 0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+figure svg{display:block;width:100%;height:auto;background:#FBFDFF;}
+figcaption{padding:11px 18px;font-size:.85rem;color:var(--ink-soft);border-top:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;margin:18px 0;box-shadow:var(--shadow);}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px 13px;font-size:.71rem;letter-spacing:.8px;
+  text-transform:uppercase;font-weight:800;}
+td{padding:10px 13px;border-top:1px solid var(--line);vertical-align:top;}
+tbody tr:nth-child(even){background:#FAFCFE;}
+.terms{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:14px 0;}
+.terms div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 15px;font-size:.88rem;}
+.terms b{display:block;color:var(--navy);}
+.terms span{color:var(--ink-soft);}
+.summary{background:var(--navy);color:#DCE5F0;border-radius:16px;padding:22px 26px;margin:36px 0 0;}
+.summary h3{color:#fff;margin:0 0 10px;font-family:Georgia,serif;font-weight:700;}
+.summary ul{padding-left:20px;margin:0;color:#C6D4E3;font-size:.93rem;}
+.pager{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+.pager a{text-decoration:none;font-weight:800;font-size:.88rem;padding:10px 17px;border-radius:11px;}
+.pager a.gold{background:var(--gold-grad);color:#33280A;}
+.pager a.blue{background:var(--navy-soft);color:var(--navy);}
+footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.85rem;}
+@media print{header.hero{border-radius:0;} body{background:#fff;font-size:11pt;} .pager{display:none;} figure,table{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <a class="back" href="../index.html">← Course hub</a><br>
+  <span class="tag">Chapter 2 · Weeks 3–4</span>
+  <h1>Earth Systems and GIS</h1>
+  <p>The coupled physical earth — how energy, rock and water move through it — and the spatial machinery used to locate, measure and map that movement. By the end of the chapter a process should not merely be describable but placeable.</p>
+</div></header>
+
+<div class="wrap">
+
+<nav class="toc"><b>On this page</b>
+  <ol>
+    <li><a href="#s1">Week 3 — The coupled earth system</a>
+      <ul style="padding-left:18px;margin:4px 0;">
+        <li><a href="#a1">Five subsystems and their timescales</a></li>
+        <li><a href="#a2">The energy balance and what drives circulation</a></li>
+        <li><a href="#a3">The solid earth: tectonics, rock cycle, weathering, soils</a></li>
+        <li><a href="#a4">Water: the hydrologic cycle and the watershed</a></li>
+      </ul></li>
+    <li><a href="#s2">Week 4 — GIS, remote sensing and spatial analysis</a>
+      <ul style="padding-left:18px;margin:4px 0;">
+        <li><a href="#b1">The spatial workflow, end to end</a></li>
+        <li><a href="#b2">Data models: vector and raster</a></li>
+        <li><a href="#b3">Georeferencing: datums, projections, PRS92</a></li>
+        <li><a href="#b4">Acquisition: sensors, platforms, resolutions</a></li>
+        <li><a href="#b5">Analysis: terrain, interpolation, overlay</a></li>
+        <li><a href="#b6">Classification, accuracy and change detection</a></li>
+        <li><a href="#b7">Cartography, metadata and spatial uncertainty</a></li>
+      </ul></li>
+    <li><a href="#terms">Key terms</a> · <a href="#summary">Summary</a></li>
+  </ol>
+</nav>
+
+<h2 class="session" id="s1"><span class="wkbadge">Week 3</span> The coupled earth system</h2>
+
+<h3 id="a1">2.1 Five subsystems, one system</h3>
+<p>The division of the earth into atmosphere, hydrosphere, cryosphere, lithosphere and biosphere is an analytical convenience, not a physical partition. Every boundary between them is a site of exchange, and most of the phenomena this course treats as problems are exchanges that changed rate. Carbon moves from lithosphere to atmosphere when coal burns; water moves from cryosphere to hydrosphere when ice melts; nitrogen moves from atmosphere to biosphere through an industrial process that did not exist before 1913.</p>
+
+<figure>
+<svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five earth subsystems exchanging matter and energy">
+<circle cx="350" cy="175" r="118" fill="none" stroke="#C9A227" stroke-width="2" stroke-dasharray="7 6"/>
+<g stroke="#B9C8DA" stroke-width="1.6">
+<line x1="350" y1="57" x2="462" y2="139"/><line x1="462" y1="139" x2="419" y2="270"/>
+<line x1="419" y1="270" x2="281" y2="270"/><line x1="281" y1="270" x2="238" y2="139"/>
+<line x1="238" y1="139" x2="350" y2="57"/><line x1="350" y1="57" x2="419" y2="270"/>
+<line x1="462" y1="139" x2="281" y2="270"/><line x1="238" y1="139" x2="419" y2="270"/>
+<line x1="350" y1="57" x2="281" y2="270"/><line x1="238" y1="139" x2="462" y2="139"/>
+</g>
+<g text-anchor="middle" font-size="12.5" font-weight="700">
+<circle cx="350" cy="57" r="50" fill="#164272"/><text x="350" y="54" fill="#fff">ATMO-</text><text x="350" y="70" fill="#fff">SPHERE</text>
+<circle cx="462" cy="139" r="50" fill="#1F6FA8"/><text x="462" y="136" fill="#fff">HYDRO-</text><text x="462" y="152" fill="#fff">SPHERE</text>
+<circle cx="419" cy="270" r="50" fill="#1B6E4A"/><text x="419" y="267" fill="#fff">BIO-</text><text x="419" y="283" fill="#fff">SPHERE</text>
+<circle cx="281" cy="270" r="50" fill="#6B5433"/><text x="281" y="267" fill="#fff">LITHO-</text><text x="281" y="283" fill="#fff">SPHERE</text>
+<circle cx="238" cy="139" r="50" fill="#8FB8D8"/><text x="238" y="136" fill="#12212F">CRYO-</text><text x="238" y="152" fill="#12212F">SPHERE</text>
+</g>
+<text x="350" y="170" text-anchor="middle" font-size="12" font-weight="800" fill="#7A5F0C">every line is a flux</text>
+<text x="350" y="188" text-anchor="middle" font-size="12" fill="#556373">of energy, water or an element</text>
+<text x="350" y="334" text-anchor="middle" font-size="12.5" fill="#556373">an environmental problem is usually one of these exchanges running at a new rate</text>
+</svg>
+<figcaption><b>Figure 2.1.</b> The subsystems are defined by their material, but the science lives on the lines between them. Note how many lines exist: ten pairwise couplings among five compartments, which is why single-compartment reasoning fails so reliably.</figcaption>
+</figure>
+
+<p>What distinguishes the subsystems operationally is not composition but <b>response time</b>. A perturbation propagates through the atmosphere in days, through the surface ocean in years, through the deep ocean in centuries, and through the lithosphere over geological time. This is the residence-time logic of Chapter 1 applied at planetary scale, and it explains why some consequences of a decision arrive during a political term and others do not arrive for a thousand years.</p>
+
+<table>
+  <thead><tr><th style="width:20%">Subsystem</th><th style="width:30%">Principal reservoirs</th><th>Characteristic response time</th></tr></thead>
+  <tbody>
+    <tr><td><b>Atmosphere</b></td><td>Gases, aerosols, water vapour</td><td>Days to weeks for mixing; a decade for well-mixed tropospheric gases to equilibrate globally</td></tr>
+    <tr><td><b>Hydrosphere</b></td><td>Oceans, lakes, rivers, groundwater</td><td>Days for rivers, years for surface ocean, centuries to a millennium for the deep ocean, decades to millennia for aquifers</td></tr>
+    <tr><td><b>Cryosphere</b></td><td>Sea ice, glaciers, ice sheets, permafrost</td><td>Seasonal for sea ice; centuries to millennia for ice sheets — the source of most sea-level commitment</td></tr>
+    <tr><td><b>Lithosphere</b></td><td>Crust, mantle, soils, sediments</td><td>Millions of years for tectonics; decades to millennia for soil formation, which is why soil is treated as non-renewable</td></tr>
+    <tr><td><b>Biosphere</b></td><td>Vegetation, soils organic matter, marine life</td><td>Days for plankton, decades to centuries for forests, and effectively permanent for extinction</td></tr>
+  </tbody>
+</table>
+
+<h3 id="a2">2.2 The energy balance, and the circulation it drives</h3>
+<p>Everything that moves in the atmosphere and ocean is ultimately driven by one fact: the earth receives more solar energy per unit area at the equator than at the poles, and the resulting imbalance must be transported poleward. Before that, the planetary budget itself.</p>
+
+<figure>
+<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Simplified global energy balance">
+<rect x="40" y="46" width="620" height="2" fill="#164272"/>
+<text x="52" y="38" font-size="11.5" font-weight="800" fill="#164272">TOP OF ATMOSPHERE</text>
+<rect x="40" y="70" width="620" height="150" fill="#EAF2FA"/>
+<text x="52" y="90" font-size="11.5" font-weight="800" fill="#5E7A96">ATMOSPHERE</text>
+<rect x="40" y="250" width="620" height="46" fill="#6B5433"/>
+<text x="58" y="278" font-size="12" font-weight="800" fill="#F7EDC9">SURFACE</text>
+<g stroke-width="14" stroke-linecap="butt">
+<line x1="110" y1="48" x2="110" y2="250" stroke="#C9A227"/>
+<line x1="230" y1="250" x2="230" y2="48" stroke="#8FB8D8"/>
+<line x1="380" y1="250" x2="380" y2="48" stroke="#A83246" opacity=".8"/>
+<line x1="480" y1="70" x2="480" y2="250" stroke="#A83246" opacity=".45"/>
+<line x1="600" y1="250" x2="600" y2="120" stroke="#1B6E4A" opacity=".7"/>
+</g>
+<g>
+<polygon points="110,256 101,238 119,238" fill="#C9A227"/>
+<polygon points="230,42 221,60 239,60" fill="#8FB8D8"/>
+<polygon points="380,42 371,60 389,60" fill="#A83246"/>
+<polygon points="480,256 471,238 489,238" fill="#A83246" opacity=".6"/>
+<polygon points="600,114 591,132 609,132" fill="#1B6E4A"/>
+</g>
+<g font-size="12" text-anchor="middle" font-weight="700">
+<text x="110" y="150" fill="#5C4A0F">340</text><text x="110" y="316" fill="#556373">incoming solar</text>
+<text x="230" y="150" fill="#2C4257">100</text><text x="230" y="316" fill="#556373">reflected</text>
+<text x="380" y="150" fill="#fff">240</text><text x="380" y="316" fill="#556373">outgoing longwave</text>
+<text x="480" y="160" fill="#75202F">342</text><text x="480" y="316" fill="#556373">back radiation</text>
+<text x="600" y="200" fill="#0E4A2E">103</text><text x="600" y="316" fill="#556373">latent + sensible</text>
+</g>
+<text x="350" y="240" text-anchor="middle" font-size="11.5" fill="#556373">all values W m⁻² · balance at the top of atmosphere: 340 = 100 + 240</text>
+</svg>
+<figcaption><b>Figure 2.2.</b> The planetary budget in five arrows. The surface receives more than the sun alone delivers, because back radiation from greenhouse gases adds to solar input — which is the entire greenhouse mechanism stated as arithmetic rather than metaphor.</figcaption>
+</figure>
+
+<div class="eq">
+  T<sub>e</sub> = [ S(1 − α) / 4σ ]<sup>1/4</sup>
+  <small>Planetary radiative equilibrium temperature. S ≈ 1361 W m⁻² is the solar constant, α ≈ 0.30 the planetary albedo, σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴. The factor of 4 converts from the intercepting disc (πr²) to the emitting sphere (4πr²).</small>
+</div>
+
+<div class="example"><b class="lbl">Worked example 1 — the 33 kelvin question</b>
+<p><b>Step 1.</b> S(1 − α)/4 = 1361 × 0.70 ÷ 4 = 238 W m⁻².</p>
+<p><b>Step 2.</b> T<sub>e</sub> = (238 ÷ 5.67 × 10⁻⁸)<sup>1/4</sup> ≈ (4.20 × 10<sup>9</sup>)<sup>1/4</sup> ≈ <b>255 K</b>, or −18 °C.</p>
+<p><b>Step 3.</b> Observed mean surface temperature is about 288 K. The 33 K difference is the natural greenhouse effect.</p>
+<p><b>Interpretation.</b> Now perturb it: raising albedo from 0.30 to 0.32 — plausible for a large volcanic aerosol loading — lowers T<sub>e</sub> by about 1.9 K. The same arithmetic shows why an ice-albedo feedback is powerful, and why solar geoengineering proposals are arithmetically cheap and institutionally terrifying.</p></div>
+
+<p>Because the surplus at low latitudes must be exported, the atmosphere organises itself into circulation cells. Air rises where heating is greatest, moves poleward aloft, sinks where it has cooled and lost moisture, and returns equatorward at the surface. The consequence is a banded pattern of wet and dry climates that explains the position of the world's rainforests and its great deserts, and it is the single most useful climate diagram a graduate student can carry.</p>
+
+<figure>
+<svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-cell atmospheric circulation and resulting climate bands">
+<rect x="80" y="282" width="560" height="34" fill="#6B5433"/>
+<line x1="80" y1="70" x2="80" y2="282" stroke="#0E2A47" stroke-width="2"/>
+<text x="-176" y="26" transform="rotate(-90)" text-anchor="middle" font-size="12" font-weight="800" fill="#0E2A47">altitude</text>
+<g fill="none" stroke="#164272" stroke-width="3">
+<ellipse cx="170" cy="180" rx="80" ry="92"/><ellipse cx="350" cy="180" rx="80" ry="92"/><ellipse cx="530" cy="180" rx="80" ry="92"/>
+</g>
+<g fill="#164272">
+<polygon points="90,150 100,168 80,168"/><polygon points="270,210 260,192 280,192"/>
+<polygon points="430,150 440,168 420,168"/><polygon points="450,150 440,168 460,168"/>
+<polygon points="610,150 620,168 600,168"/>
+</g>
+<g font-size="12.5" font-weight="700" text-anchor="middle" fill="#0E2A47">
+<text x="170" y="176">Hadley</text><text x="350" y="176">Ferrel</text><text x="530" y="176">Polar</text>
+<text x="170" y="196" font-weight="400" font-size="11.5" fill="#556373">direct, thermally driven</text>
+<text x="350" y="196" font-weight="400" font-size="11.5" fill="#556373">indirect, eddy driven</text>
+<text x="530" y="196" font-weight="400" font-size="11.5" fill="#556373">weak, shallow</text>
+</g>
+<g font-size="12" text-anchor="middle">
+<text x="80" y="338" font-weight="800" fill="#0E2A47">0°</text><text x="260" y="338" font-weight="800" fill="#0E2A47">30°</text>
+<text x="440" y="338" font-weight="800" fill="#0E2A47">60°</text><text x="640" y="338" font-weight="800" fill="#0E2A47">90°</text>
+<text x="80" y="58" fill="#1B6E4A" font-weight="700">rising</text><text x="80" y="42" fill="#1B6E4A" font-weight="700">ITCZ · wet</text>
+<text x="260" y="58" fill="#A83246" font-weight="700">sinking</text><text x="260" y="42" fill="#A83246" font-weight="700">deserts · dry</text>
+<text x="440" y="58" fill="#1B6E4A" font-weight="700">rising</text><text x="440" y="42" fill="#1B6E4A" font-weight="700">polar front · wet</text>
+<text x="640" y="58" fill="#A83246" font-weight="700">sinking · dry</text>
+</g>
+<text x="360" y="356" text-anchor="middle" font-size="12" fill="#556373">latitude — the Philippines sits in the rising branch, which is why the archipelago is wet and convective</text>
+</svg>
+<figcaption><b>Figure 2.3.</b> Three cells per hemisphere, and the wet–dry banding they impose. The ITCZ migrates seasonally with the thermal equator, which is the proximate control on the Philippine wet season; a poleward shift of these branches is among the most consequential projected circulation changes.</figcaption>
+</figure>
+
+<p>The ocean carries roughly comparable heat poleward by a different mechanism. Wind stress drives the surface gyres; density differences arising from temperature and salinity drive the deep thermohaline circulation, whose overturning timescale of order a millennium sets the deep ocean's response time in the table above. Because the two circulations exchange heat and gas at the surface, they cannot be modelled separately — the coupled atmosphere–ocean model is not a refinement but a necessity.</p>
+
+<h3 id="a3">2.3 The solid earth: tectonics, rock cycle, weathering and soils</h3>
+<p>Plate tectonics supplies the slow boundary conditions for everything above. It determines where mountains rise and therefore where orographic rainfall and erosion concentrate; it opens and closes ocean gateways that reorganise circulation; it recycles carbon through subduction and volcanism on million-year timescales; and it places the Philippines where it is — on a convergent margin, which is simultaneously the reason for the archipelago's mineral wealth, its volcanic soils, its seismicity and its typhoon-exposed topography.</p>
+
+<figure>
+<svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The rock cycle">
+<g font-size="13" font-weight="800" text-anchor="middle">
+<rect x="270" y="24" width="160" height="56" rx="12" fill="#A83246"/><text x="350" y="58" fill="#fff">IGNEOUS</text>
+<rect x="500" y="150" width="160" height="56" rx="12" fill="#C9A227"/><text x="580" y="184" fill="#33280A">SEDIMENTARY</text>
+<rect x="40" y="150" width="160" height="56" rx="12" fill="#6B5433"/><text x="120" y="184" fill="#fff">METAMORPHIC</text>
+<ellipse cx="350" cy="290" rx="92" ry="38" fill="#7A2130"/><text x="350" y="296" fill="#F7EDC9">MAGMA</text>
+</g>
+<g fill="none" stroke="#164272" stroke-width="2.5">
+<path d="M432 62 Q510 90 546 146"/>
+<path d="M500 190 Q350 240 202 190"/>
+<path d="M112 146 Q140 86 268 60"/>
+<path d="M120 210 Q190 270 258 284"/>
+<path d="M350 250 Q350 160 350 86" stroke-dasharray="0"/>
+<path d="M580 210 Q520 268 442 286"/>
+</g>
+<g fill="#164272">
+<polygon points="548,150 536,136 552,132"/><polygon points="200,190 214,180 214,198"/>
+<polygon points="270,60 256,54 258,70"/><polygon points="260,285 246,278 248,294"/>
+<polygon points="350,84 342,100 358,100"/><polygon points="444,287 458,280 456,296"/>
+</g>
+<g font-size="11.5" fill="#556373" text-anchor="middle">
+<text x="520" y="96">weathering, erosion,</text><text x="520" y="111">transport, deposition</text>
+<text x="350" y="232">heat &amp; pressure</text>
+<text x="140" y="104">uplift &amp; exposure</text>
+<text x="150" y="264">partial melting</text>
+<text x="392" y="178">crystallisation</text>
+<text x="392" y="194">&amp; cooling</text>
+<text x="556" y="262">burial &amp; melting</text>
+</g>
+</svg>
+<figcaption><b>Figure 2.4.</b> The rock cycle as a set of transformations, not a set of objects. Every arrow is a process operating at a rate, and environmental science engages the cycle mainly where humans have accelerated one arrow — erosion by land clearing, or weathering enhanced deliberately for carbon removal.</figcaption>
+</figure>
+
+<p><b>Weathering</b> is where the rock cycle meets environmental chemistry. Physical weathering fragments rock and multiplies surface area; chemical weathering dissolves it. Silicate weathering consumes atmospheric carbon dioxide and is the long-term thermostat of the climate system, operating over hundreds of thousands of years — far too slowly to help with the present perturbation, which is precisely the point that makes enhanced weathering proposals interesting and contested.</p>
+
+<p><b>Soil</b> is the product, and it is the most consequential interface in the chapter: it stores more carbon than vegetation and atmosphere combined, it mediates every nutrient cycle in Chapter 3, and it controls the partitioning of rainfall between infiltration and runoff. Its formation is governed by climate, organisms, relief, parent material and time, and its structure is legible in a profile.</p>
+
+<figure>
+<svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A generalised soil profile with horizons">
+<g>
+<rect x="60" y="30" width="240" height="26" fill="#3F2F18"/><rect x="60" y="56" width="240" height="52" fill="#5A4224"/>
+<rect x="60" y="108" width="240" height="40" fill="#A08A63"/><rect x="60" y="148" width="240" height="70" fill="#8A5F33"/>
+<rect x="60" y="218" width="240" height="52" fill="#A9906B"/><rect x="60" y="270" width="240" height="30" fill="#7C7C82"/>
+<rect x="60" y="30" width="240" height="270" fill="none" stroke="#0E2A47" stroke-width="2"/>
+</g>
+<g font-size="13" font-weight="850" fill="#fff">
+<text x="72" y="48">O</text><text x="72" y="88">A</text><text x="72" y="134" fill="#3F2F18">E</text><text x="72" y="190">B</text><text x="72" y="250" fill="#3F2F18">C</text><text x="72" y="290">R</text>
+</g>
+<g font-size="12.5" fill="#12212F">
+<text x="330" y="48" font-weight="800">O — organic litter</text><text x="330" y="66" font-size="11.5" fill="#556373">undecomposed to partly decomposed residues</text>
+<text x="330" y="96" font-weight="800">A — topsoil</text><text x="330" y="114" font-size="11.5" fill="#556373">humus-rich, biologically active, the layer that erodes</text>
+<text x="330" y="144" font-weight="800">E — eluvial</text><text x="330" y="162" font-size="11.5" fill="#556373">leached of clay, iron and aluminium</text>
+<text x="330" y="192" font-weight="800">B — illuvial subsoil</text><text x="330" y="210" font-size="11.5" fill="#556373">accumulation zone; clay, oxides, carbonates</text>
+<text x="330" y="240" font-weight="800">C — weathered parent material</text>
+<text x="330" y="278" font-weight="800">R — bedrock</text>
+</g>
+<line x1="306" y1="30" x2="320" y2="30" stroke="#8FA6BF"/><line x1="306" y1="300" x2="320" y2="300" stroke="#8FA6BF"/>
+<text x="313" y="316" text-anchor="middle" font-size="11.5" fill="#7A5F0C">decades to millennia to form · hours to remove</text>
+</svg>
+<figcaption><b>Figure 2.5.</b> The profile records the history of downward transport. The asymmetry noted at the bottom is why soil is treated as non-renewable on policy timescales and why erosion rates are compared against formation rates rather than against zero.</figcaption>
+</figure>
+
+<h3 id="a4">2.4 Water: the hydrologic cycle and the watershed</h3>
+<p>Water is the integrator. It links the atmosphere to the land surface, transports sediment and solutes, and defines the unit of analysis this course will use repeatedly.</p>
+
+<div class="example"><b class="lbl">Worked example 2 — atmospheric water residence time</b>
+<p>The atmosphere holds roughly 12.7 × 10³ km³ of water. Global precipitation is roughly 496 × 10³ km³ per year, and at steady state evaporation matches it.</p>
+<p>τ = M/F = 12.7 × 10³ ÷ 496 × 10³ = 0.0256 yr ≈ <b>9.3 days</b>.</p>
+<p><b>Interpretation.</b> Atmospheric water turns over about forty times a year. This is why water vapour cannot be a climate <i>forcing</i> — any excess rains out within days, so vapour concentration is set by temperature rather than by emission, which makes it a fast feedback instead. Apply the same calculation to the deep ocean and the answer is over a thousand years.</p></div>
+
+<div class="def"><b class="lbl">Definition — watershed (catchment, drainage basin)</b>
+<p>The area of land from which all surface runoff drains to a common outlet, bounded by the topographic divide. It is the natural accounting unit for water, sediment and nutrients, because the boundary is defined by the process itself rather than by administrative convenience. Note that the <i>groundwater</i> divide does not always coincide with the topographic one, which is how a catchment budget can leak.</p></div>
+
+<figure>
+<svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Watershed anatomy with divide, stream orders and outlet">
+<path d="M90 250 L140 120 L250 60 L400 48 L540 96 L620 190 L600 280 L360 300 L150 296 Z" fill="#EAF3EA" stroke="#1B6E4A" stroke-width="2.5" stroke-dasharray="8 5"/>
+<g stroke="#1F6FA8" fill="none" stroke-linecap="round">
+<path d="M198 116 L262 172" stroke-width="2"/><path d="M262 108 L286 166" stroke-width="2"/>
+<path d="M372 84 L352 160" stroke-width="2"/><path d="M452 104 L400 168" stroke-width="2"/>
+<path d="M540 150 L470 196" stroke-width="2"/><path d="M172 186 L256 206" stroke-width="2"/>
+<path d="M262 172 L286 166 L330 200" stroke-width="3.5"/><path d="M352 160 L400 168 L392 206" stroke-width="3.5"/>
+<path d="M470 196 L430 226" stroke-width="3.5"/><path d="M256 206 L330 200" stroke-width="3.5"/>
+<path d="M330 200 Q370 214 392 206 Q420 222 430 226 Q470 250 510 286" stroke-width="6"/>
+</g>
+<circle cx="512" cy="288" r="11" fill="#C9A227" stroke="#7A5F0C" stroke-width="2"/>
+<text x="536" y="294" font-size="12.5" font-weight="800" fill="#7A5F0C">outlet — where the budget closes</text>
+<text x="150" y="96" font-size="12.5" font-weight="800" fill="#1B6E4A">topographic divide</text>
+<g font-size="11.5" font-weight="700" fill="#1F6FA8">
+<text x="196" y="140">1st order</text><text x="300" y="192">2nd</text><text x="424" y="252">3rd order</text>
+</g>
+<text x="350" y="322" text-anchor="middle" font-size="12" fill="#556373">every drop inside the dashed line reports to the same gauge — which is what makes the unit useful</text>
+</svg>
+<figcaption><b>Figure 2.6.</b> Stream ordering and the divide. Because the outlet integrates everything upstream, a single gauging station measures the aggregate consequence of every land-use decision in the basin — the property exploited by the paired-catchment design.</figcaption>
+</figure>
+
+<p>The most policy-relevant behaviour of a catchment is how it converts a storm into a flow. Land cover governs the split between infiltration and overland flow, and urbanisation shifts that split decisively: impervious surfaces and engineered drainage deliver water to the channel faster, so the same rainfall produces a higher, earlier peak and a shorter lag.</p>
+
+<figure>
+<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Storm hydrograph comparison between forested and urbanised catchments">
+<g fill="#1F6FA8" opacity=".75">
+<rect x="92" y="30" width="34" height="26"/><rect x="138" y="30" width="34" height="40"/>
+<rect x="184" y="30" width="34" height="18"/><rect x="230" y="30" width="34" height="10"/>
+</g>
+<text x="292" y="48" font-size="11.5" font-weight="700" fill="#1F6FA8">rainfall</text>
+<line x1="90" y1="300" x2="660" y2="300" stroke="#0E2A47" stroke-width="2"/>
+<line x1="90" y1="300" x2="90" y2="88" stroke="#0E2A47" stroke-width="2"/>
+<polyline points="90,290 136,230 182,110 227,160 273,210 319,240 365,260 456,276 548,284 640,288"
+  fill="none" stroke="#A83246" stroke-width="3.5"/>
+<polyline points="90,290 182,270 273,230 319,216 365,224 456,244 548,260 640,272"
+  fill="none" stroke="#1B6E4A" stroke-width="3.5"/>
+<g stroke="#556373" stroke-width="1.4" stroke-dasharray="4 4">
+<line x1="182" y1="110" x2="182" y2="300"/><line x1="319" y1="216" x2="319" y2="300"/>
+</g>
+<g font-size="12" font-weight="700">
+<text x="196" y="106" fill="#A83246">urbanised — higher, earlier peak</text>
+<text x="336" y="212" fill="#1B6E4A">forested — lower, later, longer</text>
+<text x="250" y="322" fill="#556373" text-anchor="middle">lag shortens</text>
+</g>
+<g stroke="#7A5F0C" stroke-width="1.6"><line x1="184" y1="314" x2="317" y2="314"/>
+<polygon points="182,314 192,310 192,318" fill="#7A5F0C"/><polygon points="319,314 309,310 309,318" fill="#7A5F0C"/></g>
+<text x="-200" y="26" transform="rotate(-90)" text-anchor="middle" font-size="12" font-weight="800" fill="#0E2A47">discharge</text>
+<text x="600" y="322" font-size="12" font-weight="800" fill="#0E2A47">time →</text>
+</svg>
+<figcaption><b>Figure 2.7.</b> The same storm on two catchments. Both curves enclose a similar volume of rainfall, but the urban curve concentrates it — which is why flood risk can rise sharply with no change whatever in rainfall, and why land-cover change belongs in every flood analysis.</figcaption>
+</figure>
+
+<div class="caution"><b class="lbl">Common error</b>
+<p>Treating "more flooding" as evidence of "more rain". A catchment that has been paved, drained and channelised produces higher peaks from an unchanged climate. Attribution requires separating the rainfall signal from the land-cover signal — which is a spatial analysis problem, and therefore the bridge into Week 4.</p></div>
+
+<h2 class="session" id="s2"><span class="wkbadge">Week 4</span> GIS, remote sensing and spatial analysis</h2>
+
+<h3 id="b1">2.5 The spatial workflow, end to end</h3>
+<p>A geographic information system is not a mapping program. It is a system for storing, querying and analysing data that carry location, and the analysis is the point — the map is only the last step, and frequently the least defensible one. Every project in this chapter follows the same chain, and most failures can be traced to a step that was skipped rather than to a tool that was misused.</p>
+
+<figure>
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="End-to-end spatial analysis workflow">
+<g font-size="12" font-weight="700" text-anchor="middle">
+<rect x="16" y="70" width="118" height="76" rx="12" fill="#0E2A47"/>
+<text x="75" y="100" fill="#E3BE45">1 · ACQUIRE</text><text x="75" y="120" fill="#B9C8DA" font-size="11" font-weight="400">survey, sensor,</text>
+<text x="75" y="134" fill="#B9C8DA" font-size="11" font-weight="400">archive</text>
+<rect x="154" y="70" width="118" height="76" rx="12" fill="#164272"/>
+<text x="213" y="100" fill="#E3BE45">2 · REFERENCE</text><text x="213" y="120" fill="#B9C8DA" font-size="11" font-weight="400">datum, projection,</text>
+<text x="213" y="134" fill="#B9C8DA" font-size="11" font-weight="400">correction</text>
+<rect x="292" y="70" width="118" height="76" rx="12" fill="#3D6B99"/>
+<text x="351" y="100" fill="#fff">3 · ANALYSE</text><text x="351" y="120" fill="#DCE5F0" font-size="11" font-weight="400">overlay, terrain,</text>
+<text x="351" y="134" fill="#DCE5F0" font-size="11" font-weight="400">classify</text>
+<rect x="430" y="70" width="118" height="76" rx="12" fill="#1B6E4A"/>
+<text x="489" y="100" fill="#fff">4 · VALIDATE</text><text x="489" y="120" fill="#CFE7DA" font-size="11" font-weight="400">ground truth,</text>
+<text x="489" y="134" fill="#CFE7DA" font-size="11" font-weight="400">accuracy</text>
+<rect x="568" y="70" width="118" height="76" rx="12" fill="#C9A227"/>
+<text x="627" y="100" fill="#33280A">5 · COMMUNICATE</text><text x="627" y="120" fill="#5C4A0F" font-size="11" font-weight="400">map, metadata,</text>
+<text x="627" y="134" fill="#5C4A0F" font-size="11" font-weight="400">uncertainty</text>
+</g>
+<g fill="#8FA6BF">
+<polygon points="154,108 140,101 140,115"/><polygon points="292,108 278,101 278,115"/>
+<polygon points="430,108 416,101 416,115"/><polygon points="568,108 554,101 554,115"/>
+</g>
+<path d="M627 152 L627 196 L75 196 L75 152" fill="none" stroke="#C9A227" stroke-width="2" stroke-dasharray="6 4"/>
+<polygon points="75,146 67,160 83,160" fill="#C9A227"/>
+<text x="351" y="216" text-anchor="middle" font-size="12" fill="#7A5F0C">validation failure sends you back to acquisition — not forward to a prettier map</text>
+<text x="351" y="44" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">every spatial deliverable in this course passes through all five</text>
+</svg>
+<figcaption><b>Figure 2.8.</b> The workflow. Step 4 is the one most often omitted in student work and in consultancy reports alike; a classified land-cover map without an accuracy assessment is an assertion, not a measurement.</figcaption>
+</figure>
+
+<h3 id="b2">2.6 Data models: vector and raster</h3>
+<p>Two ways of digitising the world, each with an implicit theory of what space is. The <b>vector</b> model treats space as occupied by discrete objects with sharp boundaries, stored as points, lines and polygons with attached attribute tables. The <b>raster</b> model treats space as a continuous surface sampled on a regular grid, where each cell carries one value. Choosing between them is a substantive modelling decision, not a file-format preference.</p>
+
+<figure>
+<svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vector and raster representations of the same features">
+<text x="175" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Vector</text>
+<text x="525" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#0E2A47">Raster</text>
+<rect x="40" y="40" width="270" height="216" fill="#fff" stroke="#C3D2E4"/>
+<polygon points="70,90 170,70 220,130 150,200 80,170" fill="#CFE7DA" stroke="#1B6E4A" stroke-width="2.5"/>
+<path d="M50 230 Q130 210 190 236 Q240 256 300 226" fill="none" stroke="#1F6FA8" stroke-width="3"/>
+<circle cx="250" cy="86" r="7" fill="#A83246"/>
+<g font-size="11" fill="#556373"><text x="118" y="140">polygon</text><text x="238" y="110">point</text><text x="120" y="252">line</text></g>
+<g id="grid">
+<rect x="390" y="40" width="270" height="216" fill="#fff" stroke="#C3D2E4"/>
+</g>
+<g fill="#CFE7DA" stroke="#B6D5C4" stroke-width=".7">
+<rect x="417" y="76" width="27" height="27"/><rect x="444" y="76" width="27" height="27"/><rect x="471" y="76" width="27" height="27"/>
+<rect x="417" y="103" width="27" height="27"/><rect x="444" y="103" width="27" height="27"/><rect x="471" y="103" width="27" height="27"/><rect x="498" y="103" width="27" height="27"/>
+<rect x="417" y="130" width="27" height="27"/><rect x="444" y="130" width="27" height="27"/><rect x="471" y="130" width="27" height="27"/><rect x="498" y="130" width="27" height="27"/>
+<rect x="444" y="157" width="27" height="27"/><rect x="471" y="157" width="27" height="27"/><rect x="498" y="157" width="27" height="27"/>
+</g>
+<rect x="552" y="76" width="27" height="27" fill="#E9BDC4" stroke="#D79AA4" stroke-width=".7"/>
+<g fill="#BFD9EC" stroke="#A8C8E0" stroke-width=".7">
+<rect x="390" y="211" width="27" height="27"/><rect x="417" y="211" width="27" height="27"/><rect x="444" y="211" width="27" height="27"/>
+<rect x="471" y="211" width="27" height="27"/><rect x="498" y="238" width="27" height="18"/><rect x="525" y="211" width="27" height="27"/>
+<rect x="552" y="211" width="27" height="27"/><rect x="579" y="211" width="27" height="27"/>
+</g>
+<g stroke="#C3D2E4" stroke-width=".8">
+<line x1="417" y1="40" x2="417" y2="256"/><line x1="444" y1="40" x2="444" y2="256"/><line x1="471" y1="40" x2="471" y2="256"/>
+<line x1="498" y1="40" x2="498" y2="256"/><line x1="525" y1="40" x2="525" y2="256"/><line x1="552" y1="40" x2="552" y2="256"/>
+<line x1="579" y1="40" x2="579" y2="256"/><line x1="606" y1="40" x2="606" y2="256"/><line x1="633" y1="40" x2="633" y2="256"/>
+<line x1="390" y1="76" x2="660" y2="76"/><line x1="390" y1="103" x2="660" y2="103"/><line x1="390" y1="130" x2="660" y2="130"/>
+<line x1="390" y1="157" x2="660" y2="157"/><line x1="390" y1="184" x2="660" y2="184"/><line x1="390" y1="211" x2="660" y2="211"/>
+<line x1="390" y1="238" x2="660" y2="238"/>
+</g>
+<text x="175" y="278" text-anchor="middle" font-size="11.5" fill="#556373">sharp boundaries, exact geometry, attribute tables</text>
+<text x="525" y="278" text-anchor="middle" font-size="11.5" fill="#556373">one value per cell — boundaries become stair-steps</text>
+</svg>
+<figcaption><b>Figure 2.9.</b> The same three features, twice. Rasterising a parcel boundary at 30 m cannot resolve anything narrower than 30 m, so a mangrove fringe or a riparian strip may disappear entirely — a resolution decision that quietly becomes an ecological one.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th style="width:26%">Question</th><th style="width:37%">Vector is better when…</th><th>Raster is better when…</th></tr></thead>
+  <tbody>
+    <tr><td><b>What is being represented</b></td><td>Discrete objects with legal or physical boundaries — parcels, roads, protected area limits</td><td>Continuous fields — elevation, temperature, reflectance, concentration</td></tr>
+    <tr><td><b>Typical operation</b></td><td>Topological queries, network analysis, exact area and length</td><td>Map algebra, terrain derivatives, image processing</td></tr>
+    <tr><td><b>Storage behaviour</b></td><td>Efficient for sparse features; complex geometry costs</td><td>Size scales with extent ÷ cell size squared — halving the cell quadruples the file</td></tr>
+    <tr><td><b>Characteristic weakness</b></td><td>Imposes crisp lines on gradual transitions such as an ecotone</td><td>Boundary position quantised to the grid; mixed pixels at every edge</td></tr>
+  </tbody>
+</table>
+
+<h3 id="b3">2.7 Georeferencing: datums, projections and PRS92</h3>
+<p>A coordinate is meaningless without the reference frame that defines it. Two layers can each be internally perfect and still disagree on the ground by hundreds of metres, and this is by far the most common source of wrong answers in student GIS work.</p>
+
+<div class="def"><b class="lbl">Definition — the three-part reference</b>
+<p>An <b>ellipsoid</b> is the mathematical shape approximating the earth. A <b>datum</b> fixes that ellipsoid to the physical earth with a defined origin and orientation. A <b>projection</b> then flattens the curved surface to a plane. A full coordinate reference system specifies all three, which is what an EPSG code encodes in a single number.</p></div>
+
+<figure>
+<svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three projection families and their distortion">
+<g text-anchor="middle">
+<text x="120" y="26" font-size="13" font-weight="800" fill="#0E2A47">Cylindrical</text>
+<circle cx="120" cy="120" r="58" fill="#DCE5F0" stroke="#164272" stroke-width="2"/>
+<rect x="56" y="62" width="128" height="116" fill="none" stroke="#C9A227" stroke-width="2.5"/>
+<line x1="56" y1="120" x2="184" y2="120" stroke="#A83246" stroke-width="2.5"/>
+<text x="120" y="204" font-size="11.5" fill="#556373">true along the equator</text>
+<text x="120" y="221" font-size="11.5" fill="#556373">distorts toward the poles</text>
+<text x="120" y="244" font-size="11.5" font-weight="700" fill="#7A5F0C">UTM, Web Mercator</text>
+
+<text x="350" y="26" font-size="13" font-weight="800" fill="#0E2A47">Conic</text>
+<circle cx="350" cy="120" r="58" fill="#DCE5F0" stroke="#164272" stroke-width="2"/>
+<path d="M350 40 L294 168 L406 168 Z" fill="none" stroke="#C9A227" stroke-width="2.5"/>
+<line x1="300" y1="98" x2="400" y2="98" stroke="#A83246" stroke-width="2.5"/>
+<text x="350" y="204" font-size="11.5" fill="#556373">true along one or two</text>
+<text x="350" y="221" font-size="11.5" fill="#556373">standard parallels</text>
+<text x="350" y="244" font-size="11.5" font-weight="700" fill="#7A5F0C">mid-latitude countries</text>
+
+<text x="580" y="26" font-size="13" font-weight="800" fill="#0E2A47">Azimuthal</text>
+<circle cx="580" cy="120" r="58" fill="#DCE5F0" stroke="#164272" stroke-width="2"/>
+<line x1="512" y1="62" x2="648" y2="62" stroke="#C9A227" stroke-width="2.5"/>
+<circle cx="580" cy="62" r="5" fill="#A83246"/>
+<text x="580" y="204" font-size="11.5" fill="#556373">true at a single point</text>
+<text x="580" y="221" font-size="11.5" fill="#556373">of tangency</text>
+<text x="580" y="244" font-size="11.5" font-weight="700" fill="#7A5F0C">polar and route maps</text>
+</g>
+<text x="350" y="270" text-anchor="middle" font-size="12" fill="#A83246" font-weight="700">no projection preserves area, shape, distance and direction at once — choose which property the analysis needs</text>
+</svg>
+<figcaption><b>Figure 2.10.</b> Where the developable surface touches the globe, distortion is nil; everywhere else it grows. If you are computing habitat area, you need an equal-area projection — a Web Mercator area calculation in the tropics is defensible only by accident.</figcaption>
+</figure>
+
+<figure>
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The same ground point expressed in two datums">
+<g stroke="#8FA6BF" stroke-width="1">
+<line x1="70" y1="60" x2="640" y2="60"/><line x1="70" y1="120" x2="640" y2="120"/><line x1="70" y1="180" x2="640" y2="180"/>
+<line x1="160" y1="36" x2="160" y2="204"/><line x1="300" y1="36" x2="300" y2="204"/><line x1="440" y1="36" x2="440" y2="204"/><line x1="580" y1="36" x2="580" y2="204"/>
+</g>
+<g stroke="#C9A227" stroke-width="1.4" stroke-dasharray="5 4">
+<line x1="70" y1="78" x2="640" y2="78"/><line x1="70" y1="138" x2="640" y2="138"/>
+<line x1="186" y1="36" x2="186" y2="204"/><line x1="326" y1="36" x2="326" y2="204"/><line x1="466" y1="36" x2="466" y2="204"/>
+</g>
+<circle cx="300" cy="120" r="9" fill="#164272"/><circle cx="326" cy="138" r="9" fill="#C9A227" stroke="#7A5F0C" stroke-width="1.5"/>
+<line x1="300" y1="120" x2="326" y2="138" stroke="#A83246" stroke-width="2.5"/>
+<text x="238" y="112" font-size="12" font-weight="800" fill="#164272">datum A</text>
+<text x="342" y="158" font-size="12" font-weight="800" fill="#7A5F0C">datum B</text>
+<text x="350" y="228" text-anchor="middle" font-size="12.5" fill="#A83246" font-weight="700">one physical location · two coordinate frames · a shift of the order of a hundred metres or more</text>
+</svg>
+<figcaption><b>Figure 2.11.</b> A datum mismatch does not look like an error. Both layers draw, both look plausible, and the offset is discovered only when a feature falls on the wrong side of a boundary — often after the analysis has been reported.</figcaption>
+</figure>
+
+<h4>The Philippine case</h4>
+<p>The national frame is the <b>Philippine Reference System of 1992 (PRS92)</b>, maintained by NAMRIA and used for cadastral and most official mapping; geographic coordinates on PRS92 carry EPSG:4683, and the five national plane zones carry EPSG:3121 through 3125. Satellite data, GNSS handhelds and web basemaps deliver <b>WGS84</b> coordinates instead, and UTM Zone 51N (EPSG:32651) covers most of the archipelago. These frames are not interchangeable: mixing an older local datum with WGS84 produces offsets large enough to move a parcel corner across a road, so transformation parameters must be obtained from the mapping agency rather than guessed. Always verify the current authoritative code and transformation in the EPSG registry before production work.</p>
+
+<div class="example"><b class="lbl">Worked example 3 — scale, resolution and what you may claim</b>
+<p>A land-cover map is produced from 30 m Landsat imagery and printed at 1:50,000.</p>
+<p><b>Step 1.</b> At 1:50,000, one centimetre on the page equals 500 m on the ground, so a 30 m pixel occupies 0.6 mm — below the width of a printed line.</p>
+<p><b>Step 2.</b> A hectare is 10,000 m²; a 30 m pixel is 900 m². Roughly 11 pixels make a hectare, and 1,111 pixels make a square kilometre.</p>
+<p><b>Step 3.</b> A defensible minimum mapping unit is conventionally several pixels — say a 3 × 3 block, 0.81 ha — because single-pixel patches are dominated by mixed-pixel effects and misclassification.</p>
+<p><b>Interpretation.</b> You may not report "0.2 ha of mangrove lost" from this data. The claim exceeds the resolution, and the number will not survive a competent reviewer.</p></div>
+
+<h3 id="b4">2.8 Acquisition: sensors, platforms and the resolution trade-off</h3>
+<p>Remote sensing measures electromagnetic radiation reflected or emitted by a surface. Because different materials interact with different wavelengths in characteristic ways, the spectrum itself carries the information — and the choice of bands determines what can be seen.</p>
+
+<figure>
+<svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spectral reflectance signatures of vegetation soil and water">
+<line x1="80" y1="290" x2="660" y2="290" stroke="#0E2A47" stroke-width="2"/>
+<line x1="80" y1="290" x2="80" y2="100" stroke="#0E2A47" stroke-width="2"/>
+<g>
+<rect x="88" y="298" width="52" height="16" fill="#3F6FD8"/><rect x="178" y="298" width="52" height="16" fill="#3E9B54"/>
+<rect x="268" y="298" width="52" height="16" fill="#C0392B"/><rect x="358" y="298" width="52" height="16" fill="#8E5AA8"/>
+<rect x="448" y="298" width="52" height="16" fill="#7A5F0C"/><rect x="538" y="298" width="52" height="16" fill="#4E463A"/>
+</g>
+<g font-size="11" text-anchor="middle" fill="#556373">
+<text x="114" y="328">blue</text><text x="204" y="328">green</text><text x="294" y="328">red</text>
+<text x="384" y="328">NIR</text><text x="474" y="328">SWIR-1</text><text x="564" y="328">SWIR-2</text>
+</g>
+<polyline points="114,278 204,254 294,275 384,140 474,215 564,254" fill="none" stroke="#1B6E4A" stroke-width="3.5"/>
+<polyline points="114,260 204,248 294,230 384,206 474,182 564,188" fill="none" stroke="#8A5F33" stroke-width="3.5" stroke-dasharray="7 4"/>
+<polyline points="114,272 204,275 294,281 384,284 474,287 564,287" fill="none" stroke="#1F6FA8" stroke-width="3.5"/>
+<g font-size="12" font-weight="700">
+<text x="398" y="132" fill="#1B6E4A">vegetation</text><text x="486" y="174" fill="#8A5F33">bare soil</text><text x="440" y="278" fill="#1F6FA8">water</text>
+</g>
+<text x="-195" y="26" transform="rotate(-90)" text-anchor="middle" font-size="12" font-weight="800" fill="#0E2A47">reflectance</text>
+<text x="370" y="118" text-anchor="middle" font-size="11.5" fill="#A83246" font-weight="700">the red-edge jump is what every vegetation index exploits</text>
+</svg>
+<figcaption><b>Figure 2.12.</b> Healthy vegetation absorbs red light for photosynthesis and scatters near-infrared strongly from leaf structure; water absorbs almost everything beyond the visible. The near-vertical step between red and NIR is the physical basis of the index in Figure 2.13 — and its collapse is an early sign of plant stress.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th style="width:22%">Platform</th><th style="width:20%">Resolution</th><th style="width:18%">Revisit</th><th>Typical environmental use</th></tr></thead>
+  <tbody>
+    <tr><td><b>Landsat 8 / 9</b></td><td>30 m multispectral, 15 m panchromatic, 100 m thermal</td><td>16 days each; 8 days combined</td><td>Long-term land-cover change — the archive reaches back to 1972, which nothing else matches</td></tr>
+    <tr><td><b>Sentinel-2</b></td><td>10 m, 20 m and 60 m by band</td><td>About 5 days with both satellites</td><td>Vegetation condition, cropland mapping, coastal and inland water quality</td></tr>
+    <tr><td><b>Sentinel-1 (SAR)</b></td><td>About 10 m in standard mode</td><td>6–12 days</td><td>Flood mapping and deformation — radar penetrates cloud, decisive in the tropics</td></tr>
+    <tr><td><b>MODIS / VIIRS</b></td><td>250 m–1 km; VIIRS night-lights about 750 m</td><td>Daily</td><td>Fire, phenology, aerosols, sea surface temperature, night-time lights</td></tr>
+    <tr><td><b>Airborne LiDAR</b></td><td>Decimetre vertical; dense point clouds</td><td>Commissioned</td><td>Bare-earth terrain beneath canopy, flood modelling, forest structure and biomass</td></tr>
+    <tr><td><b>UAV</b></td><td>Centimetre</td><td>On demand</td><td>Site-scale mapping, validation of coarser products, post-disaster assessment</td></tr>
+  </tbody>
+</table>
+
+<div class="caution"><b class="lbl">The resolution trade-off</b>
+<p>Spatial, spectral, temporal and radiometric resolution compete for a fixed budget of photons and downlink bandwidth. A sensor with centimetre pixels cannot also image the whole country daily. The correct question is never "what is the highest resolution available" but "what is the smallest feature and the shortest interval my question actually requires" — and in the Philippines, cloud cover frequently makes revisit frequency, not pixel size, the binding constraint.</p></div>
+
+<h3 id="b5">2.9 Analysis: band math, terrain, interpolation and overlay</h3>
+
+<h4>Spectral indices</h4>
+<figure>
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NDVI computed from red and near-infrared bands">
+<g>
+<rect x="36" y="52" width="92" height="92" rx="8" fill="#C0392B" opacity=".75"/>
+<text x="82" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="#0E2A47">RED</text>
+<text x="82" y="105" text-anchor="middle" font-size="20" font-family="Georgia,serif" fill="#fff">0.09</text>
+<rect x="36" y="160" width="92" height="92" rx="8" fill="#8E5AA8" opacity=".75"/>
+<text x="82" y="150" text-anchor="middle" font-size="12" font-weight="800" fill="#0E2A47">NIR</text>
+<text x="82" y="213" text-anchor="middle" font-size="20" font-family="Georgia,serif" fill="#fff">0.42</text>
+</g>
+<polygon points="150,150 168,140 168,160" fill="#8FA6BF"/>
+<g>
+<rect x="180" y="86" width="250" height="120" rx="12" fill="#fff" stroke="#164272" stroke-width="2"/>
+<text x="305" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#0E2A47">NIR − RED</text>
+<line x1="228" y1="142" x2="382" y2="142" stroke="#0E2A47" stroke-width="1.8"/>
+<text x="305" y="174" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#0E2A47">NIR + RED</text>
+<text x="305" y="74" text-anchor="middle" font-size="12" font-weight="800" fill="#7A5F0C">NDVI</text>
+</g>
+<polygon points="452,150 470,140 470,160" fill="#8FA6BF"/>
+<rect x="482" y="96" width="100" height="100" rx="10" fill="#1B6E4A"/>
+<text x="532" y="152" text-anchor="middle" font-size="22" font-family="Georgia,serif" fill="#fff">0.65</text>
+<g>
+<defs><linearGradient id="ramp" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" stop-color="#1F6FA8"/><stop offset="0.35" stop-color="#C9A227"/><stop offset="1" stop-color="#14532D"/>
+</linearGradient></defs>
+<rect x="602" y="96" width="26" height="100" fill="url(#ramp)" stroke="#8FA6BF"/>
+<text x="644" y="104" font-size="11" fill="#556373">+1</text><text x="644" y="152" font-size="11" fill="#556373">0</text><text x="644" y="196" font-size="11" fill="#556373">−1</text>
+</g>
+<text x="350" y="238" text-anchor="middle" font-size="12" fill="#556373">water and cloud shadow fall below zero; bare soil sits near 0.1–0.2; closed canopy exceeds 0.6</text>
+</svg>
+<figcaption><b>Figure 2.13.</b> A normalised difference index divides by the sum so that illumination and slope effects partly cancel — which is why NDVI is comparable between a sunlit and a shaded hillside in a way that raw band values are not. The same construction gives NDWI for water and NBR for burn severity.</figcaption>
+</figure>
+
+<h4>Terrain from a digital elevation model</h4>
+<figure>
+<svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Slope aspect and D8 flow direction from a three by three elevation window">
+<g font-size="15" font-family="Georgia,serif" text-anchor="middle">
+<rect x="60" y="60" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="90" y="97" fill="#12212F">78</text>
+<rect x="120" y="60" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="150" y="97" fill="#12212F">74</text>
+<rect x="180" y="60" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="210" y="97" fill="#12212F">69</text>
+<rect x="60" y="120" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="90" y="157" fill="#12212F">72</text>
+<rect x="120" y="120" width="60" height="60" fill="#DCE5F0" stroke="#0E2A47" stroke-width="2.5"/><text x="150" y="157" fill="#0E2A47" font-weight="700">70</text>
+<rect x="180" y="120" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="210" y="157" fill="#12212F">66</text>
+<rect x="60" y="180" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="90" y="217" fill="#12212F">68</text>
+<rect x="120" y="180" width="60" height="60" fill="#F0F4F9" stroke="#164272"/><text x="150" y="217" fill="#12212F">63</text>
+<rect x="180" y="180" width="60" height="60" fill="#FBE6EA" stroke="#A83246" stroke-width="2.5"/><text x="210" y="217" fill="#A83246" font-weight="700">58</text>
+</g>
+<line x1="160" y1="160" x2="200" y2="200" stroke="#A83246" stroke-width="5"/>
+<polygon points="206,206 190,202 202,190" fill="#A83246"/>
+<text x="150" y="40" text-anchor="middle" font-size="12" font-weight="800" fill="#0E2A47">elevation window (m), 30 m cells</text>
+<text x="150" y="268" text-anchor="middle" font-size="12" fill="#A83246" font-weight="700">D8: all flow to the steepest single neighbour</text>
+<g font-size="12.5" fill="#12212F">
+<text x="300" y="76" font-weight="800" fill="#0E2A47">Slope</text>
+<text x="300" y="98" font-size="11.5" fill="#556373">rise over run to the steepest neighbour:</text>
+<text x="300" y="118" font-size="11.5" fill="#556373">(70 − 58) ÷ (30 × √2) ≈ 0.283 → about 16°</text>
+<text x="300" y="150" font-weight="800" fill="#0E2A47">Aspect</text>
+<text x="300" y="172" font-size="11.5" fill="#556373">direction of that steepest descent — here</text>
+<text x="300" y="190" font-size="11.5" fill="#556373">south-east, which drives insolation and drying</text>
+<text x="300" y="222" font-weight="800" fill="#0E2A47">Flow accumulation</text>
+<text x="300" y="244" font-size="11.5" fill="#556373">count of upslope cells draining through each cell;</text>
+<text x="300" y="262" font-size="11.5" fill="#556373">threshold it and you have a synthetic stream network</text>
+</g>
+</svg>
+<figcaption><b>Figure 2.14.</b> Slope, aspect, flow direction and flow accumulation all derive from the same 3 × 3 window. Because the whole chain starts from elevation, a DEM error propagates into the delineated catchment — which is why LiDAR bare-earth models changed Philippine flood mapping so decisively.</figcaption>
+</figure>
+
+<h4>Interpolation</h4>
+<p>Field measurements are points; the phenomena are surfaces. Interpolation bridges the gap, and the method encodes an assumption. Inverse distance weighting assumes only that near things are more alike, and produces characteristic bull's-eyes around each sample. Kriging first models the spatial autocorrelation structure explicitly through a variogram, then uses it to produce both an estimate and a mapped estimation variance — the second output being the reason it is preferred in environmental work, since it shows where the map is guessing.</p>
+
+<figure>
+<svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inverse distance weighting compared with kriging">
+<text x="175" y="26" text-anchor="middle" font-size="13.5" font-weight="800" fill="#0E2A47">Inverse distance weighting</text>
+<text x="525" y="26" text-anchor="middle" font-size="13.5" font-weight="800" fill="#0E2A47">Kriging</text>
+<rect x="40" y="40" width="270" height="190" fill="#FBFDFF" stroke="#C3D2E4"/>
+<g fill="none" stroke="#C9A227" stroke-width="1.8">
+<circle cx="110" cy="100" r="16"/><circle cx="110" cy="100" r="30"/><circle cx="110" cy="100" r="44"/>
+<circle cx="230" cy="160" r="16"/><circle cx="230" cy="160" r="30"/><circle cx="230" cy="160" r="44"/>
+<circle cx="180" cy="76" r="14"/><circle cx="180" cy="76" r="26"/>
+</g>
+<g fill="#A83246"><circle cx="110" cy="100" r="5"/><circle cx="230" cy="160" r="5"/><circle cx="180" cy="76" r="5"/><circle cx="90" cy="190" r="5"/></g>
+<rect x="390" y="40" width="270" height="190" fill="#FBFDFF" stroke="#C3D2E4"/>
+<g fill="none" stroke="#164272" stroke-width="1.8">
+<path d="M410 120 Q480 74 560 96 Q630 118 646 92"/>
+<path d="M410 152 Q490 112 566 134 Q628 152 648 130"/>
+<path d="M410 186 Q496 152 572 172 Q630 188 648 170"/>
+<path d="M412 214 Q500 190 578 206 Q632 220 650 206"/>
+</g>
+<g fill="#A83246"><circle cx="460" cy="96" r="5"/><circle cx="560" cy="118" r="5"/><circle cx="510" cy="180" r="5"/><circle cx="612" cy="160" r="5"/></g>
+<text x="175" y="254" text-anchor="middle" font-size="11.5" fill="#556373">bull's-eyes; no estimate of uncertainty</text>
+<text x="525" y="254" text-anchor="middle" font-size="11.5" fill="#556373">smooth surface + a mapped estimation variance</text>
+<text x="350" y="278" text-anchor="middle" font-size="12" font-weight="700" fill="#A83246">red dots are the only real data — everything between them is a modelling assumption</text>
+</svg>
+<figcaption><b>Figure 2.15.</b> Interpolation manufactures values where none were measured. The honest deliverable is the estimate together with its uncertainty surface, so a reader can see which parts of the map are supported by data and which are inference.</figcaption>
+</figure>
+
+<h4>Overlay and multi-criteria suitability</h4>
+<p>The operation that makes GIS an analytical tool rather than a drawing tool. Boolean overlay intersects binary constraints — slope under 18%, outside the protected area, more than 500 m from a watercourse — and returns the areas satisfying all of them. Weighted overlay instead standardises each criterion to a common scale, assigns weights reflecting relative importance, and sums. The weights are usually derived by pairwise comparison (AHP), which also yields a consistency ratio; a ratio above about 0.1 signals that the judgements are internally contradictory and should be revisited.</p>
+
+<figure>
+<svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Weighted overlay of four criteria layers producing a suitability surface">
+<g>
+<polygon points="120,60 420,60 330,120 30,120" fill="#DCE5F0" stroke="#164272" stroke-width="1.8"/>
+<text x="150" y="98" font-size="12.5" font-weight="700" fill="#0E2A47">slope</text>
+<text x="440" y="98" font-size="12.5" font-weight="800" fill="#7A5F0C">w = 0.40</text>
+<polygon points="120,128 420,128 330,188 30,188" fill="#CFE7DA" stroke="#1B6E4A" stroke-width="1.8"/>
+<text x="150" y="166" font-size="12.5" font-weight="700" fill="#0E2A47">land cover</text>
+<text x="440" y="166" font-size="12.5" font-weight="800" fill="#7A5F0C">w = 0.30</text>
+<polygon points="120,196 420,196 330,256 30,256" fill="#F7EDC9" stroke="#C9A227" stroke-width="1.8"/>
+<text x="150" y="234" font-size="12.5" font-weight="700" fill="#0E2A47">distance to river</text>
+<text x="440" y="234" font-size="12.5" font-weight="800" fill="#7A5F0C">w = 0.20</text>
+<polygon points="120,264 420,264 330,324 30,324" fill="#F0E2E5" stroke="#A83246" stroke-width="1.8"/>
+<text x="150" y="302" font-size="12.5" font-weight="700" fill="#0E2A47">road access</text>
+<text x="440" y="302" font-size="12.5" font-weight="800" fill="#7A5F0C">w = 0.10</text>
+</g>
+<path d="M530 96 L530 300" stroke="#8FA6BF" stroke-width="2"/>
+<polygon points="530,308 522,292 538,292" fill="#8FA6BF"/>
+<text x="556" y="200" font-size="12.5" font-weight="800" fill="#0E2A47">Σ wᵢ · sᵢ</text>
+<polygon points="560,318 680,318 640,352 520,352" fill="#1B6E4A" stroke="#0E4A2E" stroke-width="1.8"/>
+<text x="600" y="342" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">suitability</text>
+<text x="250" y="42" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">criteria standardised to a common 0–1 scale before weighting</text>
+</svg>
+<figcaption><b>Figure 2.16.</b> Weighted overlay in one picture. The weights carry the value judgements of whoever set them, so a defensible study reports the weights, their derivation, the consistency ratio, and a sensitivity analysis showing how the suitable area changes when the weights are perturbed.</figcaption>
+</figure>
+
+<div class="example"><b class="lbl">Worked example 4 — a suitability score</b>
+<p>For one candidate cell, the standardised criterion scores are slope 0.8, land cover 0.6, distance to river 0.9, road access 0.4, with the weights shown above.</p>
+<p>S = (0.40 × 0.8) + (0.30 × 0.6) + (0.20 × 0.9) + (0.10 × 0.4) = 0.32 + 0.18 + 0.18 + 0.04 = <b>0.72</b></p>
+<p><b>Interpretation.</b> Now test the result rather than reporting it. If slope and land cover were weighted equally at 0.35 each, the score becomes 0.72 as well — stable. But a cell scoring 0.9 on slope and 0.2 on land cover would move from 0.62 to 0.58 and might cross a decision threshold. That is what a sensitivity analysis is for, and it is the difference between a suitability map and a suitability argument.</p></div>
+
+<h3 id="b6">2.10 Classification, accuracy and change detection</h3>
+<p>Turning imagery into a thematic map means assigning each pixel to a class. <b>Unsupervised</b> classification clusters the spectral data first and asks the analyst to label the clusters afterwards. <b>Supervised</b> classification starts from training samples of known classes and generalises from them, increasingly using machine-learning classifiers such as random forests. Either way, the output is a hypothesis about the ground, and it is worth nothing until tested against independent reference data.</p>
+
+<figure>
+<svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Confusion matrix with producer and user accuracy">
+<g font-size="12.5" text-anchor="middle">
+<text x="290" y="34" font-weight="800" fill="#0E2A47">reference (ground truth)</text>
+<text x="76" y="150" font-weight="800" fill="#0E2A47" transform="rotate(-90 76 150)">classified</text>
+<text x="196" y="66" font-weight="700" fill="#164272">forest</text><text x="290" y="66" font-weight="700" fill="#164272">crop</text><text x="384" y="66" font-weight="700" fill="#164272">built</text>
+<text x="470" y="66" font-weight="700" fill="#7A5F0C">total</text><text x="580" y="66" font-weight="700" fill="#7A5F0C">user's acc.</text>
+<text x="130" y="108" font-weight="700" fill="#164272">forest</text><text x="130" y="160" font-weight="700" fill="#164272">crop</text><text x="130" y="212" font-weight="700" fill="#164272">built</text>
+<text x="130" y="258" font-weight="700" fill="#7A5F0C">total</text><text x="130" y="292" font-weight="700" fill="#7A5F0C">prod. acc.</text>
+<rect x="156" y="82" width="80" height="38" fill="#CFE7DA" stroke="#1B6E4A" stroke-width="2"/><text x="196" y="108" fill="#0E4A2E" font-weight="800">62</text>
+<rect x="250" y="82" width="80" height="38" fill="#fff" stroke="#C3D2E4"/><text x="290" y="108" fill="#556373">6</text>
+<rect x="344" y="82" width="80" height="38" fill="#fff" stroke="#C3D2E4"/><text x="384" y="108" fill="#556373">2</text>
+<text x="470" y="108" fill="#12212F">70</text><text x="580" y="108" fill="#12212F">88.6%</text>
+<rect x="156" y="134" width="80" height="38" fill="#fff" stroke="#C3D2E4"/><text x="196" y="160" fill="#556373">8</text>
+<rect x="250" y="134" width="80" height="38" fill="#CFE7DA" stroke="#1B6E4A" stroke-width="2"/><text x="290" y="160" fill="#0E4A2E" font-weight="800">48</text>
+<rect x="344" y="134" width="80" height="38" fill="#fff" stroke="#C3D2E4"/><text x="384" y="160" fill="#556373">4</text>
+<text x="470" y="160" fill="#12212F">60</text><text x="580" y="160" fill="#12212F">80.0%</text>
+<rect x="156" y="186" width="80" height="38" fill="#fff" stroke="#C3D2E4"/><text x="196" y="212" fill="#556373">5</text>
+<rect x="250" y="186" width="80" height="38" fill="#fff" stroke="#C3D2E4"/><text x="290" y="212" fill="#556373">6</text>
+<rect x="344" y="186" width="80" height="38" fill="#CFE7DA" stroke="#1B6E4A" stroke-width="2"/><text x="384" y="212" fill="#0E4A2E" font-weight="800">59</text>
+<text x="470" y="212" fill="#12212F">70</text><text x="580" y="212" fill="#12212F">84.3%</text>
+<text x="196" y="258" fill="#12212F">75</text><text x="290" y="258" fill="#12212F">60</text><text x="384" y="258" fill="#12212F">65</text><text x="470" y="258" font-weight="800" fill="#0E2A47">200</text>
+<text x="196" y="292" fill="#12212F">82.7%</text><text x="290" y="292" fill="#12212F">80.0%</text><text x="384" y="292" fill="#12212F">90.8%</text>
+</g>
+<text x="350" y="320" text-anchor="middle" font-size="12" font-weight="700" fill="#7A5F0C">overall accuracy = (62 + 48 + 59) / 200 = 84.5%  ·  the diagonal is agreement; everything else is a named error</text>
+</svg>
+<figcaption><b>Figure 2.17.</b> The confusion matrix, which reports far more than a single accuracy figure. Producer's accuracy answers "how much of the real forest did I find"; user's accuracy answers "when my map says forest, how often is it right" — and a user of the map cares about the second.</figcaption>
+</figure>
+
+<div class="example"><b class="lbl">Worked example 5 — reading the matrix</b>
+<p><b>Overall accuracy</b> = 169/200 = 84.5%. <b>Producer's accuracy for crop</b> = 48/60 = 80.0% — one fifth of real cropland was missed. <b>User's accuracy for crop</b> = 48/60 = 80.0% as well, here by coincidence of the totals.</p>
+<p>Expected agreement by chance = Σ(row total × column total)/n² = [(70 × 75) + (60 × 60) + (70 × 65)] ÷ 200² = (5,250 + 3,600 + 4,550) ÷ 40,000 = 0.335.</p>
+<p><b>Kappa</b> = (0.845 − 0.335) ÷ (1 − 0.335) = 0.510 ÷ 0.665 ≈ <b>0.77</b>.</p>
+<p><b>Interpretation.</b> Substantial agreement beyond chance, but the crop class is the weak one in both directions — so a conclusion resting on cropland area carries more error than the headline 84.5% suggests. Report the matrix, not just the percentage.</p></div>
+
+<figure>
+<svg viewBox="0 0 700 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Change detection between two dates">
+<g>
+<rect x="30" y="50" width="170" height="150" fill="#CFE7DA" stroke="#164272" stroke-width="1.5"/>
+<rect x="120" y="130" width="60" height="52" fill="#E4D9C6"/><rect x="44" y="64" width="38" height="34" fill="#BFD9EC"/>
+<text x="115" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">T₁ — 2015</text>
+<rect x="265" y="50" width="170" height="150" fill="#CFE7DA" stroke="#164272" stroke-width="1.5"/>
+<rect x="330" y="104" width="98" height="78" fill="#E4D9C6"/><rect x="279" y="64" width="38" height="34" fill="#BFD9EC"/>
+<text x="350" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">T₂ — 2025</text>
+<rect x="500" y="50" width="170" height="150" fill="#F4F7FA" stroke="#164272" stroke-width="1.5"/>
+<rect x="565" y="104" width="98" height="78" fill="#A83246" opacity=".65"/>
+<rect x="590" y="130" width="35" height="52" fill="#F4F7FA"/>
+<text x="585" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0E2A47">difference</text>
+</g>
+<g fill="#8FA6BF">
+<polygon points="230,125 214,116 214,134"/><polygon points="466,125 450,116 450,134"/>
+</g>
+<g font-size="11.5">
+<rect x="180" y="228" width="14" height="14" fill="#A83246" opacity=".65"/><text x="202" y="240" fill="#556373">forest converted to built-up</text>
+<rect x="400" y="228" width="14" height="14" fill="#F4F7FA" stroke="#C3D2E4"/><text x="422" y="240" fill="#556373">no change detected</text>
+</g>
+<text x="350" y="214" text-anchor="middle" font-size="11.5" fill="#A83246" font-weight="700">any difference smaller than the geometric registration error is an artefact, not a change</text>
+</svg>
+<figcaption><b>Figure 2.18.</b> Post-classification comparison. The warning in red is the one that matters: if two dates are co-registered to within half a pixel, every boundary generates spurious change, and the error compounds because each date carries its own classification error.</figcaption>
+</figure>
+
+<h3 id="b7">2.11 Cartography, metadata and spatial uncertainty</h3>
+<p>The final step is where an analysis becomes a claim that other people act on. Three obligations attach to it.</p>
+<ul>
+  <li><b>Design honestly.</b> Classification breaks decide what the reader sees: equal interval, quantile and natural breaks applied to the same data produce maps that support different conclusions. Choose the scheme for a stated reason and say what it was. Use sequential colour ramps for ordered data and diverging ramps only where a meaningful midpoint exists, and avoid ramps that lose their ordering for colour-blind readers.</li>
+  <li><b>Document.</b> Metadata records the source, acquisition date, datum and projection, processing steps, accuracy assessment and licence. Without it the layer cannot be reused or audited, and in a regulatory setting an undocumented layer is close to worthless.</li>
+  <li><b>Show what you do not know.</b> Positional error, attribute error and temporal mismatch all propagate through an overlay. A suitability map built from four layers inherits the error of all four, and the honest map either carries an uncertainty companion or states the limitation in the legend.</li>
+</ul>
+
+<div class="caution"><b class="lbl">Two traps worth naming</b>
+<p>The <b>modifiable areal unit problem</b>: results change when the same data are aggregated into different zones or resolutions, so a relationship demonstrated at barangay level may vanish at municipal level. The <b>ecological fallacy</b>, met in Chapter 1, is its inferential twin — an area-level association does not establish an individual-level one. Both are reasons to report the unit of analysis prominently rather than burying it in a methods note.</p></div>
+
+<h2 class="session" id="terms">Key terms</h2>
+<div class="terms">
+  <div><b>Response time</b><span>Characteristic time for a subsystem to adjust to a perturbation; ranges from days to millennia across the five spheres.</span></div>
+  <div><b>Planetary albedo</b><span>Fraction of incoming solar radiation reflected; about 0.30, and the lever in the equilibrium temperature equation.</span></div>
+  <div><b>ITCZ</b><span>Intertropical convergence zone — the rising branch of the Hadley cell, whose seasonal migration sets tropical wet seasons.</span></div>
+  <div><b>Thermohaline circulation</b><span>Density-driven deep ocean overturning with a timescale of roughly a millennium.</span></div>
+  <div><b>Silicate weathering</b><span>Slow chemical consumption of atmospheric CO₂; the long-term climate thermostat.</span></div>
+  <div><b>Soil horizon</b><span>Layer in a soil profile (O, A, E, B, C, R) recording downward transport and accumulation.</span></div>
+  <div><b>Watershed</b><span>Area draining to a common outlet, bounded by the topographic divide; the natural accounting unit for water and sediment.</span></div>
+  <div><b>Lag time</b><span>Interval between rainfall and peak discharge; shortens sharply with impervious cover.</span></div>
+  <div><b>Vector / raster</b><span>Discrete-object versus continuous-field representations of space.</span></div>
+  <div><b>Datum</b><span>The fixing of an ellipsoid to the physical earth; mixing datums produces silent offsets of a hundred metres or more.</span></div>
+  <div><b>PRS92</b><span>Philippine Reference System of 1992, the national geodetic frame maintained by NAMRIA.</span></div>
+  <div><b>EPSG code</b><span>Registry identifier encoding a full coordinate reference system in one number.</span></div>
+  <div><b>Spatial resolution</b><span>Ground dimension of one pixel; sets the smallest feature that can be resolved and the defensible minimum mapping unit.</span></div>
+  <div><b>NDVI</b><span>(NIR − Red)/(NIR + Red); exploits the red-edge contrast to index vegetation vigour.</span></div>
+  <div><b>Flow accumulation</b><span>Count of upslope cells draining through each cell; thresholded to derive stream networks.</span></div>
+  <div><b>Kriging</b><span>Geostatistical interpolation using a fitted variogram, returning an estimate and its variance.</span></div>
+  <div><b>Weighted overlay</b><span>Standardise, weight and sum criteria to produce a suitability surface; weights are value judgements.</span></div>
+  <div><b>Producer's vs user's accuracy</b><span>Omission error from the map-maker's side versus commission error from the map-user's side.</span></div>
+  <div><b>Kappa</b><span>Agreement corrected for chance; reported alongside, not instead of, the confusion matrix.</span></div>
+  <div><b>MAUP</b><span>Modifiable areal unit problem — results shift with the zoning or resolution chosen for aggregation.</span></div>
+</div>
+
+<div class="summary" id="summary">
+  <h3>What to take away</h3>
+  <ul>
+    <li>The five subsystems differ less in composition than in response time, and that spread — days for the atmosphere, a millennium for the deep ocean — explains which consequences of a decision arrive within a political term.</li>
+    <li>The energy balance yields 255 K; the surface is 288 K; the 33 K gap is the greenhouse effect stated arithmetically, and the same equation prices an albedo change.</li>
+    <li>Three circulation cells per hemisphere impose the global wet–dry banding, and place the Philippines in the rising, convective branch.</li>
+    <li>Soil forms over centuries and erodes in hours, which is why it is treated as non-renewable and why erosion is benchmarked against formation rate.</li>
+    <li>Urbanising a catchment raises and advances the flood peak without any change in rainfall — an attribution problem that only spatial analysis can settle.</li>
+    <li>Vector and raster encode different theories of space; resolution decisions silently become ecological ones.</li>
+    <li>A coordinate means nothing without its datum and projection. Mixed frames are the commonest silent error in applied GIS, and equal-area projections are mandatory for area claims.</li>
+    <li>Classification without an accuracy assessment is an assertion. Report the confusion matrix, both accuracies and kappa — not a single headline percentage.</li>
+    <li>Weighted overlay embeds the analyst's values in its weights, so the deliverable must include the weights, their derivation and a sensitivity analysis.</li>
+  </ul>
+</div>
+
+<div class="pager">
+  <a class="gold" href="Chapter02_Exercises.html">Problems &amp; cases for this chapter →</a>
+  <a class="blue" href="Chapter01.html">← Chapter 1</a>
+  <a class="blue" href="../index.html">All chapters</a>
+</div>
+
+<footer><p>Advanced Environmental Science · ENVS 601 — Chapter 2, Earth Systems and GIS. Weeks 3–4.</p></footer>
+</div>
+</body>
+</html>
