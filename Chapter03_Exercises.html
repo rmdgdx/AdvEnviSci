@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3 · 30 Higher-Order Items — ENVS 601</title>
+<style>
+:root{
+  --navy:#0E2A47; --navy-mid:#164272; --navy-soft:#DCE5F0;
+  --gold:#C9A227; --gold-bright:#E3BE45; --gold-pale:#F7EDC9; --gold-ink:#7A5F0C;
+  --gold-grad:linear-gradient(135deg,#E3BE45,#C9A227);
+  --ok:#1B6E4A; --ok-bg:#E3F2EA; --ok-bd:#9CCFB6;
+  --ink:#12212F; --ink-soft:#556373; --line:#DEE5EE; --bg:#F4F7FA; --card:#fff;
+  --shadow:0 1px 2px rgba(14,42,71,.06),0 10px 30px rgba(14,42,71,.09);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+a{color:var(--navy-mid);}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px 90px;}
+header.hero{overflow:hidden;border-radius:0 0 30px 30px;margin-bottom:8px;padding:44px 34px 50px;color:#F3F6FA;
+  background:radial-gradient(circle at 88% 6%,rgba(201,162,39,.5) 0,transparent 48%),
+             linear-gradient(135deg,#0B2039 0%,#0E2A47 48%,#173A61 100%);}
+.hero .inner{max-width:880px;margin:0 auto;padding:0 12px;}
+.back{display:inline-block;color:#B9C8DA;text-decoration:none;font-size:.85rem;font-weight:700;margin-bottom:12px;}
+.back:hover{color:var(--gold-bright);}
+.tag{display:inline-flex;background:rgba(247,237,201,.92);color:var(--gold-ink);font-weight:800;font-size:.72rem;
+  letter-spacing:1.3px;text-transform:uppercase;padding:5px 14px;border-radius:999px;}
+.hero h1{font-family:Georgia,"Iowan Old Style",serif;font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.12;
+  margin:10px 0 8px;letter-spacing:-.5px;color:#fff;font-weight:700;}
+.hero p{max-width:70ch;color:#CFDBE8;margin:0;}
+.bar{position:sticky;top:0;z-index:20;background:rgba(244,247,250,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:11px 0;margin-bottom:8px;}
+.bar .in{max-width:880px;margin:0 auto;padding:0 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;}
+.btn{border:none;border-radius:10px;padding:9px 16px;font-weight:800;font-size:.84rem;cursor:pointer;}
+.btn.gold{background:var(--gold-grad);color:#33280A;}
+.btn.ghost{background:var(--navy-soft);color:var(--navy);}
+.bar .count{margin-left:auto;font-size:.82rem;color:var(--ink-soft);font-weight:700;}
+h2.section{font-family:Georgia,serif;font-size:1.28rem;font-weight:700;margin:38px 0 4px;
+  display:flex;align-items:center;gap:12px;}
+h2.section::before{content:"";width:8px;height:22px;border-radius:3px;background:var(--gold-grad);}
+p.sub{color:var(--ink-soft);margin:0 0 14px;font-size:.93rem;}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:13px;
+  box-shadow:var(--shadow);}
+.q>.stem{display:flex;gap:12px;align-items:flex-start;}
+.q .n{flex:none;width:32px;height:32px;border-radius:9px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:850;font-size:.88rem;}
+.q .stem p{margin:4px 0 12px;font-weight:600;}
+.q ol.opts{list-style:none;counter-reset:o;margin:0 0 0 44px;padding:0;}
+.q ol.opts li{counter-increment:o;position:relative;padding:7px 0 7px 32px;font-size:.95rem;color:#2C3A4B;}
+.q ol.opts li::before{content:counter(o,upper-alpha);position:absolute;left:0;top:7px;width:22px;height:22px;
+  border-radius:6px;background:#EDF2F8;border:1px solid var(--line);color:var(--navy-mid);
+  font-size:.74rem;font-weight:850;display:flex;align-items:center;justify-content:center;}
+details.ans{margin:12px 0 0 44px;border:1px solid var(--line);border-radius:11px;overflow:hidden;}
+details.ans>summary{cursor:pointer;list-style:none;padding:9px 14px;background:#F3F7FB;font-weight:800;
+  font-size:.84rem;color:var(--navy);display:flex;align-items:center;gap:8px;}
+details.ans>summary::-webkit-details-marker{display:none;}
+details.ans>summary::before{content:"▸";color:var(--gold);font-size:.9rem;}
+details.ans[open]>summary::before{content:"▾";}
+details.ans[open]>summary{background:var(--ok-bg);color:var(--ok);border-bottom:1px solid var(--ok-bd);}
+details.ans .body{padding:13px 15px;font-size:.92rem;color:var(--ink-soft);background:#fff;}
+details.ans .key{display:inline-block;background:var(--ok);color:#fff;font-weight:850;font-size:.78rem;
+  border-radius:6px;padding:2px 9px;margin-right:8px;}
+details.ans .body b{color:var(--ink);}
+.case{background:var(--navy);color:#DCE5F0;border-radius:16px;padding:22px 26px;margin-top:8px;}
+.case h3{color:#fff;margin:0 0 8px;font-family:Georgia,serif;font-weight:700;}
+.case p,.case ol{color:#C6D4E3;font-size:.95rem;}
+.case table{width:100%;border-collapse:collapse;font-size:.88rem;margin:14px 0;color:#DCE5F0;}
+.case th{background:rgba(255,255,255,.09);text-align:left;padding:8px 12px;font-size:.7rem;letter-spacing:.6px;text-transform:uppercase;}
+.case td{padding:8px 12px;border-top:1px solid rgba(220,229,240,.18);}
+.case details{margin-top:12px;border-top:1px dashed rgba(220,229,240,.25);padding-top:10px;}
+.case summary{cursor:pointer;color:var(--gold-bright);font-weight:800;font-size:.88rem;}
+.case details .b{color:#B9C8DA;font-size:.92rem;margin-top:8px;}
+.pager{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+.pager a{text-decoration:none;font-weight:800;font-size:.88rem;padding:10px 17px;border-radius:11px;}
+.pager a.gold{background:var(--gold-grad);color:#33280A;}
+.pager a.blue{background:var(--navy-soft);color:var(--navy);}
+footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.85rem;}
+@media print{.bar,.pager{display:none;} body{background:#fff;font-size:10.5pt;} .q{break-inside:avoid;box-shadow:none;}
+  details.ans{display:none;} .q{margin-bottom:8px;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="inner">
+  <a class="back" href="../index.html">← Course hub</a><br>
+  <span class="tag">Chapter 3 · Problems &amp; cases</span>
+  <h1>Thirty higher-order items</h1>
+  <p>Biogeochemistry and ecosystem ecology. These items are distinct from the self-checks inside the lecture — they assume you have worked through those first. Several require a calculation; do it before opening the dropdown.</p>
+</div></header>
+
+<div class="bar"><div class="in">
+  <button class="btn gold" id="all">Reveal all answers</button>
+  <button class="btn ghost" id="none">Hide all</button>
+  <span class="count">30 items · 6 sections</span>
+</div></div>
+
+<div class="wrap">
+
+<h2 class="section">A · Reservoirs, fluxes and residence time</h2>
+<p class="sub">Items 1–5</p>
+
+<div class="q"><div class="stem"><div class="n">1</div><div>
+<p>A reservoir holds 2400 Pg C. Measured inputs total 60 Pg C yr⁻¹ and measured outputs 75 Pg C yr⁻¹. Which statement is correct?</p>
+<ol class="opts">
+<li>The reservoir is at steady state with a residence time of 40 years.</li>
+<li>The reservoir is losing 15 Pg C yr⁻¹; its residence time computed from output is 32 years, and the τ = M/F shortcut assumes a steady state that does not hold here.</li>
+<li>Residence time cannot be defined because the system is not at steady state, so no estimate is possible.</li>
+<li>The reservoir is gaining carbon, since inputs are the relevant term.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>2400 ÷ 75 = 32 years. Outputs exceed inputs, so dM/dt = −15 Pg C yr⁻¹ and the stock is declining. Option C overstates the problem: the quotient still gives a useful turnover estimate, but it is an instantaneous one and will change as the stock shrinks. Option A commits the commonest error — assuming steady state because the formula is usually written for it.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">2</div><div>
+<p>Two reservoirs hold identical stocks. Reservoir X has a residence time of 3 years, reservoir Y of 300 years. Loading to both is doubled overnight. Which responds faster, and what does that imply for monitoring?</p>
+<ol class="opts">
+<li>Y, because larger residence times indicate larger fluxes.</li>
+<li>Both respond at the same rate, since the stocks are equal.</li>
+<li>X — it reaches a new steady state within about a decade, so a monitoring programme of a few years can detect the change; Y would show almost nothing over the same period.</li>
+<li>Neither responds, because doubling the input does not change residence time.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Residence time is the reservoir's time constant: roughly 95% of the adjustment occurs within 3τ, so about 9 years for X and 900 for Y. The monitoring implication is the point — a short record can confirm success in a fast reservoir and is structurally incapable of doing so in a slow one, which is why groundwater and deep-ocean responses are evaluated with models rather than with observation alone.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">3</div><div>
+<p>An analyst computes a soil carbon residence time by dividing the stock by the <i>litter input</i> rather than by heterotrophic respiration. Under what condition is this defensible, and what happens otherwise?</p>
+<ol class="opts">
+<li>It is always equivalent, since inputs and outputs are interchangeable.</li>
+<li>It is defensible only at steady state, where input equals output; in a soil currently accumulating carbon it overestimates residence time, and in a degrading soil it underestimates it.</li>
+<li>It is never defensible under any circumstances.</li>
+<li>It is defensible only in anaerobic soils.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>τ is defined from the <i>output</i> flux. The substitution works when the budget balances and fails in exactly the situations of greatest interest — a soil under restoration or under cultivation. Option C is too strong: the approximation is standard and acceptable when steady state is stated as an assumption rather than assumed silently.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">4</div><div>
+<p>Atmospheric CO₂ has a turnover time of roughly four years, yet a pulse of emitted CO₂ perturbs the atmosphere for centuries. Which explanation resolves the apparent contradiction?</p>
+<ol class="opts">
+<li>The turnover calculation is wrong; the real value is centuries.</li>
+<li>CO₂ molecules become chemically modified and cannot be removed.</li>
+<li>Emissions are continuous, so the pulse never actually ends.</li>
+<li>Most of the gross exchange with land and ocean is a two-way swap that returns the carbon, so individual molecules are replaced quickly while the excess <i>quantity</i> is removed only by slow net sinks.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>Turnover time describes molecular replacement; adjustment time describes the decay of a perturbation. Photosynthesis and air–sea exchange move about 200 Pg C yr⁻¹ in each direction, so molecules cycle fast, but the net removal of added carbon is governed by ocean mixing and carbonate chemistry — far slower. Conflating the two timescales is a recurring source of mistaken claims that CO₂ "only lasts a few years".
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">5</div><div>
+<p>A lake holds 8.0 × 10⁶ m³ and discharges 4.0 × 10⁴ m³ d⁻¹. A hydrophobic contaminant discharge ceases. Which recovery estimate is most defensible?</p>
+<ol class="opts">
+<li>About 600 days, from three hydraulic residence times.</li>
+<li>Substantially longer than 600 days, because the hydraulic calculation describes only the water; a hydrophobic compound partitions into sediment, which then governs recovery.</li>
+<li>About 200 days, the single residence time.</li>
+<li>Recovery is immediate once the discharge stops.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>τ = 8.0 × 10⁶ ÷ 4.0 × 10⁴ = 200 days, so 3τ = 600 days for a conservative dissolved solute — which is what option A computes correctly and then applies to the wrong compound. Hydrophobic contaminants partition to particles and settle, creating a slow secondary reservoir. Recovery is then set by sediment burial, resuspension and desorption rates, commonly extending to decades.
+</div></details></div>
+
+<h2 class="section">B · Carbon accounting, soils and blue carbon</h2>
+<p class="sub">Items 6–11</p>
+
+<div class="q"><div class="stem"><div class="n">6</div><div>
+<p>A site reports GPP = 1900, NPP = 820 and R<sub>h</sub> = 760 g C m⁻² yr⁻¹. What is NEP?</p>
+<ol class="opts">
+<li>+60 g C m⁻² yr⁻¹ — a small sink</li>
+<li>+1140 g C m⁻² yr⁻¹</li>
+<li>+60 g C m⁻² yr⁻¹ — but only after also subtracting R<sub>a</sub> a second time</li>
+<li>−760 g C m⁻² yr⁻¹</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>R<sub>a</sub> must be recovered first: R<sub>a</sub> = GPP − NPP = 1080. Then R<sub>e</sub> = 1080 + 760 = 1840, and NEP = 1900 − 1840 = +60 g C m⁻² yr⁻¹. Subtracting R<sub>h</sub> directly from NPP happens to give the same arithmetic here (820 − 760 = 60) because the identity is equivalent — but students who take that route without seeing why often misapply it when the data are given differently.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">7</div><div>
+<p>A regenerating 25-year-old stand has NEP of +420 g C m⁻² yr⁻¹ and a biomass stock of 4 000 g C m⁻². An old-growth stand nearby has NEP near zero and a stock of 22 000 g C m⁻². A policy must choose one to protect for climate benefit. What is the strongest analysis?</p>
+<ol class="opts">
+<li>Protect the young stand, because only current uptake counts.</li>
+<li>Protect the old stand, because stock is all that matters.</li>
+<li>They answer different questions: the young stand is removing carbon now, while the old stand holds a far larger quantity that would be released if lost — so the decision depends on whether the threat is to uptake or to storage.</li>
+<li>Neither is worth protecting, since NEP is small relative to emissions.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Protecting the old stand avoids a potential 22 000 g C m⁻² release — more than fifty years of the young stand's uptake. But if the old stand faces no credible threat, protecting it adds nothing, whereas the young stand's uptake continues regardless. The analysis turns on the counterfactual, which is the same additionality problem that governs every carbon offset claim.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">8</div><div>
+<p>Ploughing a long-undisturbed grassland releases carbon that had been stable for centuries. What is the principal mechanism?</p>
+<ol class="opts">
+<li>Tillage breaks soil aggregates and exposes mineral-associated and physically occluded organic matter to decomposers and oxygen, so persistence was an ecosystem property rather than a molecular one.</li>
+<li>The carbon was chemically inert and ploughing altered its molecular structure.</li>
+<li>Ploughing raises soil temperature above the microbial optimum.</li>
+<li>Plant roots were the only source of soil carbon, and their removal ends inputs.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>Modern understanding attributes persistence to inaccessibility — occlusion within aggregates and association with mineral surfaces — rather than to intrinsically recalcitrant chemistry. That is why a physical disturbance can release carbon that resisted decomposition for centuries, and why no-till and aggregate-protecting practices matter more than the chemistry of the residue added.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">9</div><div>
+<p>Per hectare, converting mangrove often releases substantially more carbon than converting an equivalent area of terrestrial forest. Why?</p>
+<ol class="opts">
+<li>Mangrove trees contain more carbon per stem than terrestrial trees.</li>
+<li>Saltwater carbon is chemically more reactive.</li>
+<li>Most mangrove carbon is in deep waterlogged sediment accumulated over centuries; conversion drains it, admits oxygen and oxidises that store in addition to the above-ground biomass.</li>
+<li>Mangroves have higher NPP than terrestrial forest.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>The stock is mostly below ground and is protected by anoxia, not by inaccessibility to cutting. Draining the sediment removes the protection, so the loss includes centuries of accumulation rather than one standing crop. This also means rehabilitation that re-plants trees without restoring tidal hydrology recovers the smaller part of the carbon and not the larger.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">10</div><div>
+<p>Ecosystem A has a carbon-use efficiency (NPP/GPP) of 0.30; ecosystem B, 0.55. Assuming both measurements are sound, what does the difference indicate?</p>
+<ol class="opts">
+<li>Ecosystem A fixes less carbon than B.</li>
+<li>Ecosystem A spends a larger share of fixed carbon on autotrophic respiration — consistent with more living biomass to maintain, higher temperatures, or greater nutrient-acquisition costs.</li>
+<li>Ecosystem B must be a carbon sink and A a source.</li>
+<li>Ecosystem A has higher heterotrophic respiration.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>CUE is a ratio, so it says nothing about absolute GPP (option A) and nothing about the heterotrophic side of the budget (option D) or the net balance (option C). It describes the producers' own overhead, which rises with maintenance respiration — large standing biomass, warm nights, and the carbon cost of acquiring scarce nutrients.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">11</div><div>
+<p>A company plants trees and claims the project "became carbon neutral in three years". What is the most important objection?</p>
+<ol class="opts">
+<li>Trees do not absorb carbon until maturity.</li>
+<li>Carbon neutrality is impossible for any project.</li>
+<li>Only soil carbon counts in offset accounting.</li>
+<li>Young plantings sequester relatively little, the site may have lost soil carbon during establishment, and the claim depends on permanence and a baseline that are both unstated — so the accounting period, boundary and counterfactual all need declaring.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>Three defects compound: early-stage uptake is small relative to mature stands; site preparation can release soil carbon that offsets early gains; and a stock held in living biomass is vulnerable to fire, pest and harvest, so permanence is unproven. None of this means planting is worthless — it means the claim as stated is unverifiable, and the fix is to publish the boundary, the baseline and the monitoring plan.
+</div></details></div>
+
+<h2 class="section">C · Nitrogen and phosphorus</h2>
+<p class="sub">Items 12–18</p>
+
+<div class="q"><div class="stem"><div class="n">12</div><div>
+<p>Why does nitrification markedly increase the risk of nitrogen loss to water, even though it neither adds nor removes nitrogen from the soil?</p>
+<ol class="opts">
+<li>It converts ammonium, a cation retained on negatively charged soil exchange sites, into nitrate, an anion that soil surfaces repel and water carries freely.</li>
+<li>Nitrification produces a gas that escapes to the atmosphere.</li>
+<li>It lowers soil pH enough to dissolve clay minerals.</li>
+<li>It consumes the oxygen that plants need for uptake.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>The transformation changes the charge, and the charge decides retention. This is why the practical levers on nitrate leaching — split applications, nitrification inhibitors, keeping a living root in the ground — all work by limiting the amount of nitrate present when water is moving, rather than by reducing the total nitrogen applied.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">13</div><div>
+<p>Denitrification can end at N₂O rather than proceeding to N₂. Which condition most favours the incomplete pathway, and why does it matter?</p>
+<ol class="opts">
+<li>Fully anoxic conditions with abundant labile carbon; it matters because N₂ is a pollutant.</li>
+<li>Very low temperatures; it matters because N₂O is toxic to plants.</li>
+<li>Partially aerobic, fluctuating or carbon-limited conditions — the final reduction step is the most oxygen-sensitive — and it matters because N₂O is a potent greenhouse gas and ozone-depleting substance, whereas N₂ is inert.</li>
+<li>High soil pH; it matters because N₂O acidifies rainfall.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Nitrous oxide reductase is the enzyme most readily inhibited by oxygen, so wetting–drying cycles and compacted, intermittently anoxic soils favour the truncated pathway. This is why a wetland designed for complete denitrification removes nitrogen cleanly while a poorly drained field can convert the same nitrogen into a greenhouse gas — same process, different endpoint, very different consequence.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">14</div><div>
+<p>A farmer plants a legume in rotation and finds that fixation rates are low when the preceding crop left abundant residual soil nitrogen. What explains this?</p>
+<ol class="opts">
+<li>Legumes cannot fix nitrogen in fertile soils because nitrogenase is destroyed by nitrate.</li>
+<li>Residual nitrogen kills the rhizobia.</li>
+<li>Legumes only fix nitrogen at night.</li>
+<li>Fixation is energetically expensive, so when mineral nitrogen is readily available the plant–rhizobium symbiosis is downregulated in favour of uptake.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>Fixation costs carbon the plant could spend elsewhere, so it is facultative and responsive to supply. The agronomic implication is direct: a legume following a heavily fertilised crop contributes less fixed nitrogen than the same legume on a depleted soil, so rotation benefits cannot be assumed from the species alone.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">15</div><div>
+<p>A treatment plant discharges effluent with an N:P ratio near 4:1 into a lake shown by bioassay to be phosphorus-limited. Which upgrade should be prioritised, and what is the risk of the alternative?</p>
+<ol class="opts">
+<li>Nitrogen removal, since nitrogen is the larger load.</li>
+<li>Neither, since the ratio is already below Redfield.</li>
+<li>Both must be removed completely or the discharge should cease.</li>
+<li>Phosphorus removal, because P is limiting; removing nitrogen instead would lower the N:P ratio further and can favour nitrogen-fixing cyanobacteria, which obtain nitrogen from the atmosphere.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>Controlling the limiting nutrient is what reduces production. Stripping nitrogen from a P-limited system can be counterproductive, because cyanobacteria capable of fixation are released from the constraint their competitors face. This is a real and contested management question in lake restoration, and it is why bioassays precede plant upgrades rather than following them.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">16</div><div>
+<p>A vegetated riparian buffer substantially reduces nitrate reaching a stream but barely reduces total phosphorus. What is the most likely reason?</p>
+<ol class="opts">
+<li>Phosphorus is not retained by plants.</li>
+<li>Phosphorus volatilises before reaching the buffer.</li>
+<li>Buffers only work in the dry season.</li>
+<li>Nitrate arrives dissolved in shallow groundwater, where the buffer's anoxic carbon-rich soil supports denitrification, whereas much phosphorus arrives attached to eroding particles in surface flow that can bypass or overwhelm the strip.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>The two nutrients arrive by different pathways and are removed by different mechanisms, so one intervention cannot be assumed to address both. Phosphorus control requires erosion control upstream — cover, contour management, sediment traps — rather than a wider buffer. Note also that a saturated buffer can become a phosphorus source as its own sorption capacity fills.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">17</div><div>
+<p>Phosphate rock reserves are geographically concentrated and non-renewable on human timescales. Which response follows most directly from the structure of the phosphorus cycle?</p>
+<ol class="opts">
+<li>Increase atmospheric phosphorus capture, as is done for nitrogen.</li>
+<li>Recover phosphorus from wastewater, manure and food waste, since the cycle has no atmospheric input and no microbial return from sediment — recycling is the only route that does not deplete the reserve.</li>
+<li>Substitute nitrogen for phosphorus in fertiliser formulations.</li>
+<li>Rely on silicate weathering to replenish supply.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Option A is the trap and it is structurally impossible — there is no significant gaseous phosphorus phase to capture. Weathering (D) operates far too slowly to matter, and the elements are not interchangeable (C). Recovery technologies such as struvite precipitation exist precisely because the cycle leaves no alternative.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">18</div><div>
+<p>Catchment phosphorus inputs to a lake were cut by 60% eight years ago, yet summer chlorophyll has barely declined. What is the most probable explanation, and what measurement would test it?</p>
+<ol class="opts">
+<li>The reduction was never implemented; audit the discharge permits.</li>
+<li>Internal loading — phosphorus released from sediment under anoxic bottom water — is sustaining production; measure hypolimnetic phosphate and oxygen profiles through the stratified season and estimate the sediment flux.</li>
+<li>The lake has become nitrogen limited; no measurement is needed.</li>
+<li>Chlorophyll is an unreliable indicator and should be abandoned.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Legacy phosphorus stored in sediment can sustain eutrophication for years to decades after external control, recycling each summer as iron-bound phosphate is released under anoxia. The diagnostic is the vertical profile plus a sediment flux estimate. Option C may also be partly true, but asserting it without a bioassay is the error the previous item warned against.
+</div></details></div>
+
+<h2 class="section">D · Redox, sulfur and metals</h2>
+<p class="sub">Items 19–22</p>
+
+<div class="q"><div class="stem"><div class="n">19</div><div>
+<p>A water utility reports seasonal taste, colour and manganese complaints that appear every late summer and disappear after the first storms. What is the most likely cause?</p>
+<ol class="opts">
+<li>Algal toxins released at the surface.</li>
+<li>Corrosion of the distribution network, which is temperature dependent.</li>
+<li>Summer stratification drives the hypolimnion anoxic, reducing Mn(IV) and Fe(III) oxides to soluble Mn(II) and Fe(II) at the intake depth; autumn mixing re-oxygenates the column and the metals precipitate again.</li>
+<li>Increased chlorine demand from warm water alone.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>The seasonality follows the redox ladder, not the pipework. Reductive dissolution releases metals that were immobile as oxides; mixing reverses it. The standard responses are a multi-level intake that can draw from oxygenated water, or hypolimnetic aeration — both aimed at the redox condition rather than at the metal.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">20</div><div>
+<p>Acid mine drainage forms when sulfide minerals such as pyrite are exposed. Which description is accurate?</p>
+<ol class="opts">
+<li>Sulfide is reduced, consuming acidity and releasing metals.</li>
+<li>The acidity comes from carbonic acid in rainwater.</li>
+<li>The process requires anoxic conditions.</li>
+<li>Pyrite is oxidised on exposure to oxygen and water, generating sulfuric acid; the resulting low pH keeps metals in solution, and iron-oxidising microorganisms accelerate the reaction substantially.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>This is the redox ladder run in reverse: material stable under the anoxia in which it formed becomes highly reactive once mining admits oxygen. The microbial acceleration matters practically, because it means the reaction proceeds far faster than abiotic rates predict — and the remedies work by excluding oxygen or water, or by neutralising with carbonate.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">21</div><div>
+<p>Reducing atmospheric sulfate deposition has, in some systems, lowered methylmercury concentrations in fish. What links the two?</p>
+<ol class="opts">
+<li>Sulfate-reducing bacteria are major mercury methylators, so sulfate supply influences their activity and therefore the production of the bioaccumulating form — lower sulfate, less methylation.</li>
+<li>Sulfate directly converts inorganic mercury to methylmercury.</li>
+<li>Sulfate binds mercury and transports it to fish.</li>
+<li>Mercury and sulfur are chemically identical in natural waters.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>The coupling runs through microbial ecology, not direct chemistry. It also illustrates why total mercury is the wrong measurement to manage: toxicity and bioaccumulation depend on the methylated species, whose production is governed by the redox and sulfur environment. The relationship is not simple at very high sulfide, where mercury speciation reduces bioavailability again.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">22</div><div>
+<p>A port authority proposes dredging contaminated anoxic sediment that has been undisturbed for forty years. What biogeochemical risk should the assessment address?</p>
+<ol class="opts">
+<li>None — burial has permanently neutralised the metals.</li>
+<li>Dredging lowers water temperature, harming benthic organisms.</li>
+<li>Resuspension exposes sediment to oxygen, oxidising metal sulfides and releasing metals that had been immobilised; disturbance also releases sediment-bound phosphorus and oxygen-demanding organic matter.</li>
+<li>The main risk is noise disturbance to fish.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Stability was a property of the anoxic environment, not of the metals. Changing the redox condition changes the speciation and the mobility together. A competent assessment specifies containment, timing relative to stratification, turbidity monitoring and a disposal route that does not simply recreate the same exposure elsewhere.
+</div></details></div>
+
+<h2 class="section">E · Energy, trophic structure and stoichiometry</h2>
+<p class="sub">Items 23–26</p>
+
+<div class="q"><div class="stem"><div class="n">23</div><div>
+<p>In many terrestrial ecosystems the detrital pathway carries more energy than the grazing pathway. What follows for an ecosystem assessment that measures only herbivores and their predators?</p>
+<ol class="opts">
+<li>Nothing — the two pathways are proportional, so one indexes the other.</li>
+<li>It characterises a minority of the energy flux and can miss the processes that control nutrient regeneration, so soil fauna, microbial activity and litter dynamics need separate measurement.</li>
+<li>It overestimates total ecosystem energy flow.</li>
+<li>It is adequate provided NPP is also measured.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Most terrestrial NPP is structural tissue that herbivores cannot digest efficiently, so it enters the system as litter. The two channels are not proportional — they respond differently to drought, fire and species loss — so measuring one does not index the other. NPP alone (option D) gives the input without showing which channel processes it.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">24</div><div>
+<p>Trophic transfer efficiencies tend to be higher in open-water marine food webs than in terrestrial ones. What is the principal reason?</p>
+<ol class="opts">
+<li>Marine organisms are warm-blooded and metabolise more efficiently.</li>
+<li>Phytoplankton are small, non-woody and nutrient-rich, so most of their biomass is digestible and turns over rapidly, whereas terrestrial producers invest heavily in lignified structural tissue that consumers cannot assimilate.</li>
+<li>Seawater transmits energy better than air.</li>
+<li>Marine food chains are shorter, which raises efficiency per step.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>Producer tissue chemistry is the dominant control: wood and fibre are expensive to digest and much is never consumed alive, so terrestrial transfer is inefficient at the first step in particular. Note that higher efficiency permits <i>longer</i> marine chains, which inverts option D's causal claim.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">25</div><div>
+<p>A phosphorus-rich grazer such as <i>Daphnia</i> feeds on phosphorus-poor algae. What is the stoichiometric consequence?</p>
+<ol class="opts">
+<li>The grazer's growth is phosphorus-limited despite abundant food carbon; it retains phosphorus and excretes nitrogen-rich waste, which can push the system further toward phosphorus limitation.</li>
+<li>The grazer grows faster because carbon is abundant.</li>
+<li>The algae become phosphorus limited by the grazer's excretion.</li>
+<li>Elemental composition has no effect on growth rate.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>Consumers are homeostatic: they maintain their own C:N:P and must dispose of whatever is in excess. Eating carbon-rich, phosphorus-poor food means respiring or egesting surplus carbon while being constrained by phosphorus — and the nutrient they recycle back is the one they do <i>not</i> need. Grazing therefore alters the nutrient ratio of the water, not just the biomass in it.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">26</div><div>
+<p>A fertilisation experiment finds that adding nitrogen alone raises production by 10%, phosphorus alone by 8%, and both together by 45%. What does this indicate?</p>
+<ol class="opts">
+<li>Synergistic co-limitation — both nutrients constrain production simultaneously, so relieving only one leaves the other binding, and strict single-factor Liebig reasoning does not apply.</li>
+<li>An error, since the combined effect cannot exceed the sum of the single effects.</li>
+<li>Nitrogen is the limiting nutrient and phosphorus is irrelevant.</li>
+<li>The system is light limited.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">A</span>Liebig's law is a useful first approximation, not a universal rule. Where organisms can adjust allocation, or where different species are limited by different elements, the joint response exceeds the additive one. The management consequence is substantial: a single-nutrient control strategy can appear almost ineffective in a co-limited system while a dual strategy works — and the reverse, that relieving one nutrient unlocks a large response, is how some restoration efforts go wrong.
+</div></details></div>
+
+<h2 class="section">F · Measurement, services and inference</h2>
+<p class="sub">Items 27–30</p>
+
+<div class="q"><div class="stem"><div class="n">27</div><div>
+<p>A flux tower sits 200 m from a boundary between mature forest and a recently harvested block. Fluxes are summed over a year and reported as the forest's NEP. What is the methodological problem?</p>
+<ol class="opts">
+<li>Towers cannot measure carbon over a year.</li>
+<li>Harvested land has no carbon flux to contribute.</li>
+<li>The measurement footprint shifts with wind direction and atmospheric stability, so an unknown and variable fraction of the annual sum originates from the harvested block — which is likely a carbon source, biasing the forest estimate.</li>
+<li>The problem is purely one of instrument calibration.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">C</span>Footprint is a property of the atmosphere, not of the site boundary. Standard practice is to model the footprint climatology and filter by wind sector, discarding periods when the source area lies outside the target cover — which costs data but preserves the meaning of the number. Reporting the raw annual sum mixes two ecosystems with opposite carbon behaviour.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">28</div><div>
+<p>A study infers 60 years of soil carbon accumulation by sampling stands of different ages at one time — a chronosequence. What assumption does this require, and when does it fail?</p>
+<ol class="opts">
+<li>That all stands have the same species composition; it fails in mixed forests.</li>
+<li>That soil carbon is measured to 1 m depth; it fails for shallow sampling.</li>
+<li>No assumption is required, since age is directly observed.</li>
+<li>Space-for-time substitution assumes the stands differ only in age and share the same soil, climate and land-use history; it fails where older stands occupy systematically different sites, which is common because poorer land is cleared last.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">D</span>The design substitutes variation in space for change in time, which is powerful and frequently the only option — but the substitution is an assumption, not an observation. Site selection bias is the usual failure mode. The remedy is to pair the chronosequence with repeated measurement of a subset, so the inference can be checked against actual change.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">29</div><div>
+<p>A report values a wetland's water purification service at the cost of the treatment plant that would otherwise be needed. What is the key limitation of this replacement-cost approach?</p>
+<ol class="opts">
+<li>Replacement cost always underestimates value.</li>
+<li>It assumes the substitute is functionally equivalent and that it would actually be built — if society would simply tolerate poorer water instead, the figure measures a hypothetical expenditure rather than a realised benefit.</li>
+<li>Treatment plants cannot be costed accurately.</li>
+<li>It double counts because the wetland also provides habitat.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>The method is defensible where a legal standard forces the substitute to exist, and weak where it does not. The equivalence assumption is also doing hidden work: a plant removes nutrients but not habitat, flood attenuation or carbon storage, so the cost represents one service rather than the system. Option D names a genuine separate risk — it is just not the key limitation of this method.
+</div></details></div>
+
+<div class="q"><div class="stem"><div class="n">30</div><div>
+<p>Over five years a catchment's nutrient load fell 40% and downstream chlorophyll fell 35%. Rainfall also declined markedly over the same period. What is the strongest defensible conclusion?</p>
+<ol class="opts">
+<li>The nutrient reduction caused the chlorophyll decline; the management programme is validated.</li>
+<li>The two are confounded by hydrology — lower rainfall reduces both nutrient delivery and flushing — so load should be expressed per unit discharge, a reference catchment examined, and the record extended before a causal claim is made.</li>
+<li>Rainfall caused the entire change, so the programme had no effect.</li>
+<li>Nothing can be learned from observational catchment data.</li>
+</ol></div></div>
+<details class="ans"><summary>Answer and explanation</summary><div class="body">
+<span class="key">B</span>A driver that moves both variables is the classic confounder, and both the enthusiastic and the dismissive readings (A and C) assert more than the data support. Flow normalisation separates concentration change from dilution change, a paired reference catchment supplies the counterfactual, and a longer record distinguishes trend from a dry spell. Option D is defeatism: the design can be strengthened rather than abandoned.
+</div></details></div>
+
+<h2 class="section">Written case — submitted</h2>
+<div class="case">
+  <h3>The reservoir that stopped responding</h3>
+  <p>A provincial water district supplies 240,000 people from a reservoir impounded in a formerly forested catchment. Upstream land was converted to intensive vegetable and livestock production over two decades. Eight years ago the district funded riparian planting and a fertiliser management programme; catchment phosphorus loading has since been cut by roughly half, verified by inflow monitoring. Summer algal blooms have not improved, treatment costs are rising, and the board wants to know whether the programme failed.</p>
+  <p>Reservoir volume is 5.4 × 10<sup>7</sup> m³; mean outflow is 1.8 × 10<sup>5</sup> m³ d⁻¹. The reservoir stratifies from April to October. <span class="pill gold">Hypothetical instructional dataset</span></p>
+  <table>
+    <thead><tr><th>Depth / season</th><th>Dissolved O₂ (mg L⁻¹)</th><th>Soluble reactive P (µg L⁻¹)</th><th>Dissolved Mn (mg L⁻¹)</th><th>NO₃⁻-N (mg L⁻¹)</th></tr></thead>
+    <tbody>
+      <tr><td>Surface, March (mixed)</td><td>8.4</td><td>14</td><td>&lt;0.02</td><td>1.6</td></tr>
+      <tr><td>Surface, August</td><td>7.9</td><td>22</td><td>&lt;0.02</td><td>0.4</td></tr>
+      <tr><td>Bottom, June</td><td>3.1</td><td>58</td><td>0.19</td><td>0.9</td></tr>
+      <tr><td>Bottom, August</td><td>0.6</td><td>164</td><td>0.84</td><td>&lt;0.05</td></tr>
+      <tr><td>Bottom, November (mixed)</td><td>7.6</td><td>26</td><td>0.05</td><td>1.4</td></tr>
+    </tbody>
+  </table>
+  <ol>
+    <li>Calculate the hydraulic residence time and state what recovery timescale external load reduction alone would imply for a dissolved conservative solute. Show your reasoning.</li>
+    <li>Using the table, diagnose what is sustaining the blooms. Identify the specific biogeochemical mechanism and cite the three lines of evidence in the data that support it.</li>
+    <li>Account for the nitrate column, which behaves differently from phosphorus. What process is removing it, and what by-product should concern the district?</li>
+    <li>Recommend a monitoring programme and two candidate interventions, distinguishing those that address the external load from those that address the internal one. State what evidence would make you abandon each recommendation.</li>
+    <li>Write the two-sentence answer the board actually asked for: did the programme fail?</li>
+  </ol>
+  <details><summary>Model answer and marking notes</summary>
+    <div class="b"><b>1.</b> τ = 5.4 × 10<sup>7</sup> ÷ 1.8 × 10<sup>5</sup> = <b>300 days</b>. For a dissolved conservative solute, roughly 95% replacement in 3τ ≈ 900 days, so external load reduction should have shown a clear effect within about two and a half years. Eight years have passed — the absence of response is therefore <i>diagnostic</i>, not merely disappointing, and that inference is the point of the calculation.
+    <br><br><b>2. Internal loading under seasonal anoxia.</b> Three lines of evidence, all required for full credit: bottom oxygen collapses from 3.1 to 0.6 mg L⁻¹ between June and August, crossing the hypoxia threshold; bottom soluble reactive phosphorus rises almost threefold over the same interval, to roughly seven times the surface value, which cannot be explained by inflow because inflow loading was cut; and dissolved manganese rises from 0.19 to 0.84 mg L⁻¹, confirming that the sediment has passed the manganese- and iron-reducing steps of the redox ladder. Reduction of Fe(III) oxides releases the phosphate they held. The November values show the system re-oxygenating and the metals re-precipitating, which fixes the seasonality of the mechanism.
+    <br><br><b>3. Denitrification.</b> Nitrate falls from 0.9 to below 0.05 mg L⁻¹ in bottom water precisely as oxygen is exhausted — the expected sequence, since nitrate is the acceptor used immediately after oxygen. The by-product of concern is <b>nitrous oxide</b> where the reduction is incomplete, though for a water district the more immediate operational point is that nitrate consumption is a marker of how far down the ladder the hypolimnion has travelled, and therefore a leading indicator for the manganese and phosphorus problems that follow.
+    <br><br><b>4.</b> Monitoring: vertical profiles of temperature, oxygen, SRP and manganese at two- to four-week intervals through the stratified season; a sediment phosphorus release experiment or flux chamber to quantify the internal load against the external one; continued inflow load monitoring expressed <i>per unit discharge</i> so that wet and dry years are comparable. Interventions addressing the internal load: hypolimnetic aeration or oxygenation to keep the sediment surface oxic, or a multi-level intake so that treatment draws from oxygenated water; sediment capping or phosphorus inactivation is a third option with a larger footprint and cost. Interventions addressing the external load: continue the existing programme, since it is necessary even if not sufficient, and extend it to erosion control because particulate phosphorus is not addressed by fertiliser rate alone. Strong answers state abandonment criteria — for example, if the measured sediment flux proves small relative to the remaining external load, aeration should not proceed and the catchment programme should be intensified instead.
+    <br><br><b>5.</b> Something close to: "The programme did not fail — it addressed the external load successfully, and that reduction is a precondition for recovery. Recovery is being delayed by phosphorus already stored in the sediment, which is released each summer when bottom water goes anoxic, and which will continue to do so until either that store is depleted or the sediment is kept oxygenated."
+    <br><br><b>Common shortfalls:</b> computing τ without connecting it to an expected recovery date, so the eight-year delay carries no weight; naming internal loading without citing the manganese and oxygen evidence that distinguishes it from a simple lag; treating the nitrate column as a measurement error rather than as evidence of the redox sequence; proposing aeration without first quantifying the internal flux; and answering question 5 in a way that either defends the programme uncritically or concedes failure, when the defensible answer is that the diagnosis has changed and the intervention must follow it.</div>
+  </details>
+</div>
+
+<div class="pager">
+  <a class="gold" href="Chapter03.html">← Back to the interactive lecture</a>
+  <a class="blue" href="../syllabus.html">Syllabus</a>
+  <a class="blue" href="../index.html">All chapters</a>
+</div>
+
+<footer><p>Advanced Environmental Science · ENVS 601 — Chapter 3 problem set. Thirty higher-order items with worked explanations, plus one submitted case. The interactive lecture carries a further 50 self-check items and 22 challenge questions.</p></footer>
+</div>
+
+<script>
+(function(){
+  var d=function(){return document.querySelectorAll('details.ans');};
+  document.getElementById('all').addEventListener('click',function(){d().forEach(function(x){x.open=true;});});
+  document.getElementById('none').addEventListener('click',function(){d().forEach(function(x){x.open=false;});});
+})();
+</script>
+</body>
+</html>
